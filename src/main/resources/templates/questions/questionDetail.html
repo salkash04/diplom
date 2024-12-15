@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Детали вопроса</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 th:text="${question.title}">Заголовок вопроса</h1>
+    <p th:text="${question.content}">Содержание вопроса</p>
+    <small th:text="${'Автор: ' + question.userName + ', Дата: ' + #temporals.format(question.createdAt, 'dd-MM-yyyy HH:mm')}">Информация о вопросе</small>
+
+    <h2 class="mt-4">Ответы:</h2>
+    <div th:each="answer : ${answers}" class="card mb-3">
+        <div class="card-body">
+            <p th:text="${answer.content}">Содержание ответа</p>
+            <small th:text="${'Автор: ' + answer.userName + ', Дата: ' + #temporals.format(answer.createdAt, 'dd-MM-yyyy HH:mm')}">Информация об ответе</small>        </div>
+    </div>
+
+    <h3 class="mt-4">Добавить ответ:</h3>
+    <form th:action="@{/questions/{id}/answers(id=${question.id})}" method="post">
+        <input type="hidden" name="userId" th:value="${#authentication.principal.id}" />
+        <div class="form-group">
+            <textarea class="form-control" name="content" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить ответ</button>
+    </form>
+</div>
+</body>
+</html>

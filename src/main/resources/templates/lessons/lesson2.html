@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Первая программа на Java</title>
+    <link rel="stylesheet" href="/css/lessons/lesson2.css"> <!-- Подключаем общий CSS -->
+    <script>
+        // Функция для загрузки шаблонного кода
+        async function loadTemplate() {
+            const response = await fetch('/api/compiler/template');
+            const template = await response.text();
+            document.getElementById('codeEditor').value = template;
+        }
+
+        // Функция для выполнения кода
+        async function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            const response = await fetch('/api/compiler/run', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: code
+            });
+            const result = await response.text();
+            document.getElementById('output').innerText = result; // Выводим результат выполнения
+
+            // Проверяем, соответствует ли результат ожидаемому
+            if (result.includes("Успешно: Вывод соответствует ожидаемому результату!")) {
+                displayExplanation(); // Вызываем функцию для отображения объяснения
+            }
+        }
+
+        // Функция для отображения объяснения
+        function displayExplanation() {
+            const explanation = `
+                <h3>Объяснение кода:</h3>
+                <p>Здесь мы объявили класс Main, указали в нём точку входа (метод main) и скомандовали вывести в консоль строку <code>Hello, World!</code>.</p>
+                <strong>Рассмотрим компоненты этой строки кода:</strong>
+                <ul>
+                    <li><strong>System</strong> обращается к системе с указанием выполнять определенные действия.</li>
+                    <li><strong>Out</strong> сообщает системе, что мы собираемся вывести какие-то данные.</li>
+                    <li><strong>Println</strong> строка ввода — сообщает системе о необходимости вывести значение на экран/в консоль.</li>
+                    <li>Скобки вокруг (<code>"Hello World"</code>) обозначают, что метод <code>System.out.println()</code> выбирает это значение в качестве параметра.</li>
+                </ul>
+                <strong>Правила программирования на Java:</strong>
+                <ul>
+                    <li>В конце каждой строчки кода нужно ставить точку с запятой.</li>
+                    <li>Java чувствителен к регистру, поэтому писать значения метода, переменных и имя класса необходимо с учетом него.</li>
+                    <li>Блоки кода, которые относятся к определенному методу, разделяются фигурными скобками.</li>
+                </ul>
+            `;
+            document.getElementById('explanation').innerHTML = explanation; // Выводим объяснение
+        }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = loadTemplate;
+    </script>
+</head>
+<body>
+
+<header>
+    <h1>Курс: Основы Java</h1>
+    <nav>
+        <a href="#">Главная</a>
+        <a href="#">Уроки</a>
+        <a href="#">Контакты</a>
+        <a href="/user/solutions">Мои решения</a> <!-- Ссылка на страницу решений -->
+    </nav>
+</header>
+
+<main>
+    <h1>Первая программа на Java</h1>
+    <section class="task">
+        <h2>Задача</h2>
+        <p>Напишите программу, которая выводит на консоль <code>Hello, World!</code>.</p>
+    </section>
+
+    <section class="compiler">
+        <h2>Онлайн-компилятор</h2>
+        <textarea id="codeEditor" rows="15" cols="70"></textarea><br>
+        <button onclick="runCode()">Выполнить</button>
+        <pre id="output"></pre> <!-- Здесь будет отображаться результат выполнения -->
+    </section>
+
+    <!-- Блок для отображения объяснения -->
+    <div id="explanation"></div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

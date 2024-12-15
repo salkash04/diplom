@@ -1,0 +1,92 @@
+/* Общий стиль */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #1e90ff;
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-size: 1rem;
+}
+
+main {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #1e90ff; /* Цвет заголовка */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Убираем пробелы между ячейками */
+}
+
+table th, table td {
+    border: 1px solid #ddd; /* Граница ячеек */
+    padding: 8px; /* Отступы внутри ячеек */
+}
+
+table th {
+    background-color: #f2f2f2; /* Цвет фона заголовков таблицы */
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Цвет фона четных строк */
+}
+
+table tr:hover {
+    background-color: #f1f1f1; /* Цвет фона при наведении на строку */
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #1e90ff;
+    color: #fff;
+}
+
+/* Стили для кнопки "Вернуться к курсам" */
+.next-module {
+    text-align: center;
+    margin-top: 20px; /* Отступ сверху для кнопки */
+}
+
+.next-button {
+    display: inline-block;
+    padding: 10px 20px; /* Отступы внутри кнопки */
+    font-size: 16px; /* Размер шрифта */
+    color: #fff; /* Цвет текста */
+    background-color: #007bff; /* Цвет фона кнопки */
+    text-decoration: none; /* Убираем подчеркивание у ссылки */
+    border-radius: 5px; /* Скругление углов кнопки */
+    transition: background-color 0.3s ease; /* Плавный переход цвета фона */
+}
+
+.next-button:hover {
+    background-color: #0056b3; /* Цвет фона при наведении на кнопку */
+}

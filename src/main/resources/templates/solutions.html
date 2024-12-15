@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История решений</title>
+    <link rel="stylesheet" href="/css/solutions.css"> <!-- Подключаем общий CSS -->
+</head>
+<body>
+
+<header>
+    <h1>История решений</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <div class="dropdown">
+            <button>Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <h2>Ваши решения:</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID Задачи</th>
+            <th>Код</th>
+            <th>Результат</th>
+            <th>Дата отправки</th>
+        </tr>
+        </thead>
+        <tbody th:each="attempt : ${attempts}">
+        <tr>
+            <td th:text="${attempt.task.id}"></td>
+            <td><pre th:text="${attempt.code}"></pre></td>
+            <td th:text="${attempt.result}"></td>
+            <td th:text="${#dates.format(attempt.submittedAt, 'dd/MM/yyyy HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="next-module">
+        <a href="/courses" class="next-button">Вернуться к курсам</a> <!-- Кнопка для возврата к курсам -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Вопросы форума</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Вопросы форума</h1>
+    <a href="/questions/create" class="btn btn-primary mb-3">Задать вопрос</a>
+    <div class="list-group">
+        <a th:each="question : ${questions}"
+           th:href="@{/questions/{id}(id=${question.id})}"
+           class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" th:text="${question.title}">Заголовок вопроса</h5>
+                <small th:text="${#temporals.format(question.createdAt, 'dd-MM-yyyy HH:mm')}">Дата</small>
+            </div>
+            <p class="mb-1" th:text="${#strings.abbreviate(question.content, 100)}">Содержание вопроса</p>
+            <small th:text="${question.userName}">Имя пользователя</small>
+        </a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 3: Примитивные типы данных и Задачи на Java</title>
+    <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
+    <script>
+        // Функция для загрузки шаблонного кода
+        function loadTemplate() {
+            const template = `
+public class Main {
+    public static void main(String[] args) {
+        // Напишите ваш код здесь
+    }
+}`;
+            document.getElementById('sqrtCodeEditor').value = template;
+            document.getElementById('divisibilityCodeEditor').value = template;
+        }
+
+        // Функция для выполнения кода
+        async function runCode(endpoint, editorId, outputId) {
+            const code = document.getElementById(editorId).value;
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: code
+            });
+            const result = await response.text();
+            document.getElementById(outputId).innerText = result; // Выводим результат выполнения
+
+            // Проверяем, соответствует ли результат ожидаемому
+            if (result.includes("Успешно: Вывод соответствует ожидаемому результату!")) {
+                if (editorId === 'sqrtCodeEditor') {
+                    displayMathExplanation(); // Вызываем функцию для отображения объяснения по Math
+                }
+            } else {
+                // Если результат не соответствует ожиданиям, можно вывести сообщение об ошибке
+                console.error("Ошибка выполнения:", result);
+            }
+        }
+
+        // Функция для отображения объяснения по Math
+        function displayMathExplanation() {
+            const explanation = `
+                <h3>Объяснение кода:</h3>
+                <p>Для выполнения различных математических операций в Java в пакете java.lang определен класс Math.</p>
+                <p>Рассмотреть его основные методы можно посмотреть в статье «Класс Math».</p>
+                <p>Встроенные примитивные числовые типы не всегда могут подходить для определенных программ. Например, необходимо хранить и использовать в программе очень большие числа, которые выходят за пределы допустимых значений для типов long и double. В этом случае для работы с числовыми данными можно использовать два дополнительных типа из пакета java.math: BigInteger для целочисленных данных и BigDecimal для чисел с плавающей точкой.</p>
+
+                <strong>Основные методы класса BigInteger:</strong>
+                <ul>
+                    <li><code>BigInteger add(BigInteger other)</code>: возвращает сумму двух чисел.</li>
+                    <li><code>BigInteger subtract(BigInteger other)</code>: возвращает разность двух чисел.</li>
+                    <li><code>BigInteger multiply(BigInteger other)</code>: возвращает произведение двух чисел.</li>
+                    <li><code>BigInteger divide(BigInteger other)</code>: возвращает частное двух чисел.</li>
+                    <li><code>BigInteger mod(BigInteger other)</code>: возвращает остаток от целочисленного деления двух чисел.</li>
+                    <li><code>BigInteger sqrt()</code>: возвращает квадратный корень числа.</li>
+                    <li><code>int compareTo(BigInteger other)</code>: сравнивает два числа. Возвращает -1, если текущий объект меньше числа other, 1 - если текущий объект больше и 0 - если числа равны.</li>
+                    <li><code>static BigInteger valueOf(long x)</code>: возвращает объект BigInteger, значение которого равно числу, переданному в качестве параметра.</li>
+                    <li><code>int intValue()</code>: конвертирует объект BigInteger в объект int.</li>
+                    <li><code>byte byteValue()</code>: преобразует объект BigInteger в byte.</li>
+                    <li><code>short shortValue()</code>: преобразует объект BigInteger в short.</li>
+                    <li><code>long longValue()</code>: преобразует объект BigInteger в long.</li>
+                </ul>
+
+                <strong>Основные методы класса BigDecimal:</strong>
+                <ul>
+                    <li><code>BigDecimal add(BigDecimal other)</code>: возвращает сумму двух чисел.</li>
+                    <li><code>BigDecimal subtract(BigDecimal other)</code>: возвращает разность двух чисел.</li>
+                    <li><code>BigDecimal multiply(BigDecimal other)</code>: возвращает произведение двух чисел.</li>
+                    <li><code>BigDecimal divide(BigDecimal other)</code>: возвращает частное двух чисел.</li>
+                    <li><code>int compareTo(BigDecimal other)</code>: сравнивает два числа. Возвращает -1, если текущий объект меньше числа other, 1 - если текущий объект больше и 0 - если числа равны.</li>
+                    <li><code>static BigDecimal valueOf(double x)</code>: возвращает объект BigDecimal, значение которого равно числу, переданному в качестве параметра.</li>
+                    <li><code>double doubleValue()</code>: преобразует объект BigDecimal в double.</li>
+                    <li><code>float floatValue()</code>: преобразует объект BigDecimal в float.</li>
+                </ul>
+
+                <strong>Пример использования классов BigInteger и BigDecimal:</strong>
+                <pre><code>
+import java.math.*;
+
+public class Program {
+    public static void main(String[] args) {
+        BigInteger a = BigInteger.valueOf(2147483647);
+        BigInteger b = BigInteger.valueOf(2147483641);
+        a = a.multiply(b);
+        System.out.println(a);  // 4611686001247518727
+
+        BigDecimal c = BigDecimal.valueOf(2325.06);
+        BigDecimal d = BigDecimal.valueOf(215.06);
+        c = c.subtract(d.multiply(BigDecimal.valueOf(2.1)));
+        System.out.println(c);      // 1873.434
+    }
+}
+                </code></pre>`;
+            document.getElementById('explanation').innerHTML = explanation; // Выводим объяснение
+        }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = loadTemplate;
+    </script>
+</head>
+
+<body>
+
+<header>
+    <h1>Курс: Основы Java</h1>
+    <nav>
+        <a href="#">Главная</a>
+        <a href="#">Уроки</a>
+        <a href="#">Контакты</a>
+        <a href="/user/solutions">Мои решения</a> <!-- Ссылка на страницу решений -->
+    </nav>
+</header>
+
+<main>
+
+    <h2>Урок 3: Примитивные типы данных</h2>
+
+    <section class="theory">
+        <h3>Теория</h3>
+        <p>В этом уроке мы изучим примитивные типы данных в Java:</p>
+        <ul>
+            <li><strong>int:</strong> Целочисленный тип данных, который используется для хранения целых чисел.</li>
+            <li><strong>double:</strong> Тип данных с плавающей запятой, используемый для хранения дробных чисел.</li>
+            <li><strong>char:</strong> Символьный тип данных, который используется для хранения одиночных символов.</li>
+            <li><strong>boolean:</strong> Логический тип данных, который может принимать значения true или false.</li>
+        </ul>
+    </section>
+
+    <!-- Блок для задач -->
+    <section class="tasks">
+        <h3>Задачи</h3>
+        <ol>
+
+            <!-- Задача на вычисление квадратного корня -->
+            <li>Напишите программу для вычисления квадратного корня числа (использовать Math.sqrt).</li>
+            <pre><code id="sqrtExample">
+double number = 16;
+double squareRoot = Math.sqrt(number);
+System.out.println("Квадратный корень числа " + number + " равен " + squareRoot);
+            </code></pre>
+
+            <!-- Задача на проверку делимости на 3 -->
+            <li>Реализуйте проверку, делится ли число на 3 без остатка.</li>
+            <pre><code id="divisibilityExample">
+int num = 9;
+if (num % 3 == 0) {
+    System.out.println(num + " делится на 3.");
+} else {
+    System.out.println(num + " не делится на 3.");
+}
+            </code></pre>
+
+        </ol>
+
+    </section>
+
+    <!-- Онлайн-компиляторы -->
+    <!-- Компилятор для задачи на вычисление квадратного корня -->
+    <section class="compiler">
+        <h2>Онлайн-компилятор: Вычисление квадратного корня</h2>
+        <!-- Шаблонный код загружается автоматически при загрузке страницы -->
+        <textarea id="sqrtCodeEditor" rows="15" cols="70"></textarea><br />
+        <button onclick="runCode('/api/compiler/sqrt', 'sqrtCodeEditor', 'sqrtOutput')">Выполнить</button>
+        <pre id="sqrtOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+    </section>
+
+    <!-- Компилятор для задачи на проверку делимости на 3 -->
+    <section class="compiler">
+        <h2>Онлайн-компилятор: Проверка делимости на 3</h2>
+        <!-- Шаблонный код загружается автоматически при загрузке страницы -->
+        <textarea id="divisibilityCodeEditor" rows="15" cols="70"></textarea><br />
+        <button onclick="runCode('/api/compiler/check-divisibility', 'divisibilityCodeEditor', 'divisibilityOutput')">Выполнить</button>
+        <pre id="divisibilityOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+    </section>
+
+    <!-- Блок для отображения объяснения -->
+    <div id="explanation"></div>
+
+    <!-- Тестирование -->
+    <section class="test">
+        <!-- Здесь можно добавить ссылку на тест или встроенный тест -->
+        Пройдите тест по теме "Примитивные типы данных".
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body >
+</html >
