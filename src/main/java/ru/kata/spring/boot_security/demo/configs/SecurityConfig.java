@@ -11,19 +11,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.impl.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService; // Поле для UserService
-    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler; // Поле для UserService
 
     @Autowired
-    public SecurityConfig(@Lazy UserService userService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+    public SecurityConfig(@Lazy UserService userService) {
         this.userService = userService; // Инициализация поля через конструктор
-        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler; // Инициализация поля через конструктор
     }
 
     @Override
@@ -37,7 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/auth/login") // Страница логина
-                .successHandler(customAuthenticationSuccessHandler) // Добавить кастомный обработчик
                 .loginProcessingUrl("/auth/login") // URL для обработки логина
                 .defaultSuccessUrl("/dashboard", true) // Перенаправление на /dashboard после успешного входа
                 .failureUrl("/auth/login?error=true") // Перенаправление на страницу логина с ошибкой

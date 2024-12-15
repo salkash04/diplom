@@ -11,8 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.service.impl.MailgunEmailService;
+import ru.kata.spring.boot_security.demo.service.impl.UserService;
+
 
 @Controller
 @RequestMapping("/auth")
@@ -20,9 +20,6 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private MailgunEmailService mailgunEmailService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -38,9 +35,7 @@ public class AuthController {
     public String registerUser(@ModelAttribute User user, Model model) {
         try {
             userService.registerUser(user);
-            mailgunEmailService.sendRegistrationConfirmation(user.getEmail()); // Отправка подтверждения регистрации
-            model.addAttribute("email", user.getEmail()); // Передаем email для подтверждения
-            return "email-confirmation"; // Возвращаем страницу с модальным окном
+            return "redirect:/auth/login?success";
         } catch (Exception e) {
             model.addAttribute("error", "Ошибка при регистрации: " + e.getMessage());
             return "register"; // Возвращаемся на страницу регистрации с ошибкой
@@ -74,23 +69,6 @@ public class AuthController {
         } catch (Exception e) {
             model.addAttribute("error", "Ошибка при входе: " + e.getMessage());
             return "login"; // Возвращаемся на страницу логина с ошибкой
-        }
-    }
-
-    @PostMapping("/confirm")
-    public String confirmEmail(@RequestParam String confirmationCode, @RequestParam String email, Model model) {
-        try {
-            if (userService.confirmEmail(email, confirmationCode)) { // Реализуйте логику проверки кода
-                return "redirect:/auth/login?confirmed";
-            } else {
-                model.addAttribute("error", "Неверный код подтверждения.");
-                model.addAttribute("email", email);
-                return "email-confirmation";
-            }
-        } catch (Exception e) {
-            model.addAttribute("error", "Ошибка при подтверждении: " + e.getMessage());
-            model.addAttribute("email", email);
-            return "email-confirmation";
         }
     }
 

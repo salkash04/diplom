@@ -7,8 +7,24 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container mt-5">
+<header>
     <h1>Задать новый вопрос</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/1">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container mt-5">
     <form th:action="@{/templates/questions}" method="post">
         <input type="hidden" name="userId" th:value="${#authentication.principal.id}" />
         <input type="hidden" name="taskId" value="1" /> <!-- Замените на реальный taskId -->

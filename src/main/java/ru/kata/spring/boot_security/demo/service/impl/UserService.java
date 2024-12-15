@@ -12,29 +12,24 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
-import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
     public User registerUser(User user) {
         // Проверка на существование пользователя с таким именем
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
@@ -62,54 +57,44 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    @Override
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден с ID: " + id));
     }
 
-    @Override
     public List<User> findAll() {
         return userRepository.findAll(); // Предполагается, что у вас есть метод findAll() в UserRepository
     }
 
-    @Override
     public void saveUser(User user) {
         userRepository.save(user); // Сохранение или обновление пользователя
     }
 
-    @Override
     public void deleteById(long id) {
         userRepository.deleteById(id); // Удаление пользователя по ID
     }
 
-    @Override
     public boolean isAccountNonExpired() {
         return true; // Измените на вашу логику
     }
 
-    @Override
     public boolean isAccountNonLocked() {
         return true; // Измените на вашу логику
     }
 
-    @Override
     public boolean isCredentialsNonExpired() {
         return true; // Измените на вашу логику
     }
 
-    @Override
     public boolean isEnabled() {
         return true; // Измените на вашу логику
     }
 
-    @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 
-    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Email not found: " + email));
@@ -123,17 +108,14 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
     public List<Role> findByRoleName(String role) {
         return List.of();
     }
 
-    @Override
     public List<Role> getAllRoles() {
         return List.of();
     }
 
-    @Override
     public void updateUser(User user) {
         userRepository.save(user);
     }
