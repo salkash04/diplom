@@ -1,12 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.service.impl.CodeExecutionService;
-import ru.kata.spring.boot_security.demo.util.JavaRunner;
-
-import java.util.Map;
+import ru.kata.spring.boot_security.demo.service.CodeExecutionService;
 
 @RestController
 @RequestMapping("/api/compiler")

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.model.dto.AnswerResponseDto;
 import ru.kata.spring.boot_security.demo.model.dto.ForumQuestionDTO;
-import ru.kata.spring.boot_security.demo.service.impl.ForumAnswerService;
-import ru.kata.spring.boot_security.demo.service.impl.ForumQuestionService;
+import ru.kata.spring.boot_security.demo.service.ForumAnswerService;
+import ru.kata.spring.boot_security.demo.service.ForumQuestionService;
 
 import java.util.List;
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.TaskAttempt;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.impl.TaskService;
+import ru.kata.spring.boot_security.demo.service.TaskService;
 import ru.kata.spring.boot_security.demo.util.JavaRunner;
 
 import java.util.List;
@@ -55,25 +55,21 @@ public class LessonController {
     }
 
     @GetMapping("/user/solutions")
-    public String viewSolutions(Model model,  User user) {
+    public String viewSolutions(Model model, @AuthenticationPrincipal User user) {
         List<TaskAttempt> attempts = taskService.getUserAttempts(user.getId());
         model.addAttribute("attempts", attempts);
-        return "solutions"; // Возвращаем шаблон для отображения решений
+        return "solutions";
     }
 
     @PostMapping("/module1/lesson/{lessonId}/submit")
     public String submitSolution(@PathVariable Long lessonId,
                                  @RequestParam String code,
-                                 User user) throws Exception {
+                                 @AuthenticationPrincipal User user) throws Exception {
         if (user == null) {
-            return "redirect:/login"; // Перенаправление на страницу входа
+            return "redirect:/login";
         }
-        // Выполняем код и получаем результат
         String output = JavaRunner.run(code);
-
-        // Сохраняем попытку решения в базе данных
         taskService.saveTaskAttempt(user.getId(), lessonId, code, output);
-
-        return "redirect:/module1/lesson/" + lessonId; // Перенаправляем обратно на урок
+        return "redirect:/module1/lesson/" + lessonId;
     }
 }
