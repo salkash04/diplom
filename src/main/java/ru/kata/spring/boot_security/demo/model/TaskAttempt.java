@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import ru.kata.spring.boot_security.demo.model.Enum.ResultStatus;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -20,14 +22,26 @@ public class TaskAttempt {
     @Column(nullable = false)
     private String code; // Код решения
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String result; // Результат выполнения
+    private ResultStatus result;
 
     @Column(name = "submitted_at", nullable = false)
     private LocalDateTime submittedAt;
 
+    @Column(name = "execution_result", columnDefinition = "TEXT")
+    private String executionResult; // Полный результат выполнения
+
     public TaskAttempt() {
         this.submittedAt = LocalDateTime.now(); // Устанавливаем дату отправки по умолчанию
+    }
+
+    public String getExecutionResult() {
+        return executionResult;
+    }
+
+    public void setExecutionResult(String executionResult) {
+        this.executionResult = executionResult;
     }
 
     public Long getId() {
@@ -62,11 +76,11 @@ public class TaskAttempt {
         this.code = code;
     }
 
-    public String getResult() {
+    public ResultStatus getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(ResultStatus result) {
         this.result = result;
     }
 

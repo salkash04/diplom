@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Первая программа на Java</title>
+    <title th:text="${lessonTitle}">Первая программа на Java</title>
     <link rel="stylesheet" href="/css/lessons/lesson2.css"> <!-- Подключаем общий CSS -->
     <script>
         // Функция для загрузки шаблонного кода
         async function loadTemplate() {
             const response = await fetch('/api/compiler/template');
             const template = await response.text();
-            document.getElementById('codeEditor').value = template;
+            if (!document.getElementById('codeEditor').value.trim()) {
+                document.getElementById('codeEditor').value = template;
+            }
         }
 
         // Функция для выполнения кода
@@ -61,7 +63,7 @@
 <body>
 
 <header>
-    <h1>Урок: Первая программа на Java</h1>
+    <h1 th:text="${lessonTitle}">Урок: Первая программа на Java</h1>
     <nav>
         <a href="/dashboard">Главная</a>
         <a href="/questions">Вопросы</a>
@@ -78,7 +80,8 @@
 </header>
 
 <main>
-    <h1>Первая программа на Java</h1>
+    <h2 th:text="${lessonTitle}">Первая программа на Java</h2>
+
     <section class="task">
         <h2>Задача</h2>
         <p>Напишите программу, которая выводит на консоль <code>Hello, World!</code>.</p>
@@ -86,7 +89,10 @@
 
     <section class="compiler">
         <h2>Онлайн-компилятор</h2>
-        <textarea id="codeEditor" rows="15" cols="70"></textarea><br>
+        <!-- Отображаем предыдущее решение -->
+        <textarea id="codeEditor" rows="15" cols="70" th:text="${lastCode}"></textarea>
+        <!-- Здесь будет отображаться предыдущее решение пользователя -->
+
         <button onclick="runCode()">Выполнить</button>
         <pre id="output"></pre> <!-- Здесь будет отображаться результат выполнения -->
     </section>

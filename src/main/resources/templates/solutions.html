@@ -31,7 +31,7 @@
     <table>
         <thead>
         <tr>
-            <th>ID Задачи</th>
+            <th>Название задачи</th>
             <th>Код</th>
             <th>Результат</th>
             <th>Дата отправки</th>
@@ -39,16 +39,16 @@
         </thead>
         <tbody th:each="attempt : ${attempts}">
         <tr>
-            <td th:text="${attempt.task.id}"></td>
+            <td th:text="${attempt.task.getDescription()}"></td>
             <td><pre th:text="${attempt.code}"></pre></td>
             <td th:text="${attempt.result}"></td>
-            <td th:text="${#dates.format(attempt.submittedAt, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${#temporals.format(attempt.submittedAt, 'dd/MM/yyyy HH:mm')}"></td>
         </tr>
         </tbody>
     </table>
 
     <div class="next-module">
-        <a href="/courses" class="next-button">Вернуться к курсам</a> <!-- Кнопка для возврата к курсам -->
+        <a href="/courses/1" class="next-button">Вернуться к курсам</a> <!-- Кнопка для возврата к курсам -->
     </div>
 
 </main>

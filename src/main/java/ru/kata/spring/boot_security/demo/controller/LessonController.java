@@ -26,12 +26,15 @@ public class LessonController {
     }
 
     @GetMapping("/module1/lesson/{lessonId}")
-    public String getLesson(@PathVariable int lessonId, Model model, User user) {
+    public String getLesson(@PathVariable Long lessonId, Model model, @AuthenticationPrincipal User user) {
         Long userId = user.getId();
         List<TaskAttempt> attempts = taskService.getUserAttempts(userId);
         model.addAttribute("attempts", attempts);
 
-        switch (lessonId) {
+        TaskAttempt lastAttempt = taskService.getLastAttemptForTask(userId, lessonId);
+        model.addAttribute("lastCode", lastAttempt != null ? lastAttempt.getCode() : "");
+
+        switch (lessonId.intValue()) {
             case 1:
                 model.addAttribute("lessonTitle", "Что такое Java? Основы языка");
                 model.addAttribute("lessonContent", "Java — это объектно-ориентированный язык программирования...");
@@ -69,7 +72,12 @@ public class LessonController {
             return "redirect:/login";
         }
         String output = JavaRunner.run(code);
-        taskService.saveTaskAttempt(user.getId(), lessonId, code, output);
+        boolean isSuccess = determineSuccess(output); // Вам нужно реализовать этот метод
+        taskService.saveTaskAttempt(user.getId(), lessonId, code, output, isSuccess);
         return "redirect:/module1/lesson/" + lessonId;
+    }
+
+    private boolean determineSuccess(String output) {
+        return output.contains("Успешно: Вывод соответствует ожидаемому результату");
     }
 }
