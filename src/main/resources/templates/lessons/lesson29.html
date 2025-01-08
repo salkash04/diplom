@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интеграционное тестирование с использованием Spring Test</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Интеграционное тестирование с использованием Spring Test</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Введение в интеграционное тестирование</h2>
+        <p>Интеграционное тестирование позволяет проверить взаимодействие различных компонентов приложения и их работу в едином контексте.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>Что такое интеграционное тестирование?</h3>
+        <p>Интеграционное тестирование охватывает более широкую область, чем юнит-тесты. Оно позволяет выполнять код в окружении, близком к нормальному времени выполнения приложения.</p>
+
+        <h3>Настройка интеграционных тестов в Spring:</h3>
+        <p>Для написания интеграционных тестов в Spring используется аннотация @SpringBootTest, которая запускает полный контекст приложения.</p>
+
+        <h4>Пример настройки интеграционного теста:</h4>
+        <pre><code>@SpringBootTest
+public class UserControllerIT {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    public void testGetUser() throws Exception {
+        mockMvc.perform(get("/api/users/1"))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.name").value("John"));
+    }
+}</code></pre>
+
+        <h3>Использование MockMvc:</h3>
+        <p>MockMvc позволяет имитировать HTTP-запросы к вашему приложению и проверять ответы без необходимости развертывания сервера.</p>
+
+        <h4>Пример использования MockMvc:</h4>
+        <pre><code>@Autowired
+private MockMvc mockMvc;
+
+@Test
+public void testCreateUser() throws Exception {
+    User user = new User("Jane", "Doe");
+
+    mockMvc.perform(post("/api/users")
+           .contentType(MediaType.APPLICATION_JSON)
+           .content(new ObjectMapper().writeValueAsString(user)))
+           .andExpect(status().isCreated());
+}</code></pre>
+
+        <h3>Проверка состояния базы данных:</h3>
+        <p>Вы можете использовать JdbcTemplate или другие инструменты для проверки состояния базы данных до и после выполнения тестов.</p>
+
+        <h4>Пример проверки состояния базы данных:</h4>
+        <pre><code>@Autowired
+private JdbcTemplate jdbcTemplate;
+
+@Test
+public void testDatabaseState() {
+    int count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM users", Integer.class);
+    assertEquals(1, count);
+}</code></pre>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете, как настраивать и писать интеграционные тесты с использованием Spring Test. Это позволяет убедиться в корректной работе всех компонентов вашего приложения.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/17'">Предыдущий модуль</button> <!-- Ссылка на урок 17 -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

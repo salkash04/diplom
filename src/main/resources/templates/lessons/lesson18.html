@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Введение в JPA и Hibernate</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Введение в JPA и Hibernate</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Что такое JPA и Hibernate?</h2>
+        <p>Java Persistence API (JPA) — это стандартная спецификация для работы с реляционными базами данных в Java.</p>
+        <p>Hibernate — это одна из самых популярных реализаций JPA, которая упрощает работу с базами данных, позволяя разработчикам использовать объектно-ориентированный подход.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>Основные понятия JPA:</h3>
+        <ul>
+            <li><strong>Сущности:</strong> Классы, которые отображаются на таблицы базы данных.</li>
+            <li><strong>Репозитории:</strong> Интерфейсы для выполнения операций CRUD (создание, чтение, обновление, удаление) над сущностями.</li>
+            <li><strong>EntityManager:</strong> Основной интерфейс для взаимодействия с контекстом персистенции.</li>
+            <li><strong>Транзакции:</strong> Группа операций, которые должны быть выполнены как единое целое.</li>
+        </ul>
+
+        <h3>Использование Spring Data JPA:</h3>
+        <p>Spring Data JPA предоставляет удобный способ работы с JPA, позволяя автоматически создавать репозитории на основе интерфейсов.</p>
+
+        <h4>Пример репозитория:</h4>
+        <pre><code>import org.springframework.data.repository.CrudRepository;
+
+public interface ClientRepository extends CrudRepository<Client, Long> {
+    List<Client> findByName(String name);
+}</code></pre>
+
+        <h3>Настройка Hibernate:</h3>
+        <p>Hibernate можно настроить через файл application.properties или application.yml. Вот пример настройки:</p>
+
+        <pre><code>spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+spring.datasource.username=root
+spring.datasource.password=password
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true</code></pre>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете основы работы с JPA и Hibernate. Эти технологии позволяют вам легко управлять данными в реляционных базах данных, используя объектно-ориентированный подход.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/6'">Предыдущий модуль</button> <!-- Ссылка на урок 6 -->
+        <button onclick="location.href='/module2/lesson/8'">Следующий модуль</button> <!-- Ссылка на урок 8 -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

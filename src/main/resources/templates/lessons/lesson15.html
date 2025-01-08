@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание простого RESTful API</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Создание простого RESTful API</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Введение в создание RESTful API</h2>
+        <p>В этом разделе мы создадим небольшое RESTful приложение на Spring Boot.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>Шаги по созданию RESTful API:</h3>
+
+        <ol>
+            <li><strong>Создание проекта:</strong> Используйте Spring Initializr на сайте <a href="https://start.spring.io/" target="_blank">Spring Initializr</a>. Выберите необходимые зависимости (Spring Web, Spring Data JPA и H2 Database).</li>
+
+            <li><strong>Настройка проекта:</strong> После генерации проекта откройте его в вашей IDE (IntelliJ IDEA, Eclipse или Visual Studio Code).</li>
+
+            <li><strong>Создание модели:</strong> Создайте класс модели (например, Client) с необходимыми полями (id, name, email, phone).</li>
+
+            <li><strong>Создание контроллера:</strong> Создайте контроллер (например, ClientController) с методами для обработки HTTP-запросов (GET, POST, PUT, DELETE).</li>
+
+            <li><strong>Настройка базы данных:</strong> Откройте файл application.properties и добавьте настройки для H2 Database.</li>
+
+            <li><strong>Запуск приложения:</strong> Запустите ваше приложение через метод main() класса с аннотацией @SpringBootApplication.</li>
+
+            <li><strong>Тестирование API:</strong> Используйте Postman или браузер для тестирования вашего RESTful API.</li>
+        </ol>
+
+        <h3>Пример кода контроллера:</h3>
+        <pre><code>@RestController
+public class ClientController {
+
+    @GetMapping("/clients")
+    public List<Client> getAllClients() {
+       // Логика получения всех клиентов
+    }
+
+    @PostMapping("/clients")
+    public void createClient(@RequestBody Client client) {
+       // Логика создания нового клиента
+    }
+
+    // Другие методы (PUT, DELETE)
+}</code></pre>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете, как создать простое RESTful API с помощью Spring Boot. Это позволяет вам легко управлять данными и взаимодействовать с клиентами через HTTP-запросы.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/3'">Предыдущий модуль</button> <!-- Замените '/previous-module-url' на фактический URL предыдущего модуля -->
+        <button onclick="location.href='/module2/lesson/5'">Следующий модуль</button> <!-- Замените '/next-module-url' на фактический URL следующего модуля -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

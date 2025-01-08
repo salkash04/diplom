@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание контроллеров с использованием аннотации @RestController</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Создание контроллеров с использованием аннотации @RestController</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Введение в аннотацию @RestController</h2>
+        <p>Аннотация @RestController используется для создания RESTful контроллеров в Spring. Она объединяет аннотации @Controller и @ResponseBody, что позволяет возвращать данные напрямую в формате JSON или XML.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>Основные принципы использования @RestController:</h3>
+
+        <ul>
+            <li><strong>Автоматическое преобразование:</strong> Методы контроллера, помеченные аннотацией @RestController, возвращают объекты, которые автоматически преобразуются в JSON или XML.</li>
+
+            <li><strong>Упрощение кода:</strong> Нет необходимости добавлять аннотацию @ResponseBody к каждому методу — это делается автоматически.</li>
+
+            <li><strong>Обработка HTTP-запросов:</strong> Используйте аннотации, такие как @GetMapping, @PostMapping, @PutMapping и @DeleteMapping для обработки различных типов HTTP-запросов.</li>
+        </ul>
+
+        <h3>Пример создания контроллера:</h3>
+        <pre><code>@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        // Логика получения пользователя по ID
+    }
+
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        // Логика создания нового пользователя
+    }
+}</code></pre>
+
+        <h3>Примечания по маршрутизации:</h3>
+        <p>Вы можете использовать аннотацию @RequestMapping на уровне класса для определения общего пути для всех методов контроллера.</p>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете, как создавать контроллеры с использованием аннотации @RestController. Это позволяет легко обрабатывать HTTP-запросы и возвращать данные в формате JSON или XML.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/12'">Предыдущий модуль</button> <!-- Ссылка на урок 12 -->
+        <button onclick="location.href='/module2/lesson/14'">Следующий модуль</button> <!-- Ссылка на урок 14 -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

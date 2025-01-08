@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Глобальная обработка ошибок с использованием @ControllerAdvice</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Глобальная обработка ошибок с использованием @ControllerAdvice</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Введение в глобальную обработку ошибок</h2>
+        <p>В этом разделе мы рассмотрим, как использовать аннотацию @ControllerAdvice для централизованной обработки ошибок в приложении Spring.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>Что такое @ControllerAdvice?</h3>
+        <p>@ControllerAdvice — это аннотация, которая позволяет объединить обработку исключений в одном месте и применять ее ко всем контроллерам приложения.</p>
+
+        <h3>Обработка исключений с помощью @ExceptionHandler:</h3>
+        <p>Вы можете использовать аннотацию @ExceptionHandler внутри класса, помеченного @ControllerAdvice, чтобы обрабатывать конкретные исключения.</p>
+
+        <h4>Пример использования:</h4>
+        <pre><code>@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity&lt;Response&gt; handleBusinessException(BusinessException e) {
+        Response response = new Response(e.getMessage());
+        return new ResponseEntity&lt;&gt;(response, HttpStatus.BAD_REQUEST);
+    }
+}</code></pre>
+
+        <h3>Обработка нескольких исключений:</h3>
+        <p>Вы можете обрабатывать несколько типов исключений в одном методе:</p>
+        <pre><code>@ExceptionHandler({BusinessException.class, ServiceException.class})
+public ResponseEntity&lt;Response&gt; handleMultipleExceptions(Exception e) {
+    Response response = new Response(e.getMessage());
+    return new ResponseEntity&lt;&gt;(response, HttpStatus.BAD_REQUEST);
+}</code></pre>
+
+        <h3>Настройка глобального обработчика:</h3>
+        <p>Вы можете настроить обработчик для работы только с определенными контроллерами, добавив соответствующие аннотации:</p>
+        <pre><code>@ControllerAdvice(annotations = CustomAnnotation.class)
+public class CustomAdvice {
+    // Обработка исключений
+}</code></pre>
+
+        <h3>Заключение</h3>
+        <p>Использование @ControllerAdvice позволяет упростить управление ошибками в приложении и сделать код более чистым и поддерживаемым.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/11'">Предыдущий модуль</button> <!-- Ссылка на урок 11 -->
+        <button onclick="location.href='/module2/lesson/13'">Следующий модуль</button> <!-- Ссылка на урок 13 -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Введение в Spring Security: настройка аутентификации и авторизации</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Введение в Spring Security</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Настройка аутентификации и авторизации в Spring Security</h2>
+        <p>В этом разделе мы рассмотрим, как настроить аутентификацию и авторизацию в приложении Spring с помощью Spring Security.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>Что такое Spring Security?</h3>
+        <p>Spring Security — это мощный и настраиваемый фреймворк для обеспечения безопасности приложений на платформе Spring. Он предоставляет механизмы аутентификации, авторизации и защиты от различных угроз.</p>
+
+        <h3>Настройка аутентификации:</h3>
+        <p>Аутентификация — это процесс проверки личности пользователя. В Spring Security вы можете настроить аутентификацию с использованием различных методов, таких как:</p>
+
+        <ul>
+            <li><strong>Формы аутентификации:</strong> Использование стандартной формы для ввода логина и пароля.</li>
+            <li><strong>HTTP Basic аутентификация:</strong> Использование заголовков HTTP для передачи учетных данных.</li>
+            <li><strong>OAuth2:</strong> Использование сторонних провайдеров для аутентификации.</li>
+        </ul>
+
+        <h4>Пример настройки формовой аутентификации:</h4>
+        <pre><code>@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers("/public/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .loginPage("/login")
+                .permitAll();
+    }
+}</code></pre>
+
+        <h3>Настройка авторизации:</h3>
+        <p>Авторизация — это процесс определения прав доступа пользователя к ресурсам приложения. В Spring Security вы можете настроить доступ к различным URL-адресам на основе ролей пользователей.</p>
+
+        <h4>Пример настройки ролей:</h4>
+        <pre><code>@Override
+protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.inMemoryAuthentication()
+        .withUser("user").password("{noop}password").roles("USER")
+        .and()
+        .withUser("admin").password("{noop}admin").roles("ADMIN");
+}</code></pre>
+
+        <h3>Защита от CSRF-атак:</h3>
+        <p>Spring Security по умолчанию включает защиту от межсайтовой подделки запросов (CSRF). Вы можете настроить эту защиту в зависимости от требований вашего приложения.</p>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете, как настроить аутентификацию и авторизацию в приложении Spring с использованием Spring Security. Это основа для обеспечения безопасности вашего приложения.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/15'">Предыдущий модуль</button> <!-- Ссылка на урок 15 -->
+        <button onclick="location.href='/module2/lesson/17'">Следующий модуль</button> <!-- Ссылка на урок 17 -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

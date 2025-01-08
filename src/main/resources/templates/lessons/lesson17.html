@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Работа с файлами конфигурации</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Работа с файлами конфигурации</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Введение в файлы конфигурации Spring Boot</h2>
+        <p>В этом разделе мы рассмотрим, как использовать файлы конфигурации application.properties и application.yml для настройки вашего приложения Spring Boot.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>Файл application.properties</h3>
+        <p>Файл application.properties — это стандартный файл конфигурации, используемый в Spring Boot для настройки различных параметров приложения.</p>
+
+        <h4>Пример использования:</h4>
+        <pre><code>spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+spring.datasource.username=root
+spring.datasource.password=password
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true</code></pre>
+
+        <h3>Файл application.yml</h3>
+        <p>Файл application.yml — это альтернативный формат для настройки приложения, который более удобен для чтения и структурирования данных.</p>
+
+        <h4>Пример использования:</h4>
+        <pre><code>spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb
+    username: root
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true</code></pre>
+
+        <h3>Выбор между properties и YAML</h3>
+        <p>Выбор между использованием application.properties и application.yml зависит от ваших предпочтений. YAML позволяет более удобно структурировать данные, особенно если у вас много уровней вложенности.</p>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете, как использовать файлы конфигурации application.properties и application.yml в Spring Boot для настройки вашего приложения.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/5'">Предыдущий модуль</button> <!-- Ссылка на предыдущий урок -->
+        <button onclick="location.href='/module2/lesson/7'">Следующий модуль</button> <!-- Ссылка на следующий урок -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

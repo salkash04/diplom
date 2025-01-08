@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание сущностей и репозиториев с использованием Spring Data JPA</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Создание сущностей и репозиториев с использованием Spring Data JPA</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Введение в создание сущностей и репозиториев</h2>
+        <p>В этом разделе мы рассмотрим, как создавать сущности и репозитории с использованием Spring Data JPA.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>Что такое сущности?</h3>
+        <p>Сущности представляют собой классы, которые отображаются на таблицы в базе данных. Каждая сущность должна быть аннотирована с помощью @Entity.</p>
+
+        <h4>Пример сущности:</h4>
+        <pre><code>@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String firstName;
+    private String lastName;
+    private String email;
+
+    // Геттеры и сеттеры
+}</code></pre>
+
+        <h3>Создание репозиториев</h3>
+        <p>Репозитории позволяют выполнять операции CRUD (создание, чтение, обновление, удаление) над сущностями. Для создания репозитория необходимо создать интерфейс, который наследует от JpaRepository или CrudRepository.</p>
+
+        <h4>Пример репозитория:</h4>
+        <pre><code>import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByLastName(String lastName);
+}</code></pre>
+
+        <h3>Использование репозитория в сервисе</h3>
+        <p>Репозитории можно использовать в сервисах для выполнения операций с данными.</p>
+
+        <h4>Пример сервиса:</h4>
+        <pre><code>@Service
+public class UserService {
+    @Autowired
+    private UserRepository userRepository;
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void createUser(User user) {
+        userRepository.save(user);
+    }
+
+    // Другие методы...
+}</code></pre>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете, как создавать сущности и репозитории с использованием Spring Data JPA. Это позволяет вам легко управлять данными в вашей базе данных.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/8'">Предыдущий модуль</button> <!-- Ссылка на урок 8 -->
+        <button onclick="location.href='/module2/lesson/10'">Следующий модуль</button> <!-- Ссылка на урок 10 -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

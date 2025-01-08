@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Написание юнит-тестов с использованием JUnit и Mockito</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Написание юнит-тестов с использованием JUnit и Mockito</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Введение в юнит-тестирование</h2>
+        <p>Юнит-тестирование — это метод тестирования программного обеспечения, при котором отдельные части приложения (юниты) проверяются на корректность работы.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>1. Знакомство с JUnit</h3>
+        <p>JUnit — это фреймворк для написания тестов на Java. Он предоставляет аннотации и методы для организации тестов.</p>
+
+        <h4>Пример простого теста:</h4>
+        <pre><code>import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class CalculatorTest {
+
+    @Test
+    public void testAdd() {
+        Calculator calculator = new Calculator();
+        assertEquals(5, calculator.add(2, 3));
+    }
+}</code></pre>
+
+        <h3>2. Знакомство с Mockito</h3>
+        <p>Mockito — это фреймворк для создания мок-объектов, который упрощает тестирование классов с внешними зависимостями.</p>
+
+        <h4>Пример использования Mockito:</h4>
+        <pre><code>import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+
+public class UserServiceTest {
+
+    @Test
+    public void testGetUser() {
+        UserRepository userRepository = mock(UserRepository.class);
+        UserService userService = new UserService(userRepository);
+
+        User user = new User("John");
+        when(userRepository.findById(1L)).thenReturn(user);
+
+        User result = userService.getUser(1L);
+        assertEquals("John", result.getName());
+
+        verify(userRepository).findById(1L); // Проверка вызова метода
+    }
+}</code></pre>
+
+        <h3>3. Основные аннотации JUnit и Mockito:</h3>
+        <ul>
+            <li><strong>@Test:</strong> Обозначает метод как тестовый.</li>
+            <li><strong>@Mock:</strong> Создает мок-объект.</li>
+            <li><strong>@InjectMocks:</strong> Внедряет моки в тестируемый класс.</li>
+            <li><strong>@BeforeEach:</strong> Выполняет метод перед каждым тестом.</li>
+            <li><strong>@AfterEach:</strong> Выполняет метод после каждого теста.</li>
+        </ul>
+
+        <h3>4. Запуск тестов</h3>
+        <p>Тесты можно запускать из IDE или с помощью командной строки, используя Maven или Gradle.</p>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете, как писать юнит-тесты с использованием JUnit и Mockito. Эти инструменты помогают обеспечить качество кода и его корректность.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/16'">Предыдущий модуль</button> <!-- Ссылка на урок 16 -->
+        <button onclick="location.href='/module2/lesson/18'">Следующий модуль</button> <!-- Ссылка на урок 18 -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

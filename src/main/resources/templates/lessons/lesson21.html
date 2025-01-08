@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основы внедрения зависимостей в Spring</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Основы внедрения зависимостей в Spring</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Что такое внедрение зависимостей?</h2>
+        <p>Внедрение зависимостей (Dependency Injection, DI) — это ключевая концепция в Spring, которая позволяет контейнеру управлять созданием и связыванием объектов.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>Основные принципы внедрения зависимостей:</h3>
+
+        <ul>
+            <li><strong>Инверсия управления:</strong> DI является частью принципа инверсии управления (IoC), который позволяет контейнеру управлять жизненным циклом объектов.</li>
+            <li><strong>Слабая связанность:</strong> DI способствует слабой связанности между классами, что упрощает тестирование и поддержку кода.</li>
+            <li><strong>Конструкторное и сеттерное внедрение:</strong> Существуют два основных способа внедрения зависимостей: через конструктор и через сеттеры.</li>
+        </ul>
+
+        <h3>Типы внедрения зависимостей:</h3>
+
+        <ol>
+            <li><strong>Внедрение через конструктор:</strong> Зависимости передаются через параметры конструктора.</li>
+            <pre><code>@Autowired
+public MyService(MyDependency myDependency) {
+    this.myDependency = myDependency;
+}</code></pre>
+
+            <li><strong>Внедрение через сеттер:</strong> Зависимости устанавливаются через сеттеры после создания объекта.</li>
+            <pre><code>@Autowired
+public void setMyDependency(MyDependency myDependency) {
+    this.myDependency = myDependency;
+}</code></pre>
+
+            <li><strong>Внедрение через поля:</strong> Зависимости могут быть внедрены напрямую в поля класса. Этот метод менее предпочтителен из-за сложности тестирования.</li>
+            <pre><code>@Autowired
+private MyDependency myDependency;</code></pre>
+        </ol>
+
+        <h3>Преимущества внедрения зависимостей:</h3>
+
+        <ul>
+            <li>Упрощение тестирования: благодаря слабой связанности классов становится легче писать юнит-тесты.</li>
+            <li>Улучшение читаемости кода: зависимости явно указаны, что делает код более понятным.</li>
+            <li>Гибкость: легко заменять реализации зависимостей без изменения кода клиента.</li>
+        </ul>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы понимаете основы внедрения зависимостей в Spring. Эта концепция является основой для построения гибких и поддерживаемых приложений.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/9'">Предыдущий модуль</button> <!-- Ссылка на урок 9 -->
+        <button onclick="location.href='/module2/lesson/11'">Следующий модуль</button> <!-- Ссылка на урок 11 -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

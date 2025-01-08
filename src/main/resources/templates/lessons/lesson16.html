@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запуск приложения и работа с встроенным сервером (Tomcat)</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Запуск приложения и работа с встроенным сервером (Tomcat)</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Введение в запуск приложений на Spring Boot</h2>
+        <p>В этом разделе мы рассмотрим, как запустить приложение Spring Boot и использовать встроенный сервер Tomcat.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>Запуск приложения Spring Boot</h3>
+
+        <h4>Запуск через командную строку:</h4>
+        <p>Вы можете запустить приложение Spring Boot через командную строку следующими командами:</p>
+        <ul>
+            <li><strong>Если вы используете Maven:</strong></li>
+            <pre><code>mvn spring-boot:run</code></pre>
+
+            <li><strong>Если вы используете Gradle:</strong></li>
+            <pre><code>./gradlew bootRun</code></pre>
+
+            <li><strong>Если у вас есть JAR-файл:</strong></li>
+            <pre><code>java -jar ваше-приложение.jar</code></pre> <!-- Замените на имя вашего JAR-файла -->
+        </ul>
+
+        <h4>Запуск из IDE:</h4>
+        <p>Вы также можете запустить приложение Spring Boot из вашей IDE как простое Java приложение. Для этого нужно импортировать ваш проект в IDE.</p>
+
+        <h3>Подготовка к запуску</h3>
+        <p>Перед запуском приложения убедитесь, что у вас установлены все необходимые зависимости в файле pom.xml (для Maven) или build.gradle (для Gradle).</p>
+
+        <h3>Использование встроенного сервера Tomcat</h3>
+        <p>Spring Boot включает встроенный сервер Tomcat по умолчанию, что позволяет вам запускать веб-приложения без необходимости устанавливать Tomcat отдельно. Это упрощает процесс разработки и тестирования.</p>
+
+        <h3>Отладка приложения</h3>
+        <p>Для отладки приложения вы можете использовать параметры JVM, чтобы подключить отладчик. Например:</p>
+        <pre><code>java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar target/myapplication-0.0.1-SNAPSHOT.jar</code></pre>
+
+        <h3>Проверка работы приложения</h3>
+        <p>После запуска приложения перейдите по адресу http://localhost:8080/hello (или другому маршруту, который вы определили) для проверки работы вашего RESTful API.</p>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете, как запустить приложение Spring Boot и работать с встроенным сервером Tomcat. Это позволяет быстро разрабатывать и тестировать ваши веб-приложения.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/4'">Предыдущий модуль</button> <!-- Замените '/previous-module-url' на фактический URL предыдущего модуля -->
+        <button onclick="location.href='/module2/lesson/6'">Следующий модуль</button> <!-- Замените '/next-module-url' на фактический URL следующего модуля -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обработка HTTP-запросов (GET, POST, PUT, DELETE)</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Обработка HTTP-запросов (GET, POST, PUT, DELETE)</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Введение в обработку HTTP-запросов</h2>
+        <p>В этом разделе мы рассмотрим, как обрабатывать различные типы HTTP-запросов в Spring с использованием аннотаций контроллера.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>1. Обработка GET-запросов</h3>
+        <p>GET-запросы используются для получения данных с сервера. В Spring вы можете обрабатывать их с помощью аннотации @GetMapping.</p>
+
+        <h4>Пример использования:</h4>
+        <pre><code>@GetMapping("/users/{id}")
+public User getUser(@PathVariable Long id) {
+    return userService.findById(id);
+}</code></pre>
+
+        <h3>2. Обработка POST-запросов</h3>
+        <p>POST-запросы используются для создания новых ресурсов на сервере. В Spring вы можете обрабатывать их с помощью аннотации @PostMapping.</p>
+
+        <h4>Пример использования:</h4>
+        <pre><code>@PostMapping("/users")
+public User createUser(@RequestBody User user) {
+    return userService.save(user);
+}</code></pre>
+
+        <h3>3. Обработка PUT-запросов</h3>
+        <p>PUT-запросы используются для обновления существующих ресурсов. В Spring вы можете обрабатывать их с помощью аннотации @PutMapping.</p>
+
+        <h4>Пример использования:</h4>
+        <pre><code>@PutMapping("/users/{id}")
+public User updateUser(@PathVariable Long id, @RequestBody User user) {
+    return userService.update(id, user);
+}</code></pre>
+
+        <h3>4. Обработка DELETE-запросов</h3>
+        <p>DELETE-запросы используются для удаления ресурсов на сервере. В Spring вы можете обрабатывать их с помощью аннотации @DeleteMapping.</p>
+
+        <h4>Пример использования:</h4>
+        <pre><code>@DeleteMapping("/users/{id}")
+public void deleteUser(@PathVariable Long id) {
+    userService.delete(id);
+}</code></pre>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете, как обрабатывать различные типы HTTP-запросов в Spring с использованием аннотаций контроллера. Это позволяет создавать полноценные RESTful API для взаимодействия с клиентами.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/13'">Предыдущий модуль</button> <!-- Ссылка на урок 13 -->
+        <button onclick="location.href='/module2/lesson/15'">Следующий модуль</button> <!-- Ссылка на урок 15 -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

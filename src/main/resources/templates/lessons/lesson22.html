@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Использование аннотаций @Autowired, @Component, @Service, @Repository</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+</head>
+<body>
+<header>
+    <h1>Использование аннотаций @Autowired, @Component, @Service, @Repository</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Введение в аннотации Spring</h2>
+        <p>В этом разделе мы рассмотрим основные аннотации Spring, используемые для внедрения зависимостей и управления компонентами.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>1. Аннотация @Autowired</h3>
+        <p>Аннотация @Autowired используется для автоматического внедрения зависимостей в классы Spring. Она может применяться к полям класса, сеттерам и конструкторам.</p>
+
+        <h4>Примеры использования:</h4>
+        <pre><code>@Autowired
+private MyService myService;</code></pre>
+
+        <pre><code>@Autowired
+public MyController(MyService myService) {
+    this.myService = myService;
+}</code></pre>
+
+        <h3>2. Аннотация @Component</h3>
+        <p>Аннотация @Component используется для обозначения класса как компонента Spring. Это позволяет Spring автоматически обнаруживать и регистрировать его как бин.</p>
+
+        <h4>Пример:</h4>
+        <pre><code>@Component
+public class MyComponent {
+    // Логика компонента
+}</code></pre>
+
+        <h3>3. Аннотация @Service</h3>
+        <p>Аннотация @Service является специализированной формой аннотации @Component и используется для обозначения классов сервисов. Это помогает четко разделить слои приложения.</p>
+
+        <h4>Пример:</h4>
+        <pre><code>@Service
+public class MyService {
+    // Логика сервиса
+}</code></pre>
+
+        <h3>4. Аннотация @Repository</h3>
+        <p>Аннотация @Repository также является специализированной формой аннотации @Component и используется для обозначения классов репозиториев. Она позволяет обрабатывать исключения при работе с базой данных.</p>
+
+        <h4>Пример:</h4>
+        <pre><code>@Repository
+public interface MyRepository extends JpaRepository<MyEntity, Long> {
+    // Методы доступа к данным
+}</code></pre>
+
+        <h3>Заключение</h3>
+        <p>Теперь вы знаете, как использовать основные аннотации Spring для внедрения зависимостей и управления компонентами приложения. Эти аннотации помогают сделать код более чистым и поддерживаемым.</p>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/10'">Предыдущий модуль</button> <!-- Ссылка на урок 10 -->
+        <button onclick="location.href='/module2/lesson/12'">Следующий модуль</button> <!-- Ссылка на урок 12 -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+
