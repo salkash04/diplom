@@ -59,23 +59,23 @@ public class LessonController {
                 model.addAttribute("lessonTitle", "Циклы");
                 model.addAttribute("lessonContent", "В этом модуле мы будем изучать условные операторы языка Java...");
                 return "lessons/lesson6";
-                case 7:
+            case 7:
                 model.addAttribute("lessonTitle", "Массивы");
                 model.addAttribute("lessonContent", "В этом модуле мы будем изучать массивы языка Java...");
                 return "lessons/lesson7";
-                case 8:
+            case 8:
                 model.addAttribute("lessonTitle", "Коллекции (ArrayList, HashMap)");
                 model.addAttribute("lessonContent", "В этом модуле мы будем изучать коллекции языка Java...");
                 return "lessons/lesson8";
-                case 9:
+            case 9:
                 model.addAttribute("lessonTitle", "Классы и объекты");
                 model.addAttribute("lessonContent", "В этом модуле мы будем изучать классы и объекты языка Java...");
                 return "lessons/lesson9";
-                case 10:
+            case 10:
                 model.addAttribute("lessonTitle", "Наследование и полиморфизм");
                 model.addAttribute("lessonContent", "В этом модуле мы будем изучать наследование и полиморфизм языка Java...");
                 return "lessons/lesson10";
-                case 11:
+            case 11:
                 model.addAttribute("lessonTitle", "Обработка исключений");
                 model.addAttribute("lessonContent", "В этом модуле мы будем изучать обработку исключений языка Java...");
                 return "lessons/lesson11";
@@ -169,7 +169,38 @@ public class LessonController {
             default:
                 throw new RuntimeException("Урок не найден с ID: " + lessonId);
         }
+    }
+
+    @GetMapping("/module3/lesson/{lessonId}")
+    public String getLessonModule3(@PathVariable Long lessonId, Model model, @AuthenticationPrincipal User user) {
+        Long userId = user.getId();
+        List<TaskAttempt> attempts = taskService.getUserAttempts(userId);
+        model.addAttribute("attempts", attempts);
+
+        TaskAttempt lastAttempt = taskService.getLastAttemptForTask(userId, lessonId);
+        model.addAttribute("lastCode", lastAttempt != null ? lastAttempt.getCode() : "");
+
+        switch (lessonId.intValue()) {
+            case 1:
+                return "interviews-modules/Core-1";
+            case 2:
+                return "interviews-modules/Core-2";
+            case 3:
+                return "interviews-modules/Multithreading";
+            case 4:
+                return "interviews-modules/SQL";
+            case 5:
+                return "interviews-modules/Hibernate";
+            case 6:
+                return "interviews-modules/Spring";
+            case 7:
+                return "interviews-modules/Паттерны";
+            case 8:
+                return "interviews-modules/Алгоритмы";
+            default:
+                throw new RuntimeException("Урок не найден с ID: " + lessonId);
         }
+    }
 
     @GetMapping("/user/solutions")
     public String viewSolutions(Model model, @AuthenticationPrincipal User user) {
@@ -193,8 +224,8 @@ public class LessonController {
 
     @PostMapping("/module2/lesson/{lessonId}/submit")
     public String submitSolutionModule2(@PathVariable Long lessonId,
-                                 @RequestParam String code,
-                                 @AuthenticationPrincipal User user) throws Exception {
+                                        @RequestParam String code,
+                                        @AuthenticationPrincipal User user) throws Exception {
         if (user == null) {
             return "redirect:/login";
         }
