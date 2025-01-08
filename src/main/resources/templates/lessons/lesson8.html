@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 8: Коллекции (ArrayList, HashMap)</title>
+    <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
+    <script>
+        // Функция для загрузки шаблонного кода
+        function loadTemplate() {
+            const template = `
+public class Main {
+    public static void main(String[] args) {
+        // Ваш код здесь
+    }
+}`;
+
+            document.getElementById('arrayListCodeEditor').value = template;
+            document.getElementById('hashMapCodeEditor').value = template;
+            document.getElementById('hashMapEntrySetCodeEditor').value = template;
+        }
+
+        // Функция для выполнения кода
+        async function runCode(endpoint, editorId, outputId) {
+            const code = document.getElementById(editorId).value;
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: code
+            });
+            const result = await response.text();
+            const outputElement = document.getElementById(outputId);
+            outputElement.innerText = result; // Выводим результат выполнения
+
+            // Удаляем старые классы
+            outputElement.classList.remove('success', 'error');
+
+            // Проверяем, соответствует ли результат ожидаемому
+            if (result.includes("Успешно")) {
+                outputElement.classList.add('success'); // Добавляем класс успеха
+            } else {
+                outputElement.classList.add('error'); // Добавляем класс ошибки
+            }
+        }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = loadTemplate;
+    </script>
+    <style>
+        .success {
+            border: 2px solid green;
+            background-color: #e0ffe0; /* Светло-зеленый фон */
+            color: green;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .error {
+            border: 2px solid red;
+            background-color: #ffe0e0; /* Светло-красный фон */
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Коллекции (ArrayList, HashMap)</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/1">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="lesson-content">
+
+    <section class="theory">
+        <h2>Теория: Коллекции</h2>
+
+        <h3>1. ArrayList</h3>
+        <p>ArrayList — это изменяемый массив, который может динамически изменять свой размер. Он позволяет хранить элементы одного типа и предоставляет множество методов для работы с ними.</p>
+
+        <pre><code>ArrayList&lt;тип&gt; имяСписка = new ArrayList&lt;&gt;;</code></pre>
+
+        <h3>Пример использования ArrayList:</h3>
+        <pre><code>ArrayList&lt;Integer&gt; numbers = new ArrayList&lt;&gt;();
+numbers.add(1);
+numbers.add(2);
+numbers.add(3);
+System.out.println(numbers); // Вывод: [1, 2, 3]</code></pre>
+
+        <h3>2. HashMap</h3>
+        <p>HashMap — это коллекция, которая хранит пары ключ-значение. Она позволяет быстро получать значения по известным ключам и не сохраняет порядок элементов.</p>
+
+        <pre><code>HashMap&lt;типКлюча, типЗначения&gt; имяКарты = new HashMap&lt;&gt;;</code></pre>
+
+        <h3>Пример использования HashMap:</h3>
+        <pre><code>HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+map.put("apple", 1);
+map.put("banana", 2);
+System.out.println(map.get("apple")); // Вывод: 1</code></pre>
+
+    </section>
+
+    <section class="task">
+        <h2>Задачи на тему "Коллекции"</h2>
+
+        <!-- Задача 1: Работа с ArrayList -->
+        <h3>Задача 1:</h3>
+        <p>Напишите программу на Java, которая добавляет числа в ArrayList и вычисляет их сумму.</p>
+
+        <!-- Ожидаемый вывод -->
+        <p><strong>Ожидаемый вывод:</strong> Сумма элементов массива: 15</p>
+
+        <!-- Компилятор для задачи на ArrayList -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Работа с ArrayList</h2>
+            <textarea id="arrayListCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/array-list', 'arrayListCodeEditor', 'arrayListOutput')">Выполнить</button>
+            <pre id="arrayListOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+        <!-- Задача 2: Работа с HashMap -->
+        <h3>Задача 2:</h3>
+        <p>Напишите программу на Java, которая создает HashMap и выводит все пары ключ-значение.</p>
+
+        <!-- Ожидаемый вывод -->
+        <p><strong>Ожидаемый вывод:</strong> Ключи: [apple, banana]</p>
+
+        <!-- Компилятор для задачи на HashMap -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Работа с HashMap</h2>
+            <textarea id="hashMapCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/hash-map', 'hashMapCodeEditor', 'hashMapOutput')">Выполнить</button>
+            <pre id="hashMapOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+        <!-- Задача 3: Использование entrySet в HashMap -->
+        <h3>Задача 3:</h3>
+        <p>Напишите программу на Java, которая использует метод entrySet() для перебора всех пар ключ-значение в HashMap.</p>
+
+        <!-- Ожидаемый вывод -->
+        <p><strong>Ожидаемый вывод:</strong> apple --> 1<br />banana --> 2</p>
+
+        <!-- Компилятор для задачи на entrySet -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Использование entrySet в HashMap</h2>
+            <textarea id="hashMapEntrySetCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/hash-map-entry-set', 'hashMapEntrySetCodeEditor', 'hashMapEntrySetOutput')">Выполнить</button>
+            <pre id="hashMapEntrySetOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

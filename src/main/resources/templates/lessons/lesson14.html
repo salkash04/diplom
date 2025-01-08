@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Установка и настройка окружения для разработки</title>
+    <link rel="stylesheet" href="/css/springBoot.css"> <!-- Подключаем CSS для урока -->
+    <style>
+        /* Стиль для кнопок навигации */
+        .navigation-buttons {
+            text-align: center;
+            margin-top: 20px; /* Отступ сверху для кнопок */
+            margin-bottom: 20px; /* Отступ снизу для кнопок */
+        }
+
+        .navigation-buttons button {
+            background-color: #1e90ff; /* Цвет фона кнопки */
+            color: white; /* Цвет текста */
+            border: none; /* Убираем рамку */
+            padding: 10px 20px; /* Внутренние отступы */
+            font-size: 1rem; /* Размер шрифта */
+            cursor: pointer; /* Курсор при наведении */
+            border-radius: 5px; /* Скругленные углы */
+            transition: background-color 0.3s ease; /* Плавный переход цвета */
+            margin: 0 10px; /* Отступы между кнопками */
+        }
+
+        .navigation-buttons button:hover {
+            background-color: #0056b3; /* Цвет фона при наведении */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Установка и настройка окружения для разработки</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Требования к установке Spring Boot</h2>
+        <p>Сначала нужно подготовить рабочую среду.</p>
+    </section>
+
+    <section class="module-details">
+        <h3>1. Установка Java Development Kit (JDK)</h3>
+        <p>Spring Boot требует установить JDK — он работает на платформе Java. Рекомендуемая версия JDK 11 или выше.</p>
+        <p>Откройте терминал или командную строку и введите команду:</p>
+        <pre><code>java -version</code></pre>
+        <p>Если JDK установлен правильно, вы увидите версию установленного JDK.</p>
+        <p>Скачайте последнюю версию JDK на официальном сайте Oracle.</p>
+
+        <h3>2. Инструменты сборки: Maven или Gradle</h3>
+        <p>Maven или Gradle — популярные инструменты сборки, которые управляют зависимостями проектов Spring Boot.</p>
+
+        <h4>Maven:</h4>
+        <p>Maven доступен на официальном сайте Apache Maven. После установки проверьте командой:</p>
+        <pre><code>mvn -version</code></pre>
+
+        <h4>Gradle:</h4>
+        <p>Gradle доступен для скачивания на официальном сайте Gradle. Проверьте установку командой:</p>
+        <pre><code>gradle -version</code></pre>
+
+        <h3>3. Среда разработки (IDE)</h3>
+        <p>Если попробуете удобную среду разработки, будет легче писать и отлаживать код. Самые популярные IDE для работы на Spring Boot:</p>
+        <ul>
+            <li><strong>IntelliJ IDEA:</strong> мощная среда разработки на Java, поддерживает интеграцию с Spring Boot.</li>
+            <li><strong>Eclipse:</strong> бесплатная IDE с поддержкой плагинов для Spring.</li>
+            <li><strong>Visual Studio Code:</strong> легковесный редактор кода с мощной поддержкой расширений для Java и Spring Boot.</li>
+        </ul>
+
+        <h3>4. Инструменты для управления версиями (VCS)</h3>
+        <p>Чтобы управлять исходным кодом и работать над проектом вместе с командой, лучше использовать систему контроля версий. Например, Git — бесплатная и очень популярная система контроля версий, которая отслеживает изменения в коде.</p>
+        <p>Установить Git можно с официального сайта, потом проверьте установку командой:</p>
+        <pre><code>git --version</code></pre>
+
+        <h3>5. Новый проект в Spring Boot</h3>
+        <p>После установки всех инструментов можете создать новый проект Spring Boot с помощью Spring Initializr. Этот веб-интерфейс позволяет быстро настроить проект с необходимыми зависимостями.</p>
+
+        <h4>Шаги создания нового проекта:</h4>
+        <ol>
+            <li>Перейдите на сайт <a href="https://start.spring.io/" target="_blank">Spring Initializr</a>.</li>
+            <li>Выберите язык (Java), версию Spring Boot и данные проекта (Group, Artifact, Name).</li>
+            <li>Добавьте необходимые зависимости: Spring Web, Spring Data JPA и Spring Security.</li>
+            <li>Нажмите Generate и создайте архив с проектом.</li>
+            <li>Распакуйте архив и импортируйте проект в вашу IDE.</li>
+        </ol>
+
+    </section>
+
+    <!-- Пошаговое руководство по созданию приложения -->
+    <section class="app-creation-guide">
+        <h3>Как создать приложение на Spring Boot</h3>
+
+        <!-- Шаги создания приложения -->
+        <ol>
+            <li><strong>Шаг 1: Подготовка окружения</strong><br />
+                Установите JDK:
+                Скачайте и установите JDK 11 или выше с официального сайта Oracle или используйте OpenJDK.<br />
+                Проверьте установку: введите команду:
+                <pre><code>java -version</code></pre>
+
+                Установите Maven или Gradle.<br />
+                Выберите IDE: IntelliJ IDEA, Eclipse, Visual Studio Code.
+            </li>
+
+            <li><strong>Шаг 2: Создание нового проекта с помощью Spring Initializr</strong><br />
+                Откройте Spring Initializr в браузере.<br />
+                Настройте параметры проекта:
+                Project: Maven Project или Gradle Project.<br />
+                Language: Java.<br />
+                Spring Boot Version: выберите последнюю стабильную версию.<br />
+                Project Metadata: заполните поля Group (например, com.example), Artifact (например, demo), Name (например, Demo Application).<br />
+                Добавьте зависимости:
+                Нажмите кнопку Add Dependencies и выберите зависимости:
+                Spring Web (для веб-приложений и REST API).<br />
+                Spring Data JPA (для работы с базами данных).<br />
+                H2 Database (встроенная база данных для тестирования).<br />
+                Сгенерируйте проект:
+                Нажмите кнопку Generate и создайте архив с проектом.
+                Скачайте и распакуйте архив на компьютере.
+            </li>
+
+            <li><strong>Шаг 3: Импорт проекта в IDE</strong><br />
+                В IntelliJ IDEA: File -> Open -> выберите папку с распакованным проектом.<br />
+                В Eclipse: File -> Import -> Existing Maven Projects -> выберите папку с проектом.<br />
+                В Visual Studio Code: откройте папку с проектом.
+            </li>
+
+            <li><strong>Шаг 4: Настройка и запуск приложения</strong><br />
+                Настройте базу данных: откройте файл src/main/resources/application.properties и добавьте конфигурацию для базы данных. Например, для H2:
+                ```
+                spring.datasource.url=jdbc:h2:mem:testdb
+                spring.datasource.driverClassName=org.h2.Driver
+                spring.datasource.username=sa
+                spring.datasource.password=password
+                spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+                spring.h2.console.enabled=true
+                ```
+
+                Создайте новый класс в пакете com.example.demo (или вашем пакете) с аннотацией @RestController:
+
+                ```
+                package com.example.demo;
+
+                import org.springframework.web.bind.annotation.GetMapping;
+                import org.springframework.web.bind.annotation.RestController;
+
+                @RestController
+                public class HelloController {
+
+                @GetMapping("/hello")
+                public String hello() {
+                return "Hello, Spring Boot!";
+                }
+                }
+                ```
+
+                Запустите приложение:
+
+                В IntelliJ IDEA: запустите класс DemoApplication с аннотацией @SpringBootApplication.<br />
+                В Eclipse: правой кнопкой мыши на проекте -> Run As -> Spring Boot App.<br />
+                В Visual Studio Code: откройте терминал и введите команду ./mvnw spring-boot:run или ./gradlew bootRun.
+            </li>
+
+            <li><strong>Шаг 5: Проверка работы приложения</strong><br />
+                Перейдите по адресу http://localhost:8080/hello. Вы должны увидеть сообщение «Hello, Spring Boot!».
+                Так можно расширять приложение, добавлять новые функциональности, интеграцию с базами данных, безопасностью и другими возможностями Spring Boot.
+            </li>
+
+        </ol>
+
+    </section>
+
+    <!-- Кнопки навигации -->
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module2/lesson/2'">Предыдущий модуль</button> <!-- Замените '/previous-module-url' на фактический URL предыдущего модуля -->
+        <button onclick="location.href='/module2/lesson/4'">Следующий модуль</button> <!-- Замените '/next-module-url' на фактический URL следующего модуля -->
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>
+

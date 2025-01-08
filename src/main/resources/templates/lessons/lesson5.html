@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 5: Условные операторы (if-else, switch-case)</title>
+    <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
+    <script>
+        // Функция для загрузки шаблонного кода
+        function loadTemplate() {
+            const template = `
+public class Main {
+    public static void main(String[] args) {
+        // Ваш код здесь
+    }
+}`;
+
+            document.getElementById('evenOddCodeEditor').value = template;
+            document.getElementById('dayOfWeekCodeEditor').value = template;
+        }
+
+        // Функция для выполнения кода
+        async function runCode(endpoint, editorId, outputId) {
+            const code = document.getElementById(editorId).value;
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: code
+            });
+            const result = await response.text();
+            const outputElement = document.getElementById(outputId);
+            outputElement.innerText = result; // Выводим результат выполнения
+
+            // Удаляем старые классы
+            outputElement.classList.remove('success', 'error');
+
+            // Проверяем, соответствует ли результат ожидаемому
+            if (result.includes("Успешно")) {
+                outputElement.classList.add('success'); // Добавляем класс успеха
+            } else {
+                outputElement.classList.add('error'); // Добавляем класс ошибки
+            }
+        }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = loadTemplate;
+    </script>
+    <style>
+        .success {
+            border: 2px solid green;
+            background-color: #e0ffe0; /* Светло-зеленый фон */
+            color: green;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .error {
+            border: 2px solid red;
+            background-color: #ffe0e0; /* Светло-красный фон */
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Условные операторы (if-else, switch-case)</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/1">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="lesson-content">
+
+    <section class="theory">
+        <h2>Теория: Условные операторы</h2>
+
+        <h3>1. Условный оператор if-else</h3>
+        <p>Условный оператор if-else позволяет выполнять различные блоки кода в зависимости от условия. Если условие истинно, выполняется блок кода внутри if; если ложно — выполняется блок кода внутри else.</p>
+
+        <pre><code>if (условие) {
+    // Код, который выполняется, если условие истинно
+} else {
+    // Код, который выполняется, если условие ложно
+}</code></pre>
+
+        <h3>2. Условный оператор switch-case</h3>
+        <p>Оператор switch-case используется для выбора одного из нескольких блоков кода для выполнения. Это удобно, когда у вас есть несколько значений для проверки.</p>
+
+        <pre><code>switch (выражение) {
+    case значение1:
+        // Код для значения 1
+        break;
+    case значение2:
+        // Код для значения 2
+        break;
+    default:
+        // Код, который выполняется, если ни одно значение не совпадает
+}</code></pre>
+
+        <p>Важно помнить о ключевом слове break, которое завершает выполнение switch. Если его не использовать, выполнение продолжится до следующего case.</p>
+    </section>
+
+    <section class="task">
+        <h2>Задачи на тему "Условные операторы"</h2>
+
+        <h3>Задача 1:</h3>
+        <p>Напишите программу на Java, которая проверяет, является ли введенное число четным или нечетным. Используйте оператор if-else.</p>
+
+        <!-- Компилятор для задачи на проверку четности числа -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Проверка четности числа</h2>
+            <!-- Шаблонный код загружается автоматически при загрузке страницы -->
+            <textarea id="evenOddCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/check-even-odd', 'evenOddCodeEditor', 'evenOddOutput')">Выполнить</button>
+            <pre id="evenOddOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+        <h3>Задача 2:</h3>
+        <p>Напишите программу на Java, которая принимает день недели (число от 1 до 7) и выводит его название (например, 1 — Понедельник). Используйте оператор switch-case.</p>
+
+        <!-- Компилятор для задачи на определение дня недели -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Определение дня недели</h2>
+            <!-- Шаблонный код загружается автоматически при загрузке страницы -->
+            <textarea id="dayOfWeekCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/check-day-of-week', 'dayOfWeekCodeEditor', 'dayOfWeekOutput')">Выполнить</button>
+            <pre id="dayOfWeekOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+    </section>
+
+    <!-- Блок для отображения объяснения -->
+    <div id="explanation"></div>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

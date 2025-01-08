@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 7: Массивы</title>
+    <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
+    <script>
+        // Функция для загрузки шаблонного кода
+        function loadTemplate() {
+            const template = `
+public class Main {
+    public static void main(String[] args) {
+        // Ваш код здесь
+    }
+}`;
+
+            document.getElementById('arraySumCodeEditor').value = template;
+            document.getElementById('arrayMaxCodeEditor').value = template;
+            document.getElementById('arraySortCodeEditor').value = template;
+        }
+
+        // Функция для выполнения кода
+        async function runCode(endpoint, editorId, outputId) {
+            const code = document.getElementById(editorId).value;
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: code
+            });
+            const result = await response.text();
+            const outputElement = document.getElementById(outputId);
+            outputElement.innerText = result; // Выводим результат выполнения
+
+            // Удаляем старые классы
+            outputElement.classList.remove('success', 'error');
+
+            // Проверяем, соответствует ли результат ожидаемому
+            if (result.includes("Успешно")) {
+                outputElement.classList.add('success'); // Добавляем класс успеха
+            } else {
+                outputElement.classList.add('error'); // Добавляем класс ошибки
+            }
+        }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = loadTemplate;
+    </script>
+    <style>
+        .success {
+            border: 2px solid green;
+            background-color: #e0ffe0; /* Светло-зеленый фон */
+            color: green;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .error {
+            border: 2px solid red;
+            background-color: #ffe0e0; /* Светло-красный фон */
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Массивы</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/1">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="lesson-content">
+
+    <section class="theory">
+        <h2>Теория: Массивы</h2>
+
+        <p>Массив — это структура данных, которая позволяет хранить фиксированное количество элементов одного типа. Элементы массива располагаются в памяти последовательно.</p>
+
+        <h3>Объявление массива</h3>
+        <pre><code>тип[] имяМассива;</code></pre>
+
+        <h3>Инициализация массива</h3>
+        <pre><code>имяМассива = new тип[размер];</code></pre>
+
+        <h3>Доступ к элементам массива</h3>
+        <p>Элементы массива доступны по индексу, который начинается с нуля:</p>
+        <pre><code>имяМассива[индекс];</code></pre>
+
+        <h3>Пример использования массива:</h3>
+        <pre><code>int[] numbers = new int[5];
+numbers[0] = 1;
+numbers[1] = 2;
+// и так далее...</code></pre>
+    </section>
+
+    <section class="task">
+        <h2>Задачи на тему "Массивы"</h2>
+
+        <!-- Задача 1: Сумма элементов массива -->
+        <h3>Задача 1:</h3>
+        <p>Напишите программу на Java, которая вычисляет сумму всех элементов массива. Ожидаемые вывод: 27</p>
+
+        <!-- Компилятор для задачи на сумму элементов массива -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Сумма элементов массива</h2>
+            <textarea id="arraySumCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/array-sum', 'arraySumCodeEditor', 'arraySumOutput')">Выполнить</button>
+            <pre id="arraySumOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+        <!-- Задача 2: Максимальный элемент массива -->
+        <h3>Задача 2:</h3>
+        <p>Напишите программу на Java, которая находит максимальный элемент в массиве.</p>
+
+        <!-- Компилятор для задачи на максимальный элемент массива -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Максимальный элемент массива</h2>
+            <textarea id="arrayMaxCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/array-max', 'arrayMaxCodeEditor', 'arrayMaxOutput')">Выполнить</button>
+            <pre id="arrayMaxOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+        <!-- Задача 3: Сортировка массива -->
+        <h3>Задача 3:</h3>
+        <p>Напишите программу на Java, которая сортирует массив в порядке возрастания.</p>
+
+        <!-- Компилятор для задачи на сортировку массива -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Сортировка массива</h2>
+            <textarea id="arraySortCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/array-sort', 'arraySortCodeEditor', 'arraySortOutput')">Выполнить</button>
+            <pre id="arraySortOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

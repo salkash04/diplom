@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 11: Обработка исключений</title>
+    <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
+    <script>
+        // Функция для загрузки шаблонного кода
+        function loadTemplate() {
+            const template = `
+public class Main {
+    public static void main(String[] args) {
+        // Ваш код здесь
+    }
+}`;
+
+            document.getElementById('exceptionHandlingCodeEditor').value = template;
+        }
+
+        // Функция для выполнения кода
+        async function runCode(endpoint, editorId, outputId) {
+            const code = document.getElementById(editorId).value;
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: code
+            });
+            const result = await response.text();
+            const outputElement = document.getElementById(outputId);
+            outputElement.innerText = result; // Выводим результат выполнения
+
+            // Удаляем старые классы
+            outputElement.classList.remove('success', 'error');
+
+            // Проверяем, соответствует ли результат ожидаемому
+            if (result.includes("Успешно")) {
+                outputElement.classList.add('success'); // Добавляем класс успеха
+            } else {
+                outputElement.classList.add('error'); // Добавляем класс ошибки
+            }
+        }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = loadTemplate;
+    </script>
+    <style>
+        .success {
+            border: 2px solid green;
+            background-color: #e0ffe0; /* Светло-зеленый фон */
+            color: green;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .error {
+            border: 2px solid red;
+            background-color: #ffe0e0; /* Светло-красный фон */
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Обработка исключений</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/1">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="lesson-content">
+
+    <section class="theory">
+        <h2>Теория: Обработка исключений</h2>
+
+        <p>Обработка исключений в Java — это механизм, который позволяет обрабатывать ошибки и исключительные ситуации во время выполнения программы. Это позволяет избежать аварийного завершения программы и обеспечивает более надежное выполнение кода.</p>
+
+        <h3>1. Исключения</h3>
+        <p>Исключения — это события, которые нарушают нормальный поток выполнения программы. В Java существует два основных типа исключений:</p>
+        <ul>
+            <li><strong>Проверяемые исключения:</strong> Исключения, которые должны быть обработаны или объявлены в сигнатуре метода (например, IOException).</li>
+            <li><strong>Непроверяемые исключения:</strong> Исключения, которые не требуют обязательной обработки (например, NullPointerException).</li>
+        </ul>
+
+        <h3>2. Блоки try-catch</h3>
+        <p>Для обработки исключений в Java используются блоки try-catch:</p>
+
+        <pre><code>try {
+    // Код, который может вызвать исключение
+} catch (ТипИсключения e) {
+    // Код обработки исключения
+}</code></pre>
+
+        <h3>3. Пример обработки исключений:</h3>
+        <pre><code>public class Main {
+    public static void main(String[] args) {
+        try {
+            int result = 10 / 0; // Это вызовет ArithmeticException
+        } catch (ArithmeticException e) {
+            System.out.println("Ошибка: Деление на ноль!");
+        }
+    }
+}</code></pre>
+
+        <h3>4. Блок finally</h3>
+        <p>Блок finally используется для выполнения кода после обработки исключения, независимо от того, произошло ли оно или нет:</p>
+
+        <pre><code>try {
+    // Код, который может вызвать исключение
+} catch (ТипИсключения e) {
+    // Код обработки исключения
+} finally {
+    // Код, который выполняется всегда
+}</code></pre>
+
+        <!-- Изображение иерархии исключений -->
+        <h3>5. Иерархия исключений в Java</h3>
+        <p>Ниже представлена иерархия классов исключений в Java:</p>
+
+        <img src="/images/Screenshot_17.png" alt="Иерархия исключений" style="max-width:100%; height:auto;"/>
+
+    </section>
+
+    <section class="task">
+        <h2>Задача на тему "Обработка исключений"</h2>
+
+        <!-- Задача: Деление с обработкой исключений -->
+        <h3>Задача:</h3>
+        <p>Напишите программу на Java, которая запрашивает у пользователя два числа и выполняет деление. Обработайте возможное деление на ноль.</p>
+
+        <!-- Ожидаемый вывод -->
+        <p><strong>Ожидаемый вывод:</strong></p>
+        <pre><code>Введите первое число: 10
+Введите второе число: 0
+Ошибка: Деление на ноль!</code></pre>
+
+        <!-- Компилятор для задачи на обработку исключений -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Обработка исключений</h2>
+            <textarea id="exceptionHandlingCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/exception-handling', 'exceptionHandlingCodeEditor', 'exceptionHandlingOutput')">Выполнить</button>
+            <pre id="exceptionHandlingOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

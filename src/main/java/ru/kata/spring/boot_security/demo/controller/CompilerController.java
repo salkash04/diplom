@@ -57,6 +57,174 @@ public class CompilerController {
         return result;
     }
 
+    @PostMapping("/check-even-odd")
+    public String executeEvenOdd(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeEvenOddTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи четности
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/check-day-of-week")
+    public String executeDayOfWeek(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeDayOfWeekTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 2L, code, result); // Используем 2L как ID для задачи дня недели
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/for-loop")
+    public String executeForLoop(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeForLoopTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи цикла for
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/while-loop")
+    public String executeWhileLoop(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeWhileLoopTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 2L, code, result); // Используем 2L как ID для задачи цикла while
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/do-while-loop")
+    public String executeDoWhileLoop(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeDoWhileLoopTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 3L, code, result); // Используем 3L как ID для задачи цикла do-while
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/array-sum")
+    public String executeArraySum(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeArraySumTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи суммы массива
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/array-max")
+    public String executeArrayMax(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeArrayMaxTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 2L, code, result); // Используем 2L как ID для задачи максимального элемента массива
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/array-sort")
+    public String executeArraySort(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeArraySortTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 3L, code, result); // Используем 3L как ID для задачи сортировки массива
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/array-list")
+    public String executeArrayList(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeArrayListTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи ArrayList
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/hash-map")
+    public String executeHashMap(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeHashMapTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 2L, code, result); // Используем 2L как ID для задачи HashMap
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/hash-map-entry-set")
+    public String executeHashMapEntrySet(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeHashMapEntrySetTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 3L, code, result); // Используем 3L как ID для задачи entrySet
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/class-object")
+    public String executeClassObject(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeClassObjectTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи классов и объектов
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/inheritance-polymorphism")
+    public String executeInheritancePolymorphism(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeInheritancePolymorphismTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи наследования и полиморфизма
+        } catch (Exception e) {}
+        return result;
+    }
+
+    @PostMapping("/exception-handling")
+    public String executeExceptionHandling(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeExceptionHandlingTask(code);
+        try {
+            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи обработки исключений
+        } catch (Exception e) {}
+        return result;
+    }
+
     private void saveTaskAttempt(Long userId, Long taskId, String code, String result) {
         boolean isSuccess = result.contains("Тест пройден успешно");
         try {

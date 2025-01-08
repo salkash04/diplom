@@ -25,7 +25,7 @@ public class CourseController {
             case 2:
                 return "spring-boot"; // Редирект на страницу Spring Boot
             case 3:
-                return "database-design"; // Редирект на страницу Database Design
+                return "interviews"; // Редирект на страницу Database Design
             default:
                 throw new RuntimeException("Курс не найден с ID: " + id); // Обработка случая, когда курс не найден
         }

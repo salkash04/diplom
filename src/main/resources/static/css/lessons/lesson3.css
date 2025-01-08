@@ -113,7 +113,7 @@ main {
 }
 
 .lesson-content ul li::before {
-    content: "??"; /* Знак перед элементом списка */
+    content: "**"; /* Знак перед элементом списка */
     color: #1e90ff; /* Цвет маркера */
     position: absolute;
     left: 0;
@@ -167,3 +167,20 @@ footer {
     background-color:#1e90ff;
     color:#fff;
 }
+
+.success {
+    border: 2px solid green;
+    background-color: #e0ffe0; /* Светло-зеленый фон */
+    color: green;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.error {
+    border: 2px solid red;
+    background-color: #ffe0e0; /* Светло-красный фон */
+    color: red;
+    padding: 10px;
+    margin-top: 10px;
+}
+

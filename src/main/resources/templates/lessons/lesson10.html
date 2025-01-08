@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 10: Наследование и полиморфизм</title>
+    <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
+    <script>
+        // Функция для загрузки шаблонного кода
+        function loadTemplate() {
+            const template = `
+public class Main {
+    public static void main(String[] args) {
+        // Ваш код здесь
+    }
+}`;
+
+            document.getElementById('inheritancePolymorphismCodeEditor').value = template;
+        }
+
+        // Функция для выполнения кода
+        async function runCode(endpoint, editorId, outputId) {
+            const code = document.getElementById(editorId).value;
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: code
+            });
+            const result = await response.text();
+            const outputElement = document.getElementById(outputId);
+            outputElement.innerText = result; // Выводим результат выполнения
+
+            // Удаляем старые классы
+            outputElement.classList.remove('success', 'error');
+
+            // Проверяем, соответствует ли результат ожидаемому
+            if (result.includes("Успешно")) {
+                outputElement.classList.add('success'); // Добавляем класс успеха
+            } else {
+                outputElement.classList.add('error'); // Добавляем класс ошибки
+            }
+        }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = loadTemplate;
+    </script>
+    <style>
+        .success {
+            border: 2px solid green;
+            background-color: #e0ffe0; /* Светло-зеленый фон */
+            color: green;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .error {
+            border: 2px solid red;
+            background-color: #ffe0e0; /* Светло-красный фон */
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Наследование и полиморфизм</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/1">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="lesson-content">
+
+    <section class="theory">
+        <h2>Теория: Наследование и полиморфизм</h2>
+
+        <h3>1. Наследование</h3>
+        <p>Наследование — это механизм, который позволяет создавать новый класс на основе существующего. Новый класс (наследник) наследует свойства и методы родительского класса.</p>
+
+        <pre><code>class Parent {
+    void display() {
+        System.out.println("Это родительский класс");
+    }
+}
+
+class Child extends Parent {
+    void show() {
+        System.out.println("Это дочерний класс");
+    }
+}</code></pre>
+
+        <h3>2. Полиморфизм</h3>
+        <p>Полиморфизм позволяет объектам разных классов обрабатывать данные одинаковым образом. Он может быть реализован через переопределение методов (runtime polymorphism) или перегрузку методов (compile-time polymorphism).</p>
+
+        <pre><code>class Animal {
+    void sound() {
+        System.out.println("Животное издает звук");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Гав");
+    }
+}
+
+class Cat extends Animal {
+    void sound() {
+        System.out.println("Мяу");
+    }
+}</code></pre>
+
+        <h3>Принципы ООП</h3>
+        <ul>
+            <li><strong>Инкапсуляция:</strong> Сокрытие внутреннего состояния объекта и предоставление доступа к нему только через методы.</li>
+            <li><strong>Наследование:</strong> Позволяет создавать новые классы на основе существующих.</li>
+            <li><strong>Полиморфизм:</strong> Позволяет использовать один интерфейс для работы с разными типами объектов.</li>
+            <li><strong>Абстракция:</strong> Сокрытие сложных реализаций и предоставление только необходимых деталей.</li>
+        </ul>
+
+    </section>
+
+    <section class="task">
+        <h2>Задача на тему "Наследование"</h2>
+
+        <!-- Задача: Создание класса и наследование -->
+        <h3>Задача:</h3>
+        <p>Напишите программу на Java, которая создает базовый класс "Animal" с методом "sound". Создайте два подкласса "Dog" и "Cat", которые переопределяют этот метод.</p>
+
+        <!-- Ожидаемый вывод -->
+        <p><strong>Ожидаемый вывод:</strong></p>
+        <pre><code>Животное издает звук
+Гав
+Мяу</code></pre>
+
+        <!-- Компилятор для задачи на наследование -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Наследование и полиморфизм</h2>
+            <textarea id="inheritancePolymorphismCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/inheritance-polymorphism', 'inheritancePolymorphismCodeEditor', 'inheritancePolymorphismOutput')">Выполнить</button>
+            <pre id="inheritancePolymorphismOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

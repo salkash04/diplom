@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 9: Классы и объекты</title>
+    <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
+    <script>
+        // Функция для загрузки шаблонного кода
+        function loadTemplate() {
+            const template = `
+public class Main {
+    public static void main(String[] args) {
+        // Ваш код здесь
+    }
+}`;
+
+            document.getElementById('classObjectCodeEditor').value = template;
+        }
+
+        // Функция для выполнения кода
+        async function runCode(endpoint, editorId, outputId) {
+            const code = document.getElementById(editorId).value;
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: code
+            });
+            const result = await response.text();
+            const outputElement = document.getElementById(outputId);
+            outputElement.innerText = result; // Выводим результат выполнения
+
+            // Удаляем старые классы
+            outputElement.classList.remove('success', 'error');
+
+            // Проверяем, соответствует ли результат ожидаемому
+            if (result.includes("Успешно")) {
+                outputElement.classList.add('success'); // Добавляем класс успеха
+            } else {
+                outputElement.classList.add('error'); // Добавляем класс ошибки
+            }
+        }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = loadTemplate;
+    </script>
+    <style>
+        .success {
+            border: 2px solid green;
+            background-color: #e0ffe0; /* Светло-зеленый фон */
+            color: green;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .error {
+            border: 2px solid red;
+            background-color: #ffe0e0; /* Светло-красный фон */
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Классы и объекты</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/1">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="lesson-content">
+
+    <section class="theory">
+        <h2>Теория: Классы и объекты</h2>
+
+        <p>Классы и объекты — это основные концепции объектно-ориентированного программирования (ООП) в Java. Класс является шаблоном для создания объектов и определяет их свойства (поля) и поведение (методы).</p>
+
+        <h3>1. Класс</h3>
+        <p>Класс — это пользовательский тип данных, который описывает набор свойств и методов. Например:</p>
+
+        <pre><code>public class Car {
+    String color; // Цвет автомобиля
+    String model; // Модель автомобиля
+
+    void drive() { // Метод для вождения автомобиля
+        System.out.println("Автомобиль едет");
+    }
+}</code></pre>
+
+        <h3>2. Объект</h3>
+        <p>Объект — это экземпляр класса. Когда вы создаете объект, вы выделяете память для его свойств и можете использовать методы класса.</p>
+
+        <pre><code>public class Main {
+    public static void main(String[] args) {
+        Car myCar = new Car(); // Создаем объект myCar класса Car
+        myCar.color = "Красный"; // Устанавливаем цвет автомобиля
+        myCar.model = "Toyota"; // Устанавливаем модель автомобиля
+
+        System.out.println("Цвет автомобиля: " + myCar.color); // Выводим цвет автомобиля
+        myCar.drive(); // Вызываем метод drive()
+    }
+}</code></pre>
+
+        <h3>3. Конструкторы</h3>
+        <p>Конструктор — это специальный метод, который вызывается при создании объекта. Он используется для инициализации полей объекта.</p>
+
+        <pre><code>public class Car {
+    String color;
+    String model;
+
+    // Конструктор
+    public Car(String color, String model) {
+        this.color = color;
+        this.model = model;
+    }
+}</code></pre>
+
+    </section>
+
+    <section class="task">
+        <h2>Задача на тему "Классы и объекты"</h2>
+
+        <!-- Задача: Создание класса и объекта -->
+        <h3>Задача:</h3>
+        <p>Напишите программу на Java, которая создает класс "Person" с полями "name" и "age". Создайте объект этого класса и выведите его поля на экран.</p>
+
+        <!-- Ожидаемый вывод -->
+        <p><strong>Ожидаемый вывод:</strong> Имя: John, Возраст: 30</p>
+
+        <!-- Компилятор для задачи на классы и объекты -->
+        <section class="compiler">
+            <h2>Онлайн-компилятор: Классы и объекты</h2>
+            <textarea id="classObjectCodeEditor" rows="15" cols="70"></textarea><br />
+            <button onclick="runCode('/api/compiler/class-object', 'classObjectCodeEditor', 'classObjectOutput')">Выполнить</button>
+            <pre id="classObjectOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        </section>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2024 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

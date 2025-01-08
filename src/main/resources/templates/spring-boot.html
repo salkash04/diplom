@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Курс Spring Boot</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Подключение файла стилей -->
+    <link rel="stylesheet" href="/css/springBoot.css">
 </head>
 <body>
-
 <header>
     <h1>Курс Spring Boot</h1>
     <nav>
         <a href="/dashboard">Главная</a>
         <a href="/questions">Вопросы</a>
-        <a href="/courses/1">Уроки</a>
+        <a href="/courses/2">Уроки</a>
         <a href="/user/solutions">Мои решения</a>
         <div class="dropdown">
             <button class="dropbtn">Профиль</button>
@@ -24,11 +24,67 @@
     </nav>
 </header>
 
-<div class="container">
-    <!-- Содержимое курса Spring Boot -->
-    <h2>Описание курса</h2>
-    <!-- Добавьте описание курса здесь -->
-</div>
+<main>
+    <section class="module-header">
+        <h2>Курс Spring Boot</h2>
+        <p>Задача курса - подготовить к работе над коммерческим проектом в команде, дать представление об enterprise-разработке на Java, познакомить с технологиями: Tomcat, Maven, Hibernate, фреймворком Spring (а также Spring Boot) и его основными подфреймворками (MVC, Security, Data), шаблонизатором Thymeleaf, AJAX, REST, css-фреймворком Bootstrap. Вы научитесь настраивать конфигурации безопасности web-приложений, создавать адаптивные web-страницы для своего приложения, работать с современным http-шаблонизатором, создавать RESTful-сервисы, освоите современные фреймворки для быстрой разработки web-приложений, работающих с базами данных.</p>
+    </section>
+
+    <section class="course-plan">
+        <h2>План курса "Spring Boot"</h2>
+
+        <div class="course-module">
+            <h3>Модуль 1. Введение в Spring Boot и создание первого приложения</h3>
+            <ul>
+                <li><a href="/module2/lesson/1">Что такое Spring Boot?</a></li>
+                <li><a href="/module2/lesson/2">Основные преимущества использования Spring Boot.</a></li>
+                <li><a href="/module2/lesson/3">Установка и настройка окружения для разработки.</a></li>
+                <li><a href="/module2/lesson/4">Создание простого RESTful API.</a></li>
+                <li><a href="/module2/lesson/5">Запуск приложения и работа с встроенным сервером (Tomcat).</a></li>
+            </ul>
+        </div>
+
+        <div class="course-module">
+            <h3>Модуль 2. Конфигурация приложения и работа с базами данных</h3>
+            <ul>
+                <li><a href="/module2/lesson/1">Работа с файлами конфигурации (application.properties и application.yml).</a></li>
+                <li><a href="/module2/lesson/2">Введение в JPA и Hibernate.</a></li>
+                <li><a href="/module2/lesson/3">Конфигурация подключения к базе данных.</a></li>
+                <li><a href="/module2/lesson/4">Создание сущностей и репозиториев с использованием Spring Data JPA.</a></li>
+            </ul>
+        </div>
+
+        <div class="course-module">
+            <h3>Модуль 3. Внедрение зависимостей и обработка ошибок</h3>
+            <ul>
+                <li><a href="/module2/lesson/1">Основы внедрения зависимостей в Spring.</a></li>
+                <li><a href="/module2/lesson/2">Использование аннотаций @Autowired, @Component, @Service, @Repository.</a></li>
+                <li><a href="/module2/lesson/3">Глобальная обработка ошибок с использованием @ControllerAdvice.</a></li>
+            </ul>
+        </div>
+
+        <div class="course-module">
+            <h3>Модуль 4. Работа с RESTful сервисами</h3>
+            <ul>
+                <li><a href="/module2/lesson/1">Создание контроллеров с использованием аннотации @RestController.</a></li>
+                <li><a href="/module2/lesson/2">Обработка HTTP-запросов (GET, POST, PUT, DELETE).</a></li>
+                <li><a href="/module2/lesson/3">Управление кодами ответа HTTP.</a></li>
+            </ul>
+        </div>
+
+        <div class="course-module">
+            <h3>Модуль 5. Безопасность и тестирование приложений</h3>
+            <ul>
+                <li><a href="/module2/lesson/1">Введение в Spring Security: настройка аутентификации и авторизации.</a></li>
+                <li><a href="/module2/lesson/2">Написание юнит-тестов с использованием JUnit и Mockito.</a></li>
+                <li><a href="/module2/lesson/3">Интеграционное тестирование с использованием Spring Test.</a></li>
+            </ul>
+        </div>
+
+    </section>
+
+</main>
 
 </body>
 </html>
+
