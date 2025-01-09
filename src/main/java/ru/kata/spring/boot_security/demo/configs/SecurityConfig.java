@@ -28,7 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/register", "/auth/login", "/css/**", "/js/**").permitAll() // Разрешить доступ к страницам регистрации и логина
+                .antMatchers("/auth/register", "/auth/login", "/css/**", "/js/**").permitAll()
+                .antMatchers("/dashboard", "/courses/**").permitAll() // Разрешить доступ к страницам регистрации и логина
                 .antMatchers("/admin/**").hasRole("ADMIN") // Доступ для администраторов
                 .antMatchers("/users/**").hasAnyRole("ADMIN", "USER") // Доступ для пользователей и администраторов
                 .anyRequest().authenticated() // Все остальные запросы требуют аутентификации
@@ -42,9 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/auth/logout") // URL для выхода
-                .logoutSuccessUrl("/auth/login?logout=true") // Перенаправление после выхода с сообщением
+                .logoutSuccessUrl("/dashboard") // Перенаправление на дашборд после выхода
                 .permitAll(); // Разрешить доступ к выходу всем пользователям
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

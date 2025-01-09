@@ -17,9 +17,11 @@
         <div class="dropdown">
             <button class="dropbtn">Профиль</button>
             <div class="dropdown-content">
-                <a href="/profile/edit">Редактировать профиль</a>
-                <a href="/auth/logout">Выход</a>
+                <a th:if="${isAuthenticated}" href="/profile/edit">Редактировать профиль</a> <!-- Отображается только для авторизованных пользователей -->
+                <a th:if="${isAuthenticated}" href="/auth/logout">Выход</a> <!-- Отображается только для авторизованных пользователей -->
+                <a th:if="${!isAuthenticated}" href="/auth/login">Войти</a> <!-- Отображается только для неавторизованных пользователей -->
             </div>
+        </div>
         </div>
     </nav>
 </header>
