@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import ru.kata.spring.boot_security.demo.model.Enum.QuestionStatus;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -26,6 +28,9 @@ public class ForumQuestion {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @Enumerated(EnumType.STRING)
+    private QuestionStatus status;
+
     public ForumQuestion() {}
 
     public ForumQuestion(Long userId, Long taskId, String title, String content, LocalDateTime createdAt) {
@@ -34,6 +39,23 @@ public class ForumQuestion {
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
+        this.status = QuestionStatus.OPEN;
+    }
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public QuestionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(QuestionStatus status) {
+        this.status = status;
     }
 
     public Long getId() {

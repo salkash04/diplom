@@ -87,90 +87,119 @@ header nav .dropdown:hover .dropdown-content {
 
 /* Стили для контейнера */
 .container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px; /* Максимальная ширина контейнера */
+    margin: 2rem auto; /* Центрирование контейнера с отступами */
+    padding: 1rem; /* Внутренние отступы */
+    background-color: white; /* Цвет фона контейнера */
+    border-radius: 8px; /* Закругленные углы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
 }
-h1{
-    color: white;
+
+/* Заголовки */
+h1 {
+    color:white; /* Цвет заголовка h1 */
 }
 
 h2, h3, h5 {
-    color: #1e90ff;
+    color:#1e90ff; /* Цвет заголовков h2,h3,h5 */
 }
 
 /* Стили для списка вопросов */
 .list-group-item {
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 0.5rem;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 1rem; /* Внутренние отступы для элементов списка */
+    border: 1px solid #ddd; /* Граница элемента списка */
+    border-radius: 4px; /* Закругленные углы элемента списка */
+    margin-bottom: 0.5rem; /* Отступ снизу между элементами списка */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Плавные переходы при наведении */
 }
 
 .list-group-item:hover {
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color:#f9f9f9; /* Цвет фона при наведении на элемент списка */
+    box-shadow:0 2px 4px rgba(0,0,0,0.1); /* Тень при наведении на элемент списка */
 }
 
 /* Карточки ответов */
 .card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border :1px solid #ddd; /* Граница карточки ответа */
+    border-radius :8px; /* Закругленные углы карточки ответа */
+    box-shadow :0 2px 4px rgba(0,0,0,0.1); /* Тень для карточки ответа */
 }
 
 .card-body {
-    padding: 1rem;
+    padding :1rem; /* Внутренние отступы для содержимого карточки ответа */
 }
 
 /* Стили для кнопок */
-button, .btn {
-    background-color: #1e90ff;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+button,
+.btn {
+    background-color :#1e90ff; /* Цвет фона кнопок */
+    color :white; /* Цвет текста кнопок */
+    border :none; /* Без границы у кнопок */
+    padding :0.5rem 1rem; /* Внутренние отступы у кнопок */
+    border-radius :4px; /* Закругленные углы у кнопок */
+    cursor :pointer; /* Указатель при наведении на кнопку */
+    transition :background-color 0.3s ease, transform 0.2s ease; /* Плавные переходы при наведении на кнопку */
 }
 
-button:hover, .btn:hover {
-    background-color: #005cbf;
-    transform: translateY(-2px);
+button:hover,
+.btn:hover {
+    background-color :#005cbf; /* Цвет фона кнопки при наведении */
+    transform :translateY(-2px); /* Подъем кнопки при наведении */
 }
 
-button:active, .btn:active {
-    transform: translateY(0);
+button :active,
+.btn :active {
+    transform :translateY(0); /* Возврат кнопки в исходное положение при нажатии */
 }
 
 /* Поля формы */
 .form-group label {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    display: block;
+    font-weight:bold; /* Жирный шрифт для меток формы */
+    margin-bottom :0.5rem; /* Отступ снизу у меток формы */
+    display:block; /* Отображение меток как блочных элементов */
 }
 
-textarea, input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    transition: border-color 0.3s ease;
+textarea,
+input {
+    width :100%; /* Ширина полей ввода на всю ширину контейнера */
+    padding :0.75rem; /* Внутренние отступы у полей ввода */
+    border :1px solid #ddd; /* Граница полей ввода */
+    border-radius :4px; /* Закругленные углы у полей ввода */
+    font-size :1rem; /* Размер шрифта у полей ввода */
+    margin-bottom :1rem; /* Отступ снизу у полей ввода */
+    transition :border-color 0.3s ease; /* Плавный переход цвета границы при фокусе на поле ввода*/
 }
 
-textarea:focus, input:focus {
-    border-color: #1e90ff;
-    outline: none;
-    box-shadow: 0 0 4px rgba(30, 144, 255, 0.4);
+textarea :focus,
+input :focus {
+    border-color :#1e90ff; /* Цвет границы при фокусе на поле ввода*/
+    outline:none;
+    box-shadow :0 0 4px rgba(30,144,255,0.4);
 }
 
-/* Дополнительные элементы */
+/* Дополнительные элементы*/
 small {
-    color: #666;
+    color:#666;
+}
+
+/* Стили для формы поиска и сортировки вопросов */
+
+.search-form {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:.5rem ;
+}
+
+.search-form input[type="text"] {
+    flex-grow :1 ;
+    padding :.75rem ;
+    border-radius :4px ;
+    border :1px solid #ddd ;
+}
+.search-form select {
+    margin-left:.5rem ;
+    padding :.75rem ;
+    border-radius :4px ;
+    border :1px solid #ddd ;
 }

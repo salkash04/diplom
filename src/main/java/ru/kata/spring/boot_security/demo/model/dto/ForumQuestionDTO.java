@@ -9,13 +9,17 @@ public class ForumQuestionDTO {
     private String content;
     private LocalDateTime createdAt;
     private String userName; // Имя пользователя, который создал вопрос
+    private Long userId; // Добавляем поле userId
+    private String status; // Статус вопроса (открыт/закрыт)
 
-    public ForumQuestionDTO(Long id, String title, String content, LocalDateTime createdAt, String userName) {
+    public ForumQuestionDTO(Long id, String title, String content, LocalDateTime createdAt, String userName, Long userId, String status) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.userName = userName;
+        this.userId = userId; // Инициализируем userId
+        this.status = status; // Инициализируем статус
     }
 
     // Геттеры и сеттеры
@@ -57,5 +61,21 @@ public class ForumQuestionDTO {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Long getUserId() { // Добавляем геттер для userId
+        return userId;
+    }
+
+    public void setUserId(Long userId) { // Добавляем сеттер для userId
+        this.userId = userId;
+    }
+
+    public String getStatus() { // Добавляем геттер для статуса
+        return status;
+    }
+
+    public void setStatus(String status) { // Добавляем сеттер для статуса
+        this.status = status;
     }
 }

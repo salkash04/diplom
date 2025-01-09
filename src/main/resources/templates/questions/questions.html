@@ -24,9 +24,20 @@
         </div>
     </nav>
 </header>
-
 <div class="container mt-5">
+    <!-- Форма поиска и сортировки -->
+    <form method="get" action="/questions" class="search-form">
+        <input type="text" name="search" placeholder="Поиск вопросов" />
+        <select name="sortBy">
+            <option value="">Сортировка</option>
+            <option value="dateAsc">По дате (сначала старые)</option>
+            <option value="dateDesc">По дате (сначала новые)</option>
+        </select>
+        <button type="submit" class="btn">Поиск</button>
+    </form>
+
     <a href="/questions/create" class="btn btn-primary mb-3">Задать вопрос</a>
+
     <div class="list-group">
         <a th:each="question : ${questions}"
            th:href="@{/questions/{id}(id=${question.id})}"
@@ -34,11 +45,13 @@
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1" th:text="${question.title}">Заголовок вопроса</h5>
                 <small th:text="${#temporals.format(question.createdAt, 'dd-MM-yyyy HH:mm')}">Дата</small>
+                <small th:text="${question.status}">Статус</small> <!-- Отображение статуса -->
             </div>
             <p class="mb-1" th:text="${#strings.abbreviate(question.content, 100)}">Содержание вопроса</p>
             <small th:text="${question.userName}">Имя пользователя</small>
         </a>
     </div>
 </div>
+
 </body>
 </html>

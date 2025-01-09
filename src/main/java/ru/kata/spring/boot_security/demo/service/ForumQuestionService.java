@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.service;
 
 
 import org.springframework.stereotype.Service;
+import ru.kata.spring.boot_security.demo.model.Enum.QuestionStatus;
 import ru.kata.spring.boot_security.demo.model.ForumQuestion;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.model.dto.ForumQuestionDTO;
@@ -29,8 +30,35 @@ public class ForumQuestionService {
         return question.getId();
     }
 
-    public List<ForumQuestionDTO> getAllQuestions() {
-        List<ForumQuestion> questions = forumQuestionRepository.findAll();
+    public List<ForumQuestionDTO> getAllQuestions(String sortBy) {
+        if (sortBy == null) {
+            System.out.println("Sort by is null. Defaulting to no sorting.");
+            return forumQuestionRepository.findAll().stream()
+                    .map(this::convertToDto)
+                    .collect(Collectors.toList());
+        }
+        List<ForumQuestion> questions;
+
+        switch (sortBy) {
+            case "dateAsc":
+                questions = forumQuestionRepository.findAllByOrderByCreatedAtAsc();
+                break;
+            case "dateDesc":
+                questions = forumQuestionRepository.findAllByOrderByCreatedAtDesc();
+                break;
+            default:
+                questions = forumQuestionRepository.findAll(); // Возвращаем все вопросы без сортировки
+        }
+
+        return questions.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+
+    public List<ForumQuestionDTO> searchQuestions(String keyword) {
+        List<ForumQuestion> questions = forumQuestionRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+
         return questions.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -49,7 +77,9 @@ public class ForumQuestionService {
                 question.getTitle(),
                 question.getContent(),
                 question.getCreatedAt(),
-                userName
+                userName,
+                question.getUserId(), // Передаем userId
+                question.getStatus().name() // Передаем статус как строку
         );
     }
 
@@ -63,12 +93,37 @@ public class ForumQuestionService {
         String userName = userRepository.findById(question.getUserId())
                 .map(User::getUsername)
                 .orElse("Unknown User");
+
         return new ForumQuestionDTO(
                 question.getId(),
                 question.getTitle(),
                 question.getContent(),
                 question.getCreatedAt(),
-                userName
+                userName,
+                question.getUserId(), // Передаем userId
+                question.getStatus().name() // Передаем статус как строку
         );
     }
+
+
+
+    public void closeQuestion(Long questionId) {
+        ForumQuestion question = forumQuestionRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Вопрос не найден"));
+        question.setStatus(QuestionStatus.CLOSED);
+        forumQuestionRepository.save(question);
+    }
+
+    public void openQuestion(Long questionId) {
+        ForumQuestion question = forumQuestionRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Вопрос не найден"));
+        question.setStatus(QuestionStatus.OPEN);
+        forumQuestionRepository.save(question);
+    }
+
+    public ForumQuestion getQuestionById(Long id) {
+        return forumQuestionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Вопрос не найден"));
+    }
+
 }

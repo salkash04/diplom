@@ -30,21 +30,34 @@
     <p th:text="${question.content}">Содержание вопроса</p>
     <small th:text="${'Автор: ' + question.userName + ', Дата: ' + #temporals.format(question.createdAt, 'dd-MM-yyyy HH:mm')}">Информация о вопросе</small>
 
+    <!-- Кнопка для открытия/закрытия вопроса, доступная только автору -->
+    <div class="mt-3" th:if="${#authentication.principal.id == question.userId}">
+        <form th:action="@{/questions/{id}/toggleStatus(id=${question.id})}" method="post">
+            <button type="submit" class="btn btn-secondary"
+                    th:text="${question.status == 'OPEN' ? 'Закрыть вопрос' : 'Открыть вопрос'}"></button>
+        </form>
+    </div>
+
+    <!-- Поле для добавления ответа отображается только если вопрос открыт -->
+    <div th:if="${question.status == 'OPEN'}">
+        <h3 class="mt-4">Добавить ответ:</h3>
+        <form th:action="@{/questions/{id}/answers(id=${question.id})}" method="post">
+            <input type="hidden" name="userId" th:value="${#authentication.principal.id}" />
+            <div class="form-group">
+                <textarea class="form-control" name="content" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить ответ</button>
+        </form>
+    </div>
+
     <h2 class="mt-4">Ответы:</h2>
     <div th:each="answer : ${answers}" class="card mb-3">
         <div class="card-body">
             <p th:text="${answer.content}">Содержание ответа</p>
-            <small th:text="${'Автор: ' + answer.userName + ', Дата: ' + #temporals.format(answer.createdAt, 'dd-MM-yyyy HH:mm')}">Информация об ответе</small>        </div>
+            <small th:text="${'Автор: ' + answer.userName + ', Дата: ' + #temporals.format(answer.createdAt, 'dd-MM-yyyy HH:mm')}">Информация об ответе</small>
+        </div>
     </div>
 
-    <h3 class="mt-4">Добавить ответ:</h3>
-    <form th:action="@{/questions/{id}/answers(id=${question.id})}" method="post">
-        <input type="hidden" name="userId" th:value="${#authentication.principal.id}" />
-        <div class="form-group">
-            <textarea class="form-control" name="content" rows="3" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Отправить ответ</button>
-    </form>
 </div>
 </body>
 </html>

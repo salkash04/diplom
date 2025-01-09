@@ -4,6 +4,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Enum.QuestionStatus;
+import ru.kata.spring.boot_security.demo.model.ForumQuestion;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.model.dto.AnswerResponseDto;
 import ru.kata.spring.boot_security.demo.model.dto.ForumQuestionDTO;
@@ -25,11 +27,23 @@ public class ForumQuestionController {
     }
 
     @GetMapping
-    public String getAllQuestions(Model model) {
-        List<ForumQuestionDTO> questionDTOs = forumQuestionService.getAllQuestions();
+    public String getAllQuestions(
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String search,
+            Model model) {
+
+        List<ForumQuestionDTO> questionDTOs;
+
+        if (search != null && !search.isEmpty()) {
+            questionDTOs = forumQuestionService.searchQuestions(search);
+        } else {
+            questionDTOs = forumQuestionService.getAllQuestions(sortBy);
+        }
+
         model.addAttribute("questions", questionDTOs);
         return "questions/questions";
     }
+
 
     // Страница для создания нового вопроса
     @GetMapping("/create")
@@ -71,5 +85,24 @@ public class ForumQuestionController {
         forumAnswerService.createAnswer(id, userId, content, parentId);  // В сервис передаем parentId
         return "redirect:/questions/" + id; // Перенаправление на страницу вопроса с добавленным ответом
     }
+
+    @PostMapping("/{id}/toggleStatus")
+    public String toggleQuestionStatus(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        ForumQuestion question = forumQuestionService.getQuestionById(id);
+
+        // Проверяем, что текущий пользователь является автором вопроса
+        if (question.getUserId().equals(currentUser.getId())) {
+            if (question.getStatus() == QuestionStatus.OPEN) {
+                forumQuestionService.closeQuestion(id);
+            } else {
+                forumQuestionService.openQuestion(id);
+            }
+        }
+
+        return "redirect:/questions"; // Перенаправление на страницу списка вопросов
+    }
+
+
+
 }
 
