@@ -17,9 +17,6 @@ public class Task {
     @Column(nullable = false)
     private String description; // Описание задачи
 
-    @Column(nullable = true)
-    private String solution; // Решение задачи (если нужно)
-
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -49,14 +46,6 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getSolution() {
-        return solution;
-    }
-
-    public void setSolution(String solution) {
-        this.solution = solution;
     }
 
     public LocalDateTime getCreatedAt() {

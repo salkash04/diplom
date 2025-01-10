@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Enum.ResultStatus;
@@ -40,9 +41,6 @@ public class TaskService {
         taskAttemptRepository.save(attempt);
     }
 
-    public List<TaskAttempt> getUserAttempts(Long userId) {
-        return taskAttemptRepository.findByUserId(userId);
-    }
 
     public TaskAttempt getLastAttemptForTask(Long userId, Long taskId) {
         List<TaskAttempt> attempts = taskAttemptRepository.findByUserId(userId);
@@ -52,4 +50,7 @@ public class TaskService {
                 .orElse(null);
     }
 
+    public List<TaskAttempt> getUserAttempts(Long userId) {
+        return taskAttemptRepository.findByUserIdSorted(userId, Sort.by(Sort.Direction.DESC, "submittedAt"));
+    }
 }

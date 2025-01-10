@@ -12,23 +12,42 @@ body {
     color: #333;
 }
 
-h1 {
-    font-size: 2rem;
-    color: #1e90ff;
-    margin-bottom: 1.5rem;
+#root {
+    display: flex; /* Flexbox для размещения формы */
+    flex-direction: column; /* Вертикальное размещение */
 }
 
-/* Форма логина */
-form {
+h2 {
+    font-size: 2rem; /* Размер шрифта заголовка Java Elevate */
+    color: #1e90ff; /* Цвет заголовка */
+    margin-bottom: 0.5rem; /* Отступ снизу */
+    text-align: center; /* Центрирование заголовка */
+}
+
+h1 {
+    text-align: center; /* Центрирование заголовка Авторизация */
+    margin-bottom: 20px; /* Отступ снизу */
+}
+
+/* Форма авторизации */
+.login_wrapper__HPMvh {
     background: #fff;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
+    max-width: 400px; /* Максимальная ширина блока */
+}
+
+form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem; /* Отступы между элементами формы */
+}
+
+div {
+    display: flex;
+    flex-direction: column;
 }
 
 label {
@@ -39,53 +58,43 @@ label {
 
 input {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+    padding: 1rem; /* Увеличенные внутренние отступы для длинных полей */
+    border: 1px solid #ddd; /* Цвет рамки */
+    border-radius: 4px; /* Скругленные углы */
+    font-size: 1rem; /* Размер шрифта */
+    transition: border-color 0.3s ease; /* Плавный переход цвета рамки */
 }
 
 input:focus {
-    border-color: #1e90ff;
-    outline: none;
-    box-shadow: 0 0 4px rgba(30, 144, 255, 0.4);
+    border-color: #1e90ff; /* Цвет рамки при фокусе */
+    outline: none; /* Убираем обводку */
+    box-shadow: 0 0 4px rgba(30, 144, 255, 0.4); /* Тень при фокусе */
 }
 
 button {
-    padding: 0.75rem;
-    background-color: #1e90ff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    padding: 0.75rem; /* Внутренние отступы кнопки */
+    background-color: #1e90ff; /* Цвет фона кнопки */
+    color: #fff; /* Цвет текста кнопки */
+    border: none; /* Убираем рамку */
+    border-radius: 4px; /* Скругленные углы кнопки */
+    font-size: 1rem; /* Размер шрифта кнопки */
+    cursor: pointer; /* Курсор при наведении */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Плавные переходы для кнопки */
 }
 
 button:hover {
-    background-color: #005cbf;
-    transform: translateY(-2px);
+    background-color: #005cbf; /* Темнее при наведении */
 }
 
 button:active {
-    transform: translateY(0);
+    transform :translateY(0);/* Возврат кнопки в исходное положение при нажатии */
 }
 
 /* Ссылка на регистрацию */
 p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 1rem;
+    font-size :0.9rem;/* Размер шрифта для параграфа */
 }
 
 p a {
-    color: #1e90ff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-p a:hover {
-    color: #005cbf;
+    color :#1e90ff;/* Цвет ссылки */
 }

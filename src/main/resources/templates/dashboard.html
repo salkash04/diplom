@@ -31,7 +31,7 @@
     <!-- Контейнер для курсов -->
     <div class="course-container" th:each="course : ${courses}">
         <a th:href="@{/courses/{id}(id=${course.id})}" class="course-button">
-            <img src="path/to/image.jpg" alt="Картинка курса" class="course-image"> <!-- Замените на путь к изображению -->
+            <img src="/static/css/images/programming.jpg" alt="Картинка курса" class="course-image"> <!-- Замените на путь к изображению -->
             <div class="course-title" th:text="${course.name}"></div>
             <div class="course-description" th:text="${course.description}"></div>
         </a>

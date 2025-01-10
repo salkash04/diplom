@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,25 +7,26 @@
     <link rel="stylesheet" href="/css/login.css"> <!-- Подключение стилей -->
 </head>
 <body>
-<h1>Вход</h1>
-<form method="post" action="/auth/login">
-    <div>
-        <label for="email">Почта:</label>
-        <input type="email" id="email" name="username" placeholder="Введите вашу почту" required>
-    </div>
-    <br>
-    <!-- Поле для ввода пароля -->
-    <div>
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" placeholder="Введите ваш пароль" required>
-    </div>
-    <br>
-    <!-- Кнопка входа -->
-    <div>
-        <button type="submit">Войти</button>
-    </div>
-</form>
+<div id="root">
+    <div class="login_wrapper__HPMvh">
+        <h2>Java Elevate</h2> <!-- Заголовок теперь над "Авторизация" -->
+        <h1>Авторизация</h1>
+        <form method="post" action="/auth/login">
+            <div>
+                <label for="email">Почта:</label>
+                <input type="email" id="email" name="username" placeholder="Введите вашу почту" required>
+            </div>
+            <div>
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" placeholder="Введите ваш пароль" required>
+            </div>
+            <div>
+                <button type="submit">Войти</button>
+            </div>
+        </form>
 
-<p>Нет аккаунта? <a href="/auth/register">Зарегистрироваться</a></p>
+        <p>Нет аккаунта? <a href="/auth/register">Зарегистрироваться</a></p>
+    </div>
+</div>
 </body>
 </html>

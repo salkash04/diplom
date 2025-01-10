@@ -30,6 +30,19 @@ public class CompilerController {
         return codeExecutionService.executeCode(code);
     }
 
+    @PostMapping("/hello")
+    public String executeHelloRoot(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        String result = codeExecutionService.executeCode(code);
+        try {
+            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи sqrt
+        } catch (Exception e) {
+        }
+        return result;
+    }
+
     // Эндпоинт для выполнения задачи вычисления квадратного корня
     @PostMapping("/sqrt")
     public String executeSquareRoot(@RequestBody String code, @AuthenticationPrincipal User user) {
@@ -38,7 +51,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeSquareRootTask(code);
         try {
-            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи sqrt
+            saveTaskAttempt(user.getId(), 2L, code, result); // Используем 1L как ID для задачи sqrt
         } catch (Exception e) {
         }
         return result;
@@ -51,7 +64,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeDivisibilityTask(code);
         try {
-            saveTaskAttempt(user.getId(), 2L, code, result); // Используем 2L как ID для задачи divisibility
+            saveTaskAttempt(user.getId(), 3L, code, result); // Используем 2L как ID для задачи divisibility
         } catch (Exception e) {
         }
         return result;
@@ -64,7 +77,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeEvenOddTask(code);
         try {
-            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи четности
+            saveTaskAttempt(user.getId(), 4L, code, result); // Используем 1L как ID для задачи четности
         } catch (Exception e) {}
         return result;
     }
@@ -76,7 +89,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeDayOfWeekTask(code);
         try {
-            saveTaskAttempt(user.getId(), 2L, code, result); // Используем 2L как ID для задачи дня недели
+            saveTaskAttempt(user.getId(), 5L, code, result); // Используем 2L как ID для задачи дня недели
         } catch (Exception e) {}
         return result;
     }
@@ -88,7 +101,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeForLoopTask(code);
         try {
-            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи цикла for
+            saveTaskAttempt(user.getId(), 6L, code, result); // Используем 1L как ID для задачи цикла for
         } catch (Exception e) {}
         return result;
     }
@@ -100,7 +113,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeWhileLoopTask(code);
         try {
-            saveTaskAttempt(user.getId(), 2L, code, result); // Используем 2L как ID для задачи цикла while
+            saveTaskAttempt(user.getId(), 7L, code, result); // Используем 2L как ID для задачи цикла while
         } catch (Exception e) {}
         return result;
     }
@@ -112,7 +125,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeDoWhileLoopTask(code);
         try {
-            saveTaskAttempt(user.getId(), 3L, code, result); // Используем 3L как ID для задачи цикла do-while
+            saveTaskAttempt(user.getId(), 8L, code, result); // Используем 3L как ID для задачи цикла do-while
         } catch (Exception e) {}
         return result;
     }
@@ -124,7 +137,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeArraySumTask(code);
         try {
-            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи суммы массива
+            saveTaskAttempt(user.getId(), 9L, code, result); // Используем 1L как ID для задачи суммы массива
         } catch (Exception e) {}
         return result;
     }
@@ -136,7 +149,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeArrayMaxTask(code);
         try {
-            saveTaskAttempt(user.getId(), 2L, code, result); // Используем 2L как ID для задачи максимального элемента массива
+            saveTaskAttempt(user.getId(), 10L, code, result); // Используем 2L как ID для задачи максимального элемента массива
         } catch (Exception e) {}
         return result;
     }
@@ -148,7 +161,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeArraySortTask(code);
         try {
-            saveTaskAttempt(user.getId(), 3L, code, result); // Используем 3L как ID для задачи сортировки массива
+            saveTaskAttempt(user.getId(), 11L, code, result); // Используем 3L как ID для задачи сортировки массива
         } catch (Exception e) {}
         return result;
     }
@@ -160,7 +173,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeArrayListTask(code);
         try {
-            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи ArrayList
+            saveTaskAttempt(user.getId(), 12L, code, result); // Используем 1L как ID для задачи ArrayList
         } catch (Exception e) {}
         return result;
     }
@@ -172,7 +185,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeHashMapTask(code);
         try {
-            saveTaskAttempt(user.getId(), 2L, code, result); // Используем 2L как ID для задачи HashMap
+            saveTaskAttempt(user.getId(), 13L, code, result); // Используем 2L как ID для задачи HashMap
         } catch (Exception e) {}
         return result;
     }
@@ -184,7 +197,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeHashMapEntrySetTask(code);
         try {
-            saveTaskAttempt(user.getId(), 3L, code, result); // Используем 3L как ID для задачи entrySet
+            saveTaskAttempt(user.getId(), 14L, code, result); // Используем 3L как ID для задачи entrySet
         } catch (Exception e) {}
         return result;
     }
@@ -196,7 +209,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeClassObjectTask(code);
         try {
-            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи классов и объектов
+            saveTaskAttempt(user.getId(), 15L, code, result); // Используем 1L как ID для задачи классов и объектов
         } catch (Exception e) {}
         return result;
     }
@@ -208,7 +221,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeInheritancePolymorphismTask(code);
         try {
-            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи наследования и полиморфизма
+            saveTaskAttempt(user.getId(), 16L, code, result); // Используем 1L как ID для задачи наследования и полиморфизма
         } catch (Exception e) {}
         return result;
     }
@@ -220,7 +233,7 @@ public class CompilerController {
         }
         String result = codeExecutionService.executeExceptionHandlingTask(code);
         try {
-            saveTaskAttempt(user.getId(), 1L, code, result); // Используем 1L как ID для задачи обработки исключений
+            saveTaskAttempt(user.getId(), 17L, code, result); // Используем 1L как ID для задачи обработки исключений
         } catch (Exception e) {}
         return result;
     }

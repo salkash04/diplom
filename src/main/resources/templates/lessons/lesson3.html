@@ -19,15 +19,23 @@ public class Main {
         }
 
         // Функция для выполнения кода
-        async function runCode(endpoint, editorId, outputId) {
+        async function runCode(endpoint, editorId, outputId, taskId) {
             const code = document.getElementById(editorId).value;
+
+            // Создаем объект с данными для отправки
+            const requestData = {
+                code: code,
+                taskId: taskId // Добавляем taskId
+            };
+
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'text/plain'
+                    'Content-Type': 'application/json' // Изменяем на 'application/json'
                 },
-                body: code
+                body: JSON.stringify(requestData) // Преобразуем объект в строку JSON
             });
+
             const result = await response.text();
             document.getElementById(outputId).innerText = result; // Выводим результат выполнения
 
@@ -41,6 +49,7 @@ public class Main {
                 console.error("Ошибка выполнения:", result);
             }
         }
+
 
         // Функция для отображения объяснения по Math
         function displayMathExplanation() {
@@ -170,19 +179,18 @@ if (num % 3 == 0) {
     <!-- Компилятор для задачи на вычисление квадратного корня -->
     <section class="compiler">
         <h2>Онлайн-компилятор: Вычисление квадратного корня</h2>
-        <!-- Шаблонный код загружается автоматически при загрузке страницы -->
-        <textarea id="sqrtCodeEditor" rows="15" cols="70"></textarea><br />
-        <button onclick="runCode('/api/compiler/sqrt', 'sqrtCodeEditor', 'sqrtOutput')">Выполнить</button>
-        <pre id="sqrtOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        <input type="hidden" id="taskIdSqrt" value="2">
+        <textarea id="sqrtCodeEditor" rows="15" cols="70" ></textarea><br />
+        <button onclick="runCode('/api/compiler/sqrt', 'sqrtCodeEditor', 'sqrtOutput', 'taskIdSqrt')">Выполнить</button>
+        <pre id="sqrtOutput"></pre>
     </section>
 
-    <!-- Компилятор для задачи на проверку делимости на 3 -->
     <section class="compiler">
         <h2>Онлайн-компилятор: Проверка делимости на 3</h2>
-        <!-- Шаблонный код загружается автоматически при загрузке страницы -->
+        <input type="hidden" id="taskIdDivisibility" value="3"> <!-- ID задачи для делимости -->
         <textarea id="divisibilityCodeEditor" rows="15" cols="70"></textarea><br />
-        <button onclick="runCode('/api/compiler/check-divisibility', 'divisibilityCodeEditor', 'divisibilityOutput')">Выполнить</button>
-        <pre id="divisibilityOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
+        <button onclick="runCode('/api/compiler/check-divisibility', 'divisibilityCodeEditor', 'divisibilityOutput', 'taskIdDivisibility')">Выполнить</button>
+        <pre id="divisibilityOutput"></pre>
     </section>
 
     <!-- Блок для отображения объяснения -->

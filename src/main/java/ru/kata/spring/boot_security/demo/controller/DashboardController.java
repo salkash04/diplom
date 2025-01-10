@@ -33,7 +33,18 @@ public class DashboardController {
             model.addAttribute("isAuthenticated", false);
         }
 
-        return "dashboard"; // Возвращает HTML-шаблон "dashboard.html"
+        return "dashboard";
+    }
+
+    @GetMapping("/index")
+    public String index(Model model, @AuthenticationPrincipal User user) {
+        if (user != null) {
+            model.addAttribute("isAuthenticated", true);
+            model.addAttribute("userName", user.getUsername());
+        } else {
+            model.addAttribute("isAuthenticated", false);
+        }
+        return "index";
     }
 
 }

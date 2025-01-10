@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.SolutionRequest;
 import ru.kata.spring.boot_security.demo.model.TaskAttempt;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.TaskService;
@@ -24,6 +22,28 @@ public class LessonController {
     public LessonController(TaskService taskService) {
         this.taskService = taskService;
     }
+
+    @GetMapping("/user/solutions")
+    public String viewSolutions(Model model, @AuthenticationPrincipal User user) {
+        List<TaskAttempt> attempts = taskService.getUserAttempts(user.getId());
+        model.addAttribute("attempts", attempts);
+        return "solutions";
+    }
+
+    @PostMapping("/module1/lesson/{lessonId}/submit")
+    public String submitSolution(@PathVariable Long lessonId,
+                                 @RequestBody SolutionRequest request,
+                                 @AuthenticationPrincipal User user) throws Exception {
+        if (user == null) {
+            return "redirect:/login";
+        }
+        String output = JavaRunner.run(request.getCode());
+        boolean isSuccess = determineSuccess(output);
+        taskService.saveTaskAttempt(user.getId(), request.getTaskId(), request.getCode(), output, isSuccess);
+        return "redirect:/module1/lesson/" + lessonId;
+    }
+
+
 
     @GetMapping("/module1/lesson/{lessonId}")
     public String getLesson(@PathVariable Long lessonId, Model model, @AuthenticationPrincipal User user) {
@@ -200,39 +220,6 @@ public class LessonController {
             default:
                 throw new RuntimeException("Урок не найден с ID: " + lessonId);
         }
-    }
-
-    @GetMapping("/user/solutions")
-    public String viewSolutions(Model model, @AuthenticationPrincipal User user) {
-        List<TaskAttempt> attempts = taskService.getUserAttempts(user.getId());
-        model.addAttribute("attempts", attempts);
-        return "solutions";
-    }
-
-    @PostMapping("/module1/lesson/{lessonId}/submit")
-    public String submitSolution(@PathVariable Long lessonId,
-                                 @RequestParam String code,
-                                 @AuthenticationPrincipal User user) throws Exception {
-        if (user == null) {
-            return "redirect:/login";
-        }
-        String output = JavaRunner.run(code);
-        boolean isSuccess = determineSuccess(output); // Вам нужно реализовать этот метод
-        taskService.saveTaskAttempt(user.getId(), lessonId, code, output, isSuccess);
-        return "redirect:/module1/lesson/" + lessonId;
-    }
-
-    @PostMapping("/module2/lesson/{lessonId}/submit")
-    public String submitSolutionModule2(@PathVariable Long lessonId,
-                                        @RequestParam String code,
-                                        @AuthenticationPrincipal User user) throws Exception {
-        if (user == null) {
-            return "redirect:/login";
-        }
-        String output = JavaRunner.run(code);
-        boolean isSuccess = determineSuccess(output);
-        taskService.saveTaskAttempt(user.getId(), lessonId, code, output, isSuccess);
-        return "redirect:/module2/lesson/" + lessonId;
     }
 
     private boolean determineSuccess(String output) {
