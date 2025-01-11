@@ -11,6 +11,12 @@
     <div class="login_wrapper__HPMvh">
         <h2>Java Elevate</h2> <!-- Заголовок теперь над "Авторизация" -->
         <h1>Авторизация</h1>
+
+        <!-- Отображение сообщения об ошибке -->
+        <div th:if="${error}" style="color: red;">
+            <p th:text="${error}"></p>
+        </div>
+
         <form method="post" action="/auth/login">
             <div>
                 <label for="email">Почта:</label>

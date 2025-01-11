@@ -3,7 +3,7 @@ package ru.kata.spring.boot_security.demo.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Entity
 @Table(name = "courses")
@@ -21,6 +21,11 @@ public class Course {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    // Новое поле для URL изображения
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    // Геттеры и сеттеры
     public Long getId() {
         return id;
     }
@@ -51,5 +56,13 @@ public class Course {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

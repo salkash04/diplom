@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Edit Profile</title>
+    <title>Редактирование профиля</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/profile/edit.css"> <!-- Подключение файла стилей -->
+    <style>
+        .valid {
+            color: green;
+        }
+        .invalid {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 
 <header>
-    <h1>Редактирование</h1>
+    <h1>Редактирование профиля</h1>
     <nav>
         <a href="/dashboard">Главная</a>
         <a href="/questions">Вопросы</a>
@@ -27,10 +35,10 @@
 </header>
 
 <div class="container">
-    <h1>Edit Profile</h1>
-    <form th:action="@{/profile/edit}" th:object="${user}" method="post">
+    <h1>Редактирование профиля</h1>
+    <form th:action="@{/profile/edit}" th:object="${user}" method="post" onsubmit="return validatePassword()">
         <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">Имя пользователя</label>
             <input type="text" class="form-control" id="username" th:field="*{username}" required>
         </div>
         <div class="form-group">
@@ -38,16 +46,88 @@
             <input type="email" class="form-control" id="email" th:field="*{email}" required>
         </div>
         <div class="form-group">
-            <label for="password">New Password</label>
-            <input type="password" class="form-control" id="password" name="newPassword">
-            <small class="form-text text-muted">Leave blank if you don't want to change the password.</small>
+            <label for="password">Новый пароль</label>
+            <input type="password" class="form-control" id="password" name="newPassword" onkeyup="checkPassword()">
+            <p id="passwordHint"></p> <!-- Для отображения подсказки о пароле -->
         </div>
         <div class="form-group">
-            <label for="confirmPassword">Confirm New Password</label>
-            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+            <label for="confirmPassword">Подтверждение нового пароля</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" onkeyup="checkConfirmPassword()">
+            <p id="confirmPasswordHint"></p> <!-- Для отображения подсказки о подтверждении пароля -->
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Update Profile</button>
+
+        <!-- Проверка условий пароля -->
+        <ul id="passwordRequirements">
+            <li id="upperCaseRequirement" class="invalid">Содержит заглавную букву</li>
+            <li id="englishLetterRequirement" class="invalid">Содержит английские буквы</li>
+            <li id="lengthRequirement" class="invalid">Не менее 8 символов</li>
+            <li id="numberRequirement" class="invalid">Содержит хотя бы одну цифру</li> <!-- Новое требование -->
+        </ul>
+
+        <button type="submit" class="btn btn-primary btn-block">Обновить профиль</button>
     </form>
 </div>
+
+<script>
+    function checkPassword() {
+        const password = document.getElementById('password').value;
+
+        // Проверка условий
+        const hasUpperCase = /[A-Z]/.test(password);
+        const isLongEnough = password.length >= 8;
+        const hasEnglishLetters = /[A-Za-z]/.test(password); // Проверка на наличие английских букв
+        const hasNumber = /\d/.test(password); // Проверка на наличие цифр
+
+        // Условия для отображения
+        document.getElementById('upperCaseRequirement').className = hasUpperCase ? 'valid' : 'invalid';
+        document.getElementById('lengthRequirement').className = isLongEnough ? 'valid' : 'invalid';
+        document.getElementById('englishLetterRequirement').className = hasEnglishLetters ? 'valid' : 'invalid';
+        document.getElementById('numberRequirement').className = hasNumber ? 'valid' : 'invalid'; // Обновление для цифр
+
+        // Подсказка о пароле
+        const hint = document.getElementById('passwordHint');
+        if (hasUpperCase && isLongEnough && hasEnglishLetters && hasNumber) {
+            hint.textContent = "Пароль подходит!";
+            hint.className = "valid";
+        } else {
+            hint.textContent = "Пароль должен содержать не менее 8 символов, хотя бы одну заглавную букву, английские буквы и цифры.";
+            hint.className = "invalid";
+        }
+    }
+
+    function checkConfirmPassword() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        const confirmHint = document.getElementById('confirmPasswordHint');
+
+        if (confirmPassword === password) {
+            confirmHint.textContent = "Пароли совпадают!";
+            confirmHint.className = "valid";
+        } else {
+            confirmHint.textContent = "Пароли не совпадают.";
+            confirmHint.className = "invalid";
+        }
+    }
+
+    function validatePassword() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        // Проверка условий перед отправкой формы
+        if (password.length < 8 || !/[A-Z]/.test(password) || !/[A-Za-z]/.test(password) || !/\d/.test(password)) {
+            alert("Пароль должен содержать не менее 8 символов, хотя бы одну заглавную букву, английские буквы и цифры.");
+            return false; // Отмена отправки формы
+        }
+
+        if (password !== confirmPassword) {
+            alert("Пароли не совпадают.");
+            return false; // Отмена отправки формы
+        }
+
+        return true; // Разрешить отправку формы
+    }
+</script>
+
 </body>
 </html>

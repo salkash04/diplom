@@ -33,6 +33,13 @@ public class AuthController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user, Model model) {
+        // Проверка пароля
+        String password = user.getPassword();
+        if (password.length() < 8 || !password.matches(".*[A-Z].*")) {
+            model.addAttribute("error", "Пароль должен содержать не менее 8 символов и хотя бы одну заглавную букву.");
+            return "register"; // Возвращаемся на страницу регистрации с ошибкой
+        }
+
         try {
             userService.registerUser(user);
             return "redirect:/auth/login?success";
@@ -41,6 +48,7 @@ public class AuthController {
             return "register"; // Возвращаемся на страницу регистрации с ошибкой
         }
     }
+
 
     @GetMapping("/login")
     public String showLoginForm(@RequestParam(value = "error", required = false) String error,

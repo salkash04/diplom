@@ -1,10 +1,13 @@
-/* Общий стиль */
+html, body {
+    height: 100%; /* Устанавливаем высоту страницы */
+    margin: 0; /* Убираем отступы браузера */
+    display: flex;
+    flex-direction: column;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
-    color: #333;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Шапка */
@@ -82,6 +85,7 @@ header nav .dropdown:hover .dropdown-content {
 
 /* Основной контейнер */
 .container {
+    flex: 1;
     max-width: 1200px;
     margin: 2rem auto;
     padding: 1.5rem;
@@ -97,12 +101,23 @@ header nav .dropdown:hover .dropdown-content {
     text-align: center;
 }
 
-/* Карточки курсов */
 .course-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
 }
+
+.card-img-top {
+    width: 100%; /* Ширина изображения заполняет карточку */
+    height: auto; /* Автоматическая высота для сохранения пропорций */
+    max-height: 150px; /* Максимальная высота для контроля размера */
+    object-fit: contain; /* Показывает всю картинку, не обрезая её */
+    background-color: #f8f9fa; /* Фон для предотвращения пустых областей */
+    padding: 5px; /* Визуальный отступ вокруг изображения */
+    border-radius: 8px; /* Скругление углов */
+}
+
+
 
 .course-button {
     display: block;
@@ -146,4 +161,12 @@ header nav .dropdown:hover .dropdown-content {
 .course-title:hover {
     text-decoration: underline;
     color: #333;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #1e90ff;
+    color: #fff;
+    margin-top: auto; /* Размещаем футер в самом низу */
 }

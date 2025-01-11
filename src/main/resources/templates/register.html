@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <title>Регистрация</title>
     <link rel="stylesheet" href="/css/registration.css"> <!-- Подключение стилей -->
+    <style>
+        .valid {
+            color: green;
+        }
+        .invalid {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <h2>Регистрация нового пользователя</h2>
-<form th:action="@{/auth/register}" method="post">
+<form th:action="@{/auth/register}" method="post" onsubmit="return validatePassword()">
     <div>
         <label for="username">Имя пользователя:</label>
         <input type="text" id="username" name="username" required>
@@ -18,11 +26,67 @@
     </div>
     <div>
         <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" name="password" required onkeyup="checkPassword()">
+        <p id="passwordHint"></p> <!-- Для отображения подсказки о пароле -->
     </div>
+
+    <!-- Проверка условий пароля -->
+    <ul id="passwordRequirements">
+        <li id="upperCaseRequirement" class="invalid">Содержит заглавную букву</li>
+        <li id="englishLetterRequirement" class="invalid">Содержит английские буквы</li>
+        <li id="lengthRequirement" class="invalid">Не менее 8 символов</li>
+        <li id="numberRequirement" class="invalid">Содержит хотя бы одну цифру</li> <!-- Новое требование -->
+    </ul>
+
     <button type="submit">Зарегистрироваться</button>
+
+    <!-- Отображение ошибки при регистрации -->
+    <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
 </form>
 
 <p>Уже есть аккаунт? <a href="/auth/login">Войти</a></p>
+
+<script>
+    function checkPassword() {
+        const password = document.getElementById('password').value;
+
+        // Проверка условий
+        const hasUpperCase = /[A-Z]/.test(password);
+        const isLongEnough = password.length >= 8;
+        const hasEnglishLetters = /[A-Za-z]/.test(password); // Изменено для проверки наличия хотя бы одной английской буквы
+        const hasNumber = /\d/.test(password); // Проверка на наличие цифр
+
+        // Условия для отображения
+        document.getElementById('upperCaseRequirement').className = hasUpperCase ? 'valid' : 'invalid';
+        document.getElementById('lengthRequirement').className = isLongEnough ? 'valid' : 'invalid';
+        document.getElementById('englishLetterRequirement').className = hasEnglishLetters ? 'valid' : 'invalid';
+        document.getElementById('numberRequirement').className = hasNumber ? 'valid' : 'invalid'; // Обновление для цифр
+
+        // Подсказка о пароле
+        const hint = document.getElementById('passwordHint');
+        if (hasUpperCase && isLongEnough && hasEnglishLetters && hasNumber) {
+            hint.textContent = "Пароль подходит!";
+            hint.className = "valid";
+        } else {
+            hint.textContent = "Пароль должен содержать не менее 8 символов, хотя бы одну заглавную букву, английские буквы и цифры.";
+            hint.className = "invalid";
+        }
+    }
+
+    function validatePassword() {
+        const password = document.getElementById('password').value;
+
+        // Проверка условий перед отправкой формы
+        if (password.length < 8 || !/[A-Z]/.test(password) || !/[A-Za-z]/.test(password) || !/\d/.test(password)) {
+            alert("Пароль должен содержать не менее 8 символов, хотя бы одну заглавную букву, английские буквы и цифры.");
+            return false; // Отмена отправки формы
+        }
+
+        return true; // Разрешить отправку формы
+    }
+</script>
+
 </body>
 </html>
