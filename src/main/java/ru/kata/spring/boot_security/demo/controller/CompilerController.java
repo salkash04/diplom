@@ -36,12 +36,6 @@ public class CompilerController {
         return codeExecutionService.getTemplateCode();
     }
 
-    // Эндпоинт для выполнения пользовательского кода
-    @PostMapping("/run")
-    public String runCode(@RequestBody String code) {
-        return codeExecutionService.executeCode(code);
-    }
-
     @PostMapping("/hello")
     public String executeHelloRoot(@RequestBody String code, @AuthenticationPrincipal User user) {
         if (user == null) {

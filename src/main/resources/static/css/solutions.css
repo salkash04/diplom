@@ -249,3 +249,17 @@ pre.code-block {
     overflow-x: auto;
 }
 
+.view-code-button {
+    display: inline-block; /* Делает ссылку блочным элементом для правильного отображения */
+    padding: 10px 20px; /* Отступы вокруг текста кнопки */
+    background-color: #007bff; /* Синий фон */
+    color: white; /* Белый цвет текста */
+    text-decoration: none; /* Убираем подчеркивание */
+    border-radius: 5px; /* Закругленные углы */
+    font-weight: bold; /* Жирный текст */
+    transition: background-color 0.3s ease; /* Плавный переход цвета фона при наведении */
+}
+
+.view-code-button:hover {
+    background-color: #0056b3; /* Темно-синий фон при наведении */
+}

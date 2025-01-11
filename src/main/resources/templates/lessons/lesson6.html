@@ -6,30 +6,46 @@
     <title>Урок 6: Циклы (for, while, do-while)</title>
     <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
     <script>
-        // Функция для загрузки шаблонного кода
-        function loadTemplate() {
-            const template = `
+            // Функция для загрузки шаблонного кода
+            async function loadTemplate(taskId, editorId) {
+            try {
+            const lastCodeResponse = await fetch(`/api/compiler/lastAttempt/${taskId}`);
+            if (!lastCodeResponse.ok) {
+            // Если код не найден, загружаем шаблон по умолчанию
+            document.getElementById(editorId).value = await loadDefaultTemplate();
+            return; // Завершаем выполнение функции
+        }
+
+            const lastCode = await lastCodeResponse.text();
+            document.getElementById(editorId).value = lastCode.trim() || await loadDefaultTemplate();
+        } catch (error) {
+            console.error(error);
+            alert("Произошла ошибка: " + error.message);
+            document.getElementById(editorId).value = await loadDefaultTemplate(); // Загружаем шаблон в случае ошибки
+        }
+        }
+
+            async function loadDefaultTemplate() {
+            return `
 public class Main {
     public static void main(String[] args) {
         // Ваш код здесь
     }
 }`;
-
-            document.getElementById('forLoopCodeEditor').value = template;
-            document.getElementById('whileLoopCodeEditor').value = template;
-            document.getElementById('doWhileLoopCodeEditor').value = template;
         }
 
-        // Функция для выполнения кода
-        async function runCode(endpoint, editorId, outputId) {
-            const code = document.getElementById(editorId).value;
+            // Функция для выполнения кода
+            async function runCode(endpoint, editorId, outputId) {
+            const code = document.getElementById(editorId).value.trim(); // Убираем лишние пробелы
+
             const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
-                body: code
-            });
+            method: 'POST',
+            headers: {
+            'Content-Type': 'text/plain' // Отправляем как текст
+        },
+            body: code // Отправляем только код
+        });
+
             const result = await response.text();
             const outputElement = document.getElementById(outputId);
             outputElement.innerText = result; // Выводим результат выполнения
@@ -39,14 +55,18 @@ public class Main {
 
             // Проверяем, соответствует ли результат ожидаемому
             if (result.includes("Успешно")) {
-                outputElement.classList.add('success'); // Добавляем класс успеха
-            } else {
-                outputElement.classList.add('error'); // Добавляем класс ошибки
-            }
+            outputElement.classList.add('success'); // Добавляем класс успеха
+        } else {
+            outputElement.classList.add('error'); // Добавляем класс ошибки
+        }
         }
 
-        // Загрузка шаблона при открытии страницы
-        window.onload = loadTemplate;
+            // Загрузка шаблона при открытии страницы
+            window.onload = function() {
+            loadTemplate(6, 'forLoopCodeEditor'); // Загружаем шаблон для цикла for
+            loadTemplate(7, 'whileLoopCodeEditor'); // Загружаем шаблон для цикла while
+            loadTemplate(8, 'doWhileLoopCodeEditor'); // Загружаем шаблон для цикла do-while
+        };
     </script>
     <style>
         .success {
@@ -91,14 +111,16 @@ public class Main {
         <h2>Теория: Циклы</h2>
 
         <h3>1. Цикл for</h3>
-        <p>Цикл for используется для повторения блока кода определенное количество раз. Он состоит из трех частей: инициализации, условия и итерации.</p>
+        <p>Цикл for используется для повторения блока кода определенное количество раз. Он состоит из трех частей:
+            инициализации, условия и итерации.</p>
 
         <pre><code>for (инициализация; условие; итерация) {
     // Код, который выполняется в цикле
 }</code></pre>
 
         <h3>2. Цикл while</h3>
-        <p>Цикл while выполняет блок кода до тех пор, пока условие истинно. Если условие ложно изначально, код внутри цикла не выполнится ни разу.</p>
+        <p>Цикл while выполняет блок кода до тех пор, пока условие истинно. Если условие ложно изначально, код внутри
+            цикла не выполнится ни разу.</p>
 
         <pre><code>while (условие) {
     // Код, который выполняется в цикле
@@ -122,7 +144,7 @@ public class Main {
         <!-- Компилятор для задачи на цикл for -->
         <section class="compiler">
             <h2>Онлайн-компилятор: Цикл for</h2>
-            <textarea id="forLoopCodeEditor" rows="15" cols="70"></textarea><br />
+            <textarea id="forLoopCodeEditor" rows="15" cols="70"></textarea><br/>
             <button onclick="runCode('/api/compiler/for-loop', 'forLoopCodeEditor', 'forLoopOutput')">Выполнить</button>
             <pre id="forLoopOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
         </section>
@@ -152,6 +174,8 @@ public class Main {
         </section>
 
     </section>
+
+    <!-- Навигационные кнопки -->
     <div class="navigation-buttons">
         <button onclick="location.href='/module1/lesson/5'">Предыдущий модуль</button>
         <button onclick="location.href='/module1/lesson/7'">Следующий модуль</button>

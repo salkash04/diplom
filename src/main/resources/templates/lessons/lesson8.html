@@ -7,29 +7,66 @@
     <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
     <script>
         // Функция для загрузки шаблонного кода
-        function loadTemplate() {
-            const template = `
+        async function loadTemplate(taskId) {
+            try {
+                const lastCodeResponse = await fetch(`/api/compiler/lastAttempt/${taskId}`);
+                if (!lastCodeResponse.ok) throw new Error("Ошибка при загрузке последнего кода");
+
+                const lastCode = await lastCodeResponse.text();
+                if (lastCode.trim()) {
+                    setEditorValue(taskId, lastCode.trim());
+                } else {
+                    // Загружаем шаблонный код только если lastCode пустой
+                    setEditorValue(taskId, await loadDefaultTemplate());
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Произошла ошибка: " + error.message);
+                // Попробуем загрузить шаблонный код в случае ошибки
+                setEditorValue(taskId, await loadDefaultTemplate());
+            }
+        }
+
+        // Функция для установки значения в редактор
+        function setEditorValue(taskId, code) {
+            if (taskId === 12) {
+                document.getElementById('arrayListCodeEditor').value = code;
+            } else if (taskId === 13) {
+                document.getElementById('hashMapCodeEditor').value = code;
+            } else if (taskId === 14) {
+                document.getElementById('hashMapEntrySetCodeEditor').value = code;
+            }
+        }
+
+        // Функция для загрузки шаблона по умолчанию
+        async function loadDefaultTemplate() {
+            return `
 public class Main {
     public static void main(String[] args) {
         // Ваш код здесь
     }
 }`;
-
-            document.getElementById('arrayListCodeEditor').value = template;
-            document.getElementById('hashMapCodeEditor').value = template;
-            document.getElementById('hashMapEntrySetCodeEditor').value = template;
         }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = function() {
+            loadTemplate(12); // ID задачи для ArrayList
+            loadTemplate(13); // ID задачи для HashMap
+            loadTemplate(14); // ID задачи для entrySet
+        };
 
         // Функция для выполнения кода
         async function runCode(endpoint, editorId, outputId) {
-            const code = document.getElementById(editorId).value;
+            const code = document.getElementById(editorId).value.trim(); // Убираем лишние пробелы
+
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'text/plain'
+                    'Content-Type': 'text/plain' // Отправляем как текст
                 },
-                body: code
+                body: code // Отправляем только код
             });
+
             const result = await response.text();
             const outputElement = document.getElementById(outputId);
             outputElement.innerText = result; // Выводим результат выполнения
@@ -44,9 +81,6 @@ public class Main {
                 outputElement.classList.add('error'); // Добавляем класс ошибки
             }
         }
-
-        // Загрузка шаблона при открытии страницы
-        window.onload = loadTemplate;
     </script>
     <style>
         .success {

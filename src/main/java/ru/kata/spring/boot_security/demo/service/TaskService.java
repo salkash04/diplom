@@ -50,7 +50,14 @@ public class TaskService {
                 .orElse(null);
     }
 
+
     public List<TaskAttempt> getUserAttempts(Long userId) {
         return taskAttemptRepository.findByUserIdSorted(userId, Sort.by(Sort.Direction.DESC, "submittedAt"));
+    }
+
+    // Получение конкретной попытки по её ID
+    public TaskAttempt findAttemptById(Long attemptId) {
+        return taskAttemptRepository.findById(attemptId)
+                .orElseThrow(() -> new IllegalArgumentException("Попытка с ID " + attemptId + " не найдена"));
     }
 }

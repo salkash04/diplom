@@ -1,100 +1,124 @@
-/* Общие стили */
+/* registration.css */
+
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    color: #333;
+    align-items: center;
+    height: 100vh;
 }
 
-#root {
-    display: flex; /* Flexbox для размещения формы */
-    flex-direction: column; /* Вертикальное размещение */
+#root, form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 h2 {
-    font-size: 2rem; /* Размер шрифта заголовка Java Elevate */
-    color: #1e90ff; /* Цвет заголовка */
-    margin-bottom: 0.5rem; /* Отступ снизу */
-    text-align: center; /* Центрирование заголовка */
+    color: #4a4a4a;
+    margin-bottom: 10px;
+    font-size: 24px;
+    text-align: center;
 }
 
-h1 {
-    text-align: center; /* Центрирование заголовка Авторизация */
-    margin-bottom: 20px; /* Отступ снизу */
+form h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #6c6c6c;
 }
 
-/* Форма авторизации */
-.login_wrapper__HPMvh {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px; /* Максимальная ширина блока */
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem; /* Отступы между элементами формы */
-}
-
-div {
-    display: flex;
-    flex-direction: column;
+form div {
+    margin-bottom: 15px;
+    text-align: left;
 }
 
 label {
-    font-size: 1rem;
+    display: block;
     font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
     color: #333;
 }
 
-input {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
     width: 100%;
-    padding: 1rem; /* Увеличенные внутренние отступы для длинных полей */
-    border: 1px solid #ddd; /* Цвет рамки */
-    border-radius: 4px; /* Скругленные углы */
-    font-size: 1rem; /* Размер шрифта */
-    transition: border-color 0.3s ease; /* Плавный переход цвета рамки */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
 }
 
-input:focus {
-    border-color: #1e90ff; /* Цвет рамки при фокусе */
-    outline: none; /* Убираем обводку */
-    box-shadow: 0 0 4px rgba(30, 144, 255, 0.4); /* Тень при фокусе */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
-button {
-    padding: 0.75rem; /* Внутренние отступы кнопки */
-    background-color: #1e90ff; /* Цвет фона кнопки */
-    color: #fff; /* Цвет текста кнопки */
-    border: none; /* Убираем рамку */
-    border-radius: 4px; /* Скругленные углы кнопки */
-    font-size: 1rem; /* Размер шрифта кнопки */
-    cursor: pointer; /* Курсор при наведении */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Плавные переходы для кнопки */
+button[type="submit"] {
+    width: 100%;
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #005cbf; /* Темнее при наведении */
+button[type="submit"]:hover {
+    background-color: #0056b3;
 }
 
-button:active {
-    transform :translateY(0);/* Возврат кнопки в исходное положение при нажатии */
-}
-
-/* Ссылка на регистрацию */
 p {
-    font-size :0.9rem;/* Размер шрифта для параграфа */
+    font-size: 14px;
+    color: #666;
+    margin-top: 15px;
 }
 
 p a {
-    color :#1e90ff;/* Цвет ссылки */
+    color: #007bff;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+#passwordRequirements {
+    margin-top: 10px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+#passwordRequirements li {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.valid {
+    color: green;
+}
+
+.invalid {
+    color: red;
+}
+
+#passwordHint {
+    font-size: 12px;
+    margin-top: 5px;
 }

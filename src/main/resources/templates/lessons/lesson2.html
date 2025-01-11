@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Урок: Первая программа на Java</title>
-    <link rel="stylesheet" href="/css/lessons/lesson2.css"> <!-- Подключаем общий CSS -->
+    <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем общий CSS -->
+
     <script>
         // Функция для загрузки шаблонного кода
         async function loadTemplate(taskId) {
@@ -13,21 +14,18 @@
                 if (!lastCodeResponse.ok) throw new Error("Ошибка при загрузке последнего кода");
 
                 const lastCode = await lastCodeResponse.text();
-                if (lastCode.trim()) {
-                    document.getElementById('codeEditor').value = lastCode;
-                } else {
-                    const templateResponse = await fetch('/api/compiler/template');
-                    if (!templateResponse.ok) throw new Error("Ошибка при загрузке шаблона");
-
-                    const template = await templateResponse.text();
-                    document.getElementById('codeEditor').value = template;
-                }
+                document.getElementById('codeEditor').value = lastCode.trim() || await loadDefaultTemplate();
             } catch (error) {
                 console.error(error);
                 alert("Произошла ошибка: " + error.message);
             }
         }
 
+        async function loadDefaultTemplate() {
+            const templateResponse = await fetch('/api/compiler/template');
+            if (!templateResponse.ok) throw new Error("Ошибка при загрузке шаблона");
+            return await templateResponse.text();
+        }
 
         // Функция для выполнения кода
         async function runCode() {
@@ -40,11 +38,18 @@
                 body: code
             });
             const result = await response.text();
-            document.getElementById('output').innerText = result; // Выводим результат выполнения
+            const outputElement = document.getElementById('output');
+            outputElement.innerText = result; // Выводим результат выполнения
+
+            // Удаляем старые классы
+            outputElement.classList.remove('success', 'error');
 
             // Проверяем, соответствует ли результат ожидаемому
             if (result.includes("Успешно")) {
+                outputElement.classList.add('success'); // Добавляем класс успеха
                 displayExplanation(); // Вызываем функцию для отображения объяснения
+            } else {
+                outputElement.classList.add('error'); // Добавляем класс ошибки
             }
         }
 
@@ -76,6 +81,23 @@
             loadTemplate(taskId);
         };
     </script>
+    <style>
+        .success {
+            border: 2px solid green;
+            background-color: #e0ffe0; /* Светло-зеленый фон */
+            color: green;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .error {
+            border: 2px solid red;
+            background-color: #ffe0e0; /* Светло-красный фон */
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 
@@ -114,7 +136,7 @@
         <button onclick="runCode()">Выполнить</button>
 
         <!-- Здесь будет отображаться результат выполнения -->
-        <pre id="output"></pre>
+        <pre id="output"></pre><!-- Здесь будет отображаться результат выполнения -->
     </section>
 
     <!-- Блок для отображения объяснения -->

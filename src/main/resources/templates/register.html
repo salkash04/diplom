@@ -11,6 +11,9 @@
         .invalid {
             color: red;
         }
+        #passwordRequirements {
+            display: none; /* Initially hide the password requirements */
+        }
     </style>
 </head>
 <body>
@@ -26,7 +29,7 @@
     </div>
     <div>
         <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" required onkeyup="checkPassword()">
+        <input type="password" id="password" name="password" required onkeyup="checkPassword()" onfocus="showRequirements()" onblur="hideRequirements()">
         <p id="passwordHint"></p> <!-- Для отображения подсказки о пароле -->
     </div>
 
@@ -55,14 +58,14 @@
         // Проверка условий
         const hasUpperCase = /[A-Z]/.test(password);
         const isLongEnough = password.length >= 8;
-        const hasEnglishLetters = /[A-Za-z]/.test(password); // Изменено для проверки наличия хотя бы одной английской буквы
-        const hasNumber = /\d/.test(password); // Проверка на наличие цифр
+        const hasEnglishLetters = /[A-Za-z]/.test(password);
+        const hasNumber = /\d/.test(password);
 
         // Условия для отображения
         document.getElementById('upperCaseRequirement').className = hasUpperCase ? 'valid' : 'invalid';
         document.getElementById('lengthRequirement').className = isLongEnough ? 'valid' : 'invalid';
         document.getElementById('englishLetterRequirement').className = hasEnglishLetters ? 'valid' : 'invalid';
-        document.getElementById('numberRequirement').className = hasNumber ? 'valid' : 'invalid'; // Обновление для цифр
+        document.getElementById('numberRequirement').className = hasNumber ? 'valid' : 'invalid';
 
         // Подсказка о пароле
         const hint = document.getElementById('passwordHint');
@@ -72,6 +75,25 @@
         } else {
             hint.textContent = "Пароль должен содержать не менее 8 символов, хотя бы одну заглавную букву, английские буквы и цифры.";
             hint.className = "invalid";
+        }
+    }
+
+    function showRequirements() {
+        document.getElementById('passwordRequirements').style.display = 'block'; // Show requirements when focusing on the password field
+    }
+
+    function hideRequirements() {
+        const password = document.getElementById('password').value;
+
+        // Hide requirements if the password field is empty
+        if (password === "") {
+            document.getElementById('passwordRequirements').style.display = 'none'; // Hide requirements
+            document.getElementById('passwordHint').textContent = ""; // Clear hint
+            // Reset all requirement classes to invalid
+            document.getElementById('upperCaseRequirement').className = 'invalid';
+            document.getElementById('lengthRequirement').className = 'invalid';
+            document.getElementById('englishLetterRequirement').className = 'invalid';
+            document.getElementById('numberRequirement').className = 'invalid';
         }
     }
 

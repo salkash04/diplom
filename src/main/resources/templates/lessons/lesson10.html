@@ -7,27 +7,60 @@
     <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
     <script>
         // Функция для загрузки шаблонного кода
-        function loadTemplate() {
-            const template = `
+        async function loadTemplate(taskId) {
+            try {
+                const lastCodeResponse = await fetch(`/api/compiler/lastAttempt/${taskId}`);
+                if (!lastCodeResponse.ok) throw new Error("Ошибка при загрузке последнего кода");
+
+                const lastCode = await lastCodeResponse.text();
+                if (lastCode.trim()) {
+                    setEditorValue(taskId, lastCode.trim());
+                } else {
+                    // Загружаем шаблонный код только если lastCode пустой
+                    setEditorValue(taskId, await loadDefaultTemplate());
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Произошла ошибка: " + error.message);
+                // Попробуем загрузить шаблонный код в случае ошибки
+                setEditorValue(taskId, await loadDefaultTemplate());
+            }
+        }
+
+        // Функция для установки значения в редактор
+        function setEditorValue(taskId, code) {
+            if (taskId === 16) {
+                document.getElementById('inheritancePolymorphismCodeEditor').value = code;
+            }
+        }
+
+        // Функция для загрузки шаблона по умолчанию
+        async function loadDefaultTemplate() {
+            return `
 public class Main {
     public static void main(String[] args) {
         // Ваш код здесь
     }
 }`;
-
-            document.getElementById('inheritancePolymorphismCodeEditor').value = template;
         }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = function() {
+            loadTemplate(16); // ID задачи для наследования и полиморфизма
+        };
 
         // Функция для выполнения кода
         async function runCode(endpoint, editorId, outputId) {
-            const code = document.getElementById(editorId).value;
+            const code = document.getElementById(editorId).value.trim(); // Убираем лишние пробелы
+
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'text/plain'
+                    'Content-Type': 'text/plain' // Отправляем как текст
                 },
-                body: code
+                body: code // Отправляем только код
             });
+
             const result = await response.text();
             const outputElement = document.getElementById(outputId);
             outputElement.innerText = result; // Выводим результат выполнения
@@ -42,9 +75,6 @@ public class Main {
                 outputElement.classList.add('error'); // Добавляем класс ошибки
             }
         }
-
-        // Загрузка шаблона при открытии страницы
-        window.onload = loadTemplate;
     </script>
     <style>
         .success {

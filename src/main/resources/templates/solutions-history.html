@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>История решений</title>
+    <link rel="stylesheet" href="/css/solutions.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .selected-code {
+            background-color: #fefefe;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .selected-code h3 {
+            margin-top: 0;
+        }
+        .next-module {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .next-module a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+        .next-module a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>История решений</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/1">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <h2>Ваши решения:</h2>
+
+    <!-- Отображение выбранного решения -->
+    <div th:if="${selectedAttempt != null}" class="selected-code">
+        <h3>Код решения:</h3>
+        <pre th:text="${selectedAttempt.code}"></pre> <!-- Код решения -->
+        <p>Результат выполнения: <span th:text="${selectedAttempt.executionResult}"></span></p> <!-- Результат выполнения -->
+    </div>
+
+    <div class="next-module">
+        <a href="/user/solutions">Вернуться к моим решениям</a>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2025 Мой Java-курс. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

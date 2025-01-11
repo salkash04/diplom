@@ -30,6 +30,15 @@ public class LessonController {
         return "solutions";
     }
 
+    @GetMapping("/user/solutions/{attemptId}")
+    public String showSolution(@PathVariable Long attemptId, Model model, @AuthenticationPrincipal User user) {
+        TaskAttempt selectedAttempt = taskService.findAttemptById(attemptId);
+        List<TaskAttempt> attempts = taskService.getUserAttempts(user.getId());
+        model.addAttribute("attempts", attempts);
+        model.addAttribute("selectedAttempt", selectedAttempt);
+        return "solutions-history";
+    }
+
     @PostMapping("/module1/lesson/{lessonId}/submit")
     public String submitSolution(@PathVariable Long lessonId,
                                  @RequestBody SolutionRequest request,

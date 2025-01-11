@@ -5,114 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Урок 3: Примитивные типы данных и Задачи на Java</title>
     <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
+
     <script>
-        // Функция для загрузки шаблонного кода
-        function loadTemplate() {
-            const template = `
-public class Main {
-    public static void main(String[] args) {
-        // Напишите ваш код здесь
-    }
-}`;
-            document.getElementById('sqrtCodeEditor').value = template;
-            document.getElementById('divisibilityCodeEditor').value = template;
+        async function loadTemplate(taskId, editorId) {
+            try {
+                const lastCodeResponse = await fetch(`/api/compiler/lastAttempt/${taskId}`);
+                if (!lastCodeResponse.ok) {
+                    // Если код не найден, загружаем шаблон по умолчанию
+                    document.getElementById(editorId).value = await loadDefaultTemplate();
+                    return; // Завершаем выполнение функции
+                }
+
+                const lastCode = await lastCodeResponse.text();
+                document.getElementById(editorId).value = lastCode.trim() || await loadDefaultTemplate();
+            } catch (error) {
+                console.error(error);
+                alert("Произошла ошибка: " + error.message);
+                document.getElementById(editorId).value = await loadDefaultTemplate(); // Загружаем шаблон в случае ошибки
+            }
         }
 
-        // Функция для выполнения кода
-        async function runCode(endpoint, editorId, outputId, taskId) {
-            const code = document.getElementById(editorId).value;
+        async function loadDefaultTemplate() {
+            return `
+public class Main {
+    public static void main(String[] args) {
+        // Ваш код здесь
+    }
+}`;
+        }
 
-            // Создаем объект с данными для отправки
-            const requestData = {
-                code: code,
-                taskId: taskId // Добавляем taskId
-            };
+        window.onload = function() {
+            loadTemplate(2, 'sqrtCodeEditor'); // Загружаем шаблон для проверки четности числа
+            loadTemplate(3, 'divisibilityCodeEditor'); // Загружаем шаблон для определения дня недели
+        };
+
+        // Функция для выполнения кода
+        async function runCode(endpoint, editorId, outputId) {
+            const code = document.getElementById(editorId).value.trim(); // Убираем лишние пробелы
 
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json' // Изменяем на 'application/json'
+                    'Content-Type': 'text/plain' // Отправляем как текст
                 },
-                body: JSON.stringify(requestData) // Преобразуем объект в строку JSON
+                body: code // Отправляем только код
             });
 
             const result = await response.text();
-            document.getElementById(outputId).innerText = result; // Выводим результат выполнения
+            const outputElement = document.getElementById(outputId);
+            outputElement.innerText = result; // Выводим результат выполнения
+
+            // Удаляем старые классы
+            outputElement.classList.remove('success', 'error');
 
             // Проверяем, соответствует ли результат ожидаемому
-            if (result.includes("Успешно: Вывод соответствует ожидаемому результату!")) {
-                if (editorId === 'sqrtCodeEditor') {
-                    displayMathExplanation(); // Вызываем функцию для отображения объяснения по Math
-                }
+            if (result.includes("Успешно")) {
+                outputElement.classList.add('success'); // Добавляем класс успеха
+                displayExplanation(); // Вызываем функцию для отображения объяснения
             } else {
-                // Если результат не соответствует ожиданиям, можно вывести сообщение об ошибке
+                outputElement.classList.add('error'); // Добавляем класс ошибки
                 console.error("Ошибка выполнения:", result);
             }
         }
+    </script>
 
-
-        // Функция для отображения объяснения по Math
-        function displayMathExplanation() {
-            const explanation = `
-                <h3>Объяснение кода:</h3>
-                <p>Для выполнения различных математических операций в Java в пакете java.lang определен класс Math.</p>
-                <p>Рассмотреть его основные методы можно посмотреть в статье «Класс Math».</p>
-                <p>Встроенные примитивные числовые типы не всегда могут подходить для определенных программ. Например, необходимо хранить и использовать в программе очень большие числа, которые выходят за пределы допустимых значений для типов long и double. В этом случае для работы с числовыми данными можно использовать два дополнительных типа из пакета java.math: BigInteger для целочисленных данных и BigDecimal для чисел с плавающей точкой.</p>
-
-                <strong>Основные методы класса BigInteger:</strong>
-                <ul>
-                    <li><code>BigInteger add(BigInteger other)</code>: возвращает сумму двух чисел.</li>
-                    <li><code>BigInteger subtract(BigInteger other)</code>: возвращает разность двух чисел.</li>
-                    <li><code>BigInteger multiply(BigInteger other)</code>: возвращает произведение двух чисел.</li>
-                    <li><code>BigInteger divide(BigInteger other)</code>: возвращает частное двух чисел.</li>
-                    <li><code>BigInteger mod(BigInteger other)</code>: возвращает остаток от целочисленного деления двух чисел.</li>
-                    <li><code>BigInteger sqrt()</code>: возвращает квадратный корень числа.</li>
-                    <li><code>int compareTo(BigInteger other)</code>: сравнивает два числа. Возвращает -1, если текущий объект меньше числа other, 1 - если текущий объект больше и 0 - если числа равны.</li>
-                    <li><code>static BigInteger valueOf(long x)</code>: возвращает объект BigInteger, значение которого равно числу, переданному в качестве параметра.</li>
-                    <li><code>int intValue()</code>: конвертирует объект BigInteger в объект int.</li>
-                    <li><code>byte byteValue()</code>: преобразует объект BigInteger в byte.</li>
-                    <li><code>short shortValue()</code>: преобразует объект BigInteger в short.</li>
-                    <li><code>long longValue()</code>: преобразует объект BigInteger в long.</li>
-                </ul>
-
-                <strong>Основные методы класса BigDecimal:</strong>
-                <ul>
-                    <li><code>BigDecimal add(BigDecimal other)</code>: возвращает сумму двух чисел.</li>
-                    <li><code>BigDecimal subtract(BigDecimal other)</code>: возвращает разность двух чисел.</li>
-                    <li><code>BigDecimal multiply(BigDecimal other)</code>: возвращает произведение двух чисел.</li>
-                    <li><code>BigDecimal divide(BigDecimal other)</code>: возвращает частное двух чисел.</li>
-                    <li><code>int compareTo(BigDecimal other)</code>: сравнивает два числа. Возвращает -1, если текущий объект меньше числа other, 1 - если текущий объект больше и 0 - если числа равны.</li>
-                    <li><code>static BigDecimal valueOf(double x)</code>: возвращает объект BigDecimal, значение которого равно числу, переданному в качестве параметра.</li>
-                    <li><code>double doubleValue()</code>: преобразует объект BigDecimal в double.</li>
-                    <li><code>float floatValue()</code>: преобразует объект BigDecimal в float.</li>
-                </ul>
-
-                <strong>Пример использования классов BigInteger и BigDecimal:</strong>
-                <pre><code>
-import java.math.*;
-
-public class Program {
-    public static void main(String[] args) {
-        BigInteger a = BigInteger.valueOf(2147483647);
-        BigInteger b = BigInteger.valueOf(2147483641);
-        a = a.multiply(b);
-        System.out.println(a);  // 4611686001247518727
-
-        BigDecimal c = BigDecimal.valueOf(2325.06);
-        BigDecimal d = BigDecimal.valueOf(215.06);
-        c = c.subtract(d.multiply(BigDecimal.valueOf(2.1)));
-        System.out.println(c);      // 1873.434
-    }
-}
-                </code></pre>`;
-            document.getElementById('explanation').innerHTML = explanation; // Выводим объяснение
+    <style>
+        .success {
+            border: 2px solid green;
+            background-color: #e0ffe0; /* Светло-зеленый фон */
+            color: green;
+            padding: 10px;
+            margin-top: 10px;
         }
 
-        // Загрузка шаблона при открытии страницы
-        window.onload = loadTemplate;
-    </script>
+        .error {
+            border: 2px solid red;
+            background-color: #ffe0e0; /* Светло-красный фон */
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
@@ -153,15 +127,21 @@ public class Program {
         <ol>
 
             <!-- Задача на вычисление квадратного корня -->
-            <li>Напишите программу для вычисления квадратного корня числа (использовать Math.sqrt).</li>
+            <li>Напишите программу для вычисления квадратного корня числа (использовать Math.sqrt).
+                Вывод должен содержать: Квадратный корень числа + "ваше число" + равен + "полученный результат"</li>
+
+            <!-- Ожидаемый вывод -->
             <pre><code id="sqrtExample">
 double number = 16;
 double squareRoot = Math.sqrt(number);
 System.out.println("Квадратный корень числа " + number + " равен " + squareRoot);
-            </code></pre>
+             </code></pre>
 
             <!-- Задача на проверку делимости на 3 -->
-            <li>Реализуйте проверку, делится ли число на 3 без остатка.</li>
+            <li>Реализуйте проверку, делится ли число 9 на 3 без остатка.
+                Вывод должен содержать: "число" + делится на 3.</li>
+
+            <!-- Ожидаемый вывод -->
             <pre><code id="divisibilityExample">
 int num = 9;
 if (num % 3 == 0) {
@@ -169,7 +149,7 @@ if (num % 3 == 0) {
 } else {
     System.out.println(num + " не делится на 3.");
 }
-            </code></pre>
+              </code></pre>
 
         </ol>
 
@@ -180,17 +160,18 @@ if (num % 3 == 0) {
     <section class="compiler">
         <h2>Онлайн-компилятор: Вычисление квадратного корня</h2>
         <input type="hidden" id="taskIdSqrt" value="2">
-        <textarea id="sqrtCodeEditor" rows="15" cols="70" ></textarea><br />
+        <textarea id="sqrtCodeEditor" rows="15" cols="70"></textarea><br />
         <button onclick="runCode('/api/compiler/sqrt', 'sqrtCodeEditor', 'sqrtOutput', 'taskIdSqrt')">Выполнить</button>
-        <pre id="sqrtOutput"></pre>
+        <pre id="sqrtOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
     </section>
 
+    <!-- Компилятор для задачи на проверку делимости на 3 -->
     <section class="compiler">
         <h2>Онлайн-компилятор: Проверка делимости на 3</h2>
         <input type="hidden" id="taskIdDivisibility" value="3"> <!-- ID задачи для делимости -->
         <textarea id="divisibilityCodeEditor" rows="15" cols="70"></textarea><br />
         <button onclick="runCode('/api/compiler/check-divisibility', 'divisibilityCodeEditor', 'divisibilityOutput', 'taskIdDivisibility')">Выполнить</button>
-        <pre id="divisibilityOutput"></pre>
+        <pre id="divisibilityOutput"></pre><!-- Здесь будет отображаться результат выполнения -->
     </section>
 
     <!-- Блок для отображения объяснения -->
@@ -203,10 +184,12 @@ if (num % 3 == 0) {
         <a href="https://kupidonia.ru/viktoriny/test-po-java-tipy-dannyh">Начать тест</a>
     </section>
 
+    <!-- Навигационные кнопки -->
     <div class="navigation-buttons">
         <button onclick="location.href='/module1/lesson/2'">Предыдущий модуль</button>
         <button onclick="location.href='/module1/lesson/4'">Следующий модуль</button>
     </div>
+
 </main>
 
 <footer>

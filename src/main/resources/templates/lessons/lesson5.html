@@ -5,30 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Урок 5: Условные операторы (if-else, switch-case)</title>
     <link rel="stylesheet" href="/css/lessons/lesson3.css"> <!-- Подключаем CSS для урока -->
+
     <script>
         // Функция для загрузки шаблонного кода
-        function loadTemplate() {
-            const template = `
+        async function loadTemplate(taskId, editorId) {
+            try {
+                const lastCodeResponse = await fetch(`/api/compiler/lastAttempt/${taskId}`);
+                if (!lastCodeResponse.ok) {
+                    // Если код не найден, загружаем шаблон по умолчанию
+                    document.getElementById(editorId).value = await loadDefaultTemplate();
+                    return; // Завершаем выполнение функции
+                }
+
+                const lastCode = await lastCodeResponse.text();
+                document.getElementById(editorId).value = lastCode.trim() || await loadDefaultTemplate();
+            } catch (error) {
+                console.error(error);
+                alert("Произошла ошибка: " + error.message);
+                document.getElementById(editorId).value = await loadDefaultTemplate(); // Загружаем шаблон в случае ошибки
+            }
+        }
+
+        async function loadDefaultTemplate() {
+            return `
 public class Main {
     public static void main(String[] args) {
         // Ваш код здесь
     }
 }`;
-
-            document.getElementById('evenOddCodeEditor').value = template;
-            document.getElementById('dayOfWeekCodeEditor').value = template;
         }
+
+        // Загрузка шаблона при открытии страницы
+        window.onload = function() {
+            loadTemplate(4, 'evenOddCodeEditor'); // Загружаем шаблон для проверки четности числа
+            loadTemplate(5, 'dayOfWeekCodeEditor'); // Загружаем шаблон для определения дня недели
+        };
 
         // Функция для выполнения кода
         async function runCode(endpoint, editorId, outputId) {
-            const code = document.getElementById(editorId).value;
+            const code = document.getElementById(editorId).value.trim(); // Убираем лишние пробелы
+
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'text/plain'
+                    'Content-Type': 'text/plain' // Отправляем как текст
                 },
-                body: code
+                body: code // Отправляем только код
             });
+
             const result = await response.text();
             const outputElement = document.getElementById(outputId);
             outputElement.innerText = result; // Выводим результат выполнения
@@ -39,14 +63,28 @@ public class Main {
             // Проверяем, соответствует ли результат ожидаемому
             if (result.includes("Успешно")) {
                 outputElement.classList.add('success'); // Добавляем класс успеха
+                displayExplanation(); // Вызываем функцию для отображения объяснения
             } else {
                 outputElement.classList.add('error'); // Добавляем класс ошибки
+                console.error("Ошибка выполнения:", result);
             }
         }
 
-        // Загрузка шаблона при открытии страницы
-        window.onload = loadTemplate;
+        // Функция для отображения объяснения
+        function displayExplanation() {
+            const explanation = `
+            <h3>Объяснение кода:</h3>
+            <p>В этой программе мы используем условные операторы для выполнения различных действий в зависимости от условий.</p>
+            <strong>Пример:</strong>
+            <ul>
+                <li>Для проверки четности числа используется оператор if-else.</li>
+                <li>Для определения дня недели используется оператор switch-case.</li>
+            </ul>
+        `;
+            document.getElementById('explanation').innerHTML = explanation; // Выводим объяснение
+        }
     </script>
+
     <style>
         .success {
             border: 2px solid green;
@@ -90,7 +128,7 @@ public class Main {
         <h2>Теория: Условные операторы</h2>
 
         <h3>1. Условный оператор if-else</h3>
-        <p>Условный оператор if-else позволяет выполнять различные блоки кода в зависимости от условия. Если условие истинно, выполняется блок кода внутри if; если ложно — выполняется блок кода внутри else.</p>
+        <p>Условный оператор if-else позволяет выполнять различные блоки кода в зависимости от условия...</p>
 
         <pre><code>if (условие) {
     // Код, который выполняется, если условие истинно
@@ -99,7 +137,7 @@ public class Main {
 }</code></pre>
 
         <h3>2. Условный оператор switch-case</h3>
-        <p>Оператор switch-case используется для выбора одного из нескольких блоков кода для выполнения. Это удобно, когда у вас есть несколько значений для проверки.</p>
+        <p>Оператор switch-case используется для выбора одного из нескольких блоков кода...</p>
 
         <pre><code>switch (выражение) {
     case значение1:
@@ -112,7 +150,6 @@ public class Main {
         // Код, который выполняется, если ни одно значение не совпадает
 }</code></pre>
 
-        <p>Важно помнить о ключевом слове break, которое завершает выполнение switch. Если его не использовать, выполнение продолжится до следующего case.</p>
     </section>
 
     <section class="task">
@@ -146,6 +183,8 @@ public class Main {
 
     <!-- Блок для отображения объяснения -->
     <div id="explanation"></div>
+
+    <!-- Навигационные кнопки -->
     <div class="navigation-buttons">
         <button onclick="location.href='/module1/lesson/4'">Предыдущий модуль</button>
         <button onclick="location.href='/module1/lesson/6'">Следующий модуль</button>
