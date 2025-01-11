@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.TaskAttempt;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.CodeExecutionService;
 import ru.kata.spring.boot_security.demo.service.TaskService;
@@ -16,6 +17,17 @@ public class CompilerController {
     public CompilerController(CodeExecutionService codeExecutionService, TaskService taskService) {
         this.codeExecutionService = codeExecutionService;
         this.taskService = taskService;
+    }
+
+    @GetMapping("/lastAttempt/{taskId}")
+    public String getLastAttemptCode(@PathVariable Long taskId, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+        Long userId = user.getId();
+        System.out.println("User ID: " + userId + ", Task ID: " + taskId); // Отладочная информация
+        TaskAttempt lastAttempt = taskService.getLastAttemptForTask(userId, taskId);
+        return lastAttempt != null ? lastAttempt.getCode() : "";
     }
 
     // Эндпоинт для получения шаблонного кода
