@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Детали вопроса - Админ панель</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/admin.css"> <!-- Предполагаемый CSS файл для админ-панели -->
+</head>
+<body>
+    <header>
+        <h1>JavaElevate- Админ панель</h1>
+        <nav>
+            <a href="/dashboard">Главная</a>
+            <a href="/admin/users">Управление пользователями</a>
+            <a href="/admin/forum/questions">Управление вопросами форума</a>
+        </nav>
+    </header>
+
+<div class="container mt-4">
+    <h2>Детали вопроса</h2>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 th:text="${question.title}"></h3>
+            <p>Автор: <span th:text="${question.userName}"></span></p>
+            <p>Дата создания: <span th:text="${#temporals.format(question.createdAt, 'dd-MM-yyyy HH:mm')}"></span></p>
+            <p>Статус: <span th:text="${question.status}"></span></p>
+        </div>
+        <div class="card-body">
+            <p th:text="${question.content}"></p>
+        </div>
+        <div class="card-footer">
+            <form th:if="${question.status == 'OPEN'}" th:action="@{/admin/forum/questions/{id}/close(id=${question.id})}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-warning">Закрыть вопрос</button>
+            </form>
+            <form th:if="${question.status == 'CLOSED'}" th:action="@{/admin/forum/questions/{id}/open(id=${question.id})}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-success">Открыть вопрос</button>
+            </form>
+            <form th:action="@{/admin/forum/questions/{id}/delete(id=${question.id})}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот вопрос?')">Удалить вопрос</button>
+            </form>
+        </div>
+    </div>
+
+    <h3>Ответы</h3>
+    <div th:each="answer : ${answers}" class="card mb-3">
+        <div class="card-body">
+            <p th:text="${answer.content}"></p>
+            <p>Автор: <span th:text="${answer.userName}"></span></p>
+            <p>Дата: <span th:text="${#temporals.format(answer.createdAt, 'dd-MM-yyyy HH:mm')}"></span></p>
+        </div>
+        <div class="card-footer">
+            <form th:action="@{/admin/forum/answers/{id}/delete(id=${answer.id})}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот ответ?')">Удалить ответ</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 JavaElevate. Все права защищены.</p>
+</footer>
+
+</body>
+</html>

@@ -62,8 +62,28 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new RuntimeException("Пользователь не найден с ID: " + id));
     }
 
-    public List<User> findAll() {
+    public List<User> getAllUsers() {
         return userRepository.findAll(); // Предполагается, что у вас есть метод findAll() в UserRepository
+    }
+
+    public void changeUserRole(Long userId, Long roleId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+        user.setRole(role);
+        userRepository.save(user);
+    }
+
+    public void changeUserStatus(Long userId, boolean blocked) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Role newRole = roleRepository.findByName(blocked ? "ROLE_BLOCKED" : "ROLE_USER");
+        if (newRole == null) {
+            throw new RuntimeException("Role not found");
+        }
+        user.setRole(newRole);
+        userRepository.save(user);
     }
 
     public void saveUser(User user) {
@@ -72,6 +92,10 @@ public class UserService implements UserDetailsService {
 
     public void deleteById(long id) {
         userRepository.deleteById(id); // Удаление пользователя по ID
+    }
+
+    public List<User> searchUsers(String keyword) {
+        return userRepository.findByUsernameContainingOrEmailContaining(keyword, keyword);
     }
 
     public boolean isAccountNonExpired() {
@@ -113,7 +137,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<Role> getAllRoles() {
-        return List.of();
+        return roleRepository.findAll();
     }
 
     public void updateUser(User user) {

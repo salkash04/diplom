@@ -8,6 +8,7 @@ body {
     background-color: #f4f4f9;
     color: #333;
 }
+/* Шапка */
 header {
     background-color: #1e90ff;
     color: #fff;
@@ -62,6 +63,7 @@ header nav .dropdown-content {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     z-index: 1;
+    right: 0; /* Выравнивание меню по правому краю */
 }
 
 header nav .dropdown-content a {
@@ -79,6 +81,7 @@ header nav .dropdown-content a:hover {
 header nav .dropdown:hover .dropdown-content {
     display: block;
 }
+
 
 main {
     max-width: 1000px;
@@ -126,7 +129,6 @@ textarea#codeEditor {
     border-radius: 8px;
     font-family: monospace;
     font-size: 16px;
-    padding: 10px;
 }
 
 /* Кнопка выполнения кода */
@@ -139,7 +141,6 @@ button {
     font-size :16px;
     cursor:pointer;
     border-radius :5px;
-    margin-top :10px;
 }
 
 button:hover {

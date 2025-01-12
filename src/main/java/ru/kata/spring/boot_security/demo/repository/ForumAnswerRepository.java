@@ -10,4 +10,5 @@ import java.util.List;
 public interface ForumAnswerRepository extends JpaRepository<ForumAnswer, Long> {
 
     List<ForumAnswer> findByQuestionId(Long questionId);
+    List<ForumAnswer> deleteByQuestionId(Long questionId);
 }

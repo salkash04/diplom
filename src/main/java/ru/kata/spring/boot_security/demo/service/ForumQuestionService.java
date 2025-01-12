@@ -2,10 +2,12 @@ package ru.kata.spring.boot_security.demo.service;
 
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Enum.QuestionStatus;
 import ru.kata.spring.boot_security.demo.model.ForumQuestion;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.model.dto.ForumQuestionDTO;
+import ru.kata.spring.boot_security.demo.repository.ForumAnswerRepository;
 import ru.kata.spring.boot_security.demo.repository.ForumQuestionRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
@@ -17,11 +19,14 @@ import java.util.stream.Collectors;
 public class ForumQuestionService {
 
     private final ForumQuestionRepository forumQuestionRepository;
-    private final UserRepository userRepository; // Добавьте это
+    private final UserRepository userRepository;
+    private final ForumAnswerRepository forumAnswerRepository; // Добавьте это, если у вас еще нет
+// Добавьте это
 
-    public ForumQuestionService(ForumQuestionRepository forumQuestionRepository, UserRepository userRepository) {
+    public ForumQuestionService(ForumQuestionRepository forumQuestionRepository, UserRepository userRepository, ForumAnswerRepository forumAnswerRepository) {
         this.forumQuestionRepository = forumQuestionRepository;
         this.userRepository = userRepository;
+        this.forumAnswerRepository = forumAnswerRepository;
     }
 
     public Long createQuestion(Long userId, Long taskId, String title, String content) {
@@ -126,4 +131,12 @@ public class ForumQuestionService {
                 .orElseThrow(() -> new RuntimeException("Вопрос не найден"));
     }
 
+    @Transactional
+    public void deleteQuestion(Long id) {
+        // Сначала удаляем все ответы, связанные с этим вопросом
+        forumAnswerRepository.deleteByQuestionId(id);
+
+        // Затем удаляем сам вопрос
+        forumQuestionRepository.deleteById(id);
+    }
 }

@@ -39,7 +39,7 @@ header nav a {
 }
 
 header nav a:hover {
-    color: #c8e6c9;
+    color: #add8e6;
 }
 
 header nav .dropdown {
@@ -59,10 +59,11 @@ header nav .dropdown-content {
     position: absolute;
     background-color: #fff;
     color: #333;
-    min-width: 200px;
+    min-width: 150px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     z-index: 1;
+    right: 0; /* Выравнивание меню по правому краю */
 }
 
 header nav .dropdown-content a {
@@ -83,7 +84,6 @@ header nav .dropdown:hover .dropdown-content {
 
 /* Заголовок модуля */
 .module-header {
-    background-color: #e8f5e9;
     padding: 2rem;
     text-align: center;
     border-bottom: 1px solid #ddd;
@@ -212,33 +212,10 @@ footer p {
     font-size: 0.9rem; /* Размер шрифта */
 }
 
-/* Дополнительные стили для ссылок в футере (если нужно) */
-footer a {
-    color: #c8e6c9; /* Цвет ссылок */
-    text-decoration: none; /* Убираем подчеркивание */
-}
-
 footer a:hover {
     text-decoration: underline; /* Подчеркивание при наведении */
 }
 
-/* Заголовок модуля */
-.module-header {
-    background-color: #e8f5e9;
-    padding: 2rem;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
-
-.module-header h2 {
-    font-size: 2rem;
-    color: #1e90ff;
-}
-
-.module-header p {
-    font-size: 1rem;
-    color: #555;
-}
 
 /* Детали модуля */
 .module-details {

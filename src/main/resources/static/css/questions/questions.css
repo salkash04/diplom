@@ -43,7 +43,7 @@ header nav a {
 }
 
 header nav a:hover {
-    color: #ffdd57;
+    color: #add8e6;
 }
 
 header nav .dropdown {
@@ -61,12 +61,13 @@ header nav .dropdown button {
 header nav .dropdown-content {
     display: none;
     position: absolute;
-    background-color: white;
+    background-color: #fff;
     color: #333;
-    min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     z-index: 1;
+    right: 0; /* Выравнивание меню по правому краю */
 }
 
 header nav .dropdown-content a {

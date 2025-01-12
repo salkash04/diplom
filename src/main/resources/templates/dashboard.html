@@ -11,6 +11,7 @@
 <header>
     <h1>JavaElevate</h1>
     <nav>
+        <a th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" href="/admin/users">Управление пользователями</a>
         <a href="/dashboard">Главная</a>
         <a href="/questions">Вопросы</a>
         <a href="/courses/1">Уроки</a>
@@ -18,13 +19,14 @@
         <div class="dropdown">
             <button class="dropbtn">Профиль</button>
             <div class="dropdown-content">
-                <a th:if="${isAuthenticated}" href="/profile/edit">Редактировать профиль</a> <!-- Отображается только для авторизованных пользователей -->
-                <a th:if="${isAuthenticated}" href="/auth/logout">Выход</a> <!-- Отображается только для авторизованных пользователей -->
-                <a th:if="${!isAuthenticated}" href="/auth/login">Войти</a> <!-- Отображается только для неавторизованных пользователей -->
+                <a th:if="${isAuthenticated}" href="/profile/edit">Редактировать профиль</a>
+                <a th:if="${isAuthenticated}" href="/auth/logout">Выход</a>
+                <a th:if="${!isAuthenticated}" href="/auth/login">Войти</a>
             </div>
         </div>
     </nav>
 </header>
+
 
 <div class="container mt-4">
     <h2>Список курсов</h2>

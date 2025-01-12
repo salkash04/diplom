@@ -21,6 +21,7 @@
 <header>
     <h1>История решений</h1>
     <nav>
+        <a th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" href="/admin/users">Управление пользователями</a>
         <a href="/dashboard">Главная</a>
         <a href="/questions">Вопросы</a>
         <a href="/courses/1">Уроки</a>
