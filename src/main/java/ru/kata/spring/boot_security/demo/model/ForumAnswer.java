@@ -17,9 +17,6 @@ public class ForumAnswer {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "parent_id")
-    private Long parentId;
-
     @Column(nullable = false)
     private String content;
 
@@ -28,12 +25,11 @@ public class ForumAnswer {
 
     public ForumAnswer() {}
 
-    public ForumAnswer(Long questionId, Long userId, String content, LocalDateTime createdAt, Long parentId) {
+    public ForumAnswer(Long questionId, Long userId, String content, LocalDateTime createdAt) {
         this.questionId = questionId;
         this.userId = userId;
         this.content = content;
         this.createdAt = createdAt;
-        this.parentId = parentId;
     }
 
     public Long getId() {
@@ -66,14 +62,6 @@ public class ForumAnswer {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
     }
 
     public LocalDateTime getCreatedAt() {

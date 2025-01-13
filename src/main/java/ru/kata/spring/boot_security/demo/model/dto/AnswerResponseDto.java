@@ -5,15 +5,13 @@ import java.time.LocalDateTime;
 public class AnswerResponseDto {
     private Long id;
     private String content;
-    private Long parentId;
     private LocalDateTime createdAt;
     private String userName;
     private Long userId;
 
-    public AnswerResponseDto(Long id, String content, Long parentId, LocalDateTime createdAt, String userName, Long userId) {
+    public AnswerResponseDto(Long id, String content, LocalDateTime createdAt, String userName, Long userId) {
         this.id = id;
         this.content = content;
-        this.parentId = parentId;
         this.createdAt = createdAt;
         this.userName = userName;
         this.userId = userId;
@@ -33,14 +31,6 @@ public class AnswerResponseDto {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
     }
 
     public LocalDateTime getCreatedAt() {

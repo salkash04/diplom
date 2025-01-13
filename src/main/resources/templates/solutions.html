@@ -51,7 +51,7 @@
         <tbody th:each="attempt : ${attempts}">
         <tr>
             <td th:text="${attempt.task.getDescription()}"></td>
-            <td th:text="${attempt.getExecutionResult()}"></td>
+            <td th:text="${attempt.getResult()}"></td>
             <td th:text="${#temporals.format(attempt.submittedAt, 'dd/MM/yyyy HH:mm')}"></td>
             <td>
                 <!-- Ссылка для открытия решения -->

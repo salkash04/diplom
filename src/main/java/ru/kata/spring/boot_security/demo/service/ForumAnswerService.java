@@ -24,8 +24,8 @@ public class ForumAnswerService {
     }
 
     // Метод для создания нового ответа
-    public Long createAnswer(Long questionId, Long userId, String content, Long parentId) {
-        ForumAnswer answer = new ForumAnswer(questionId, userId, content, LocalDateTime.now(), parentId);
+    public Long createAnswer(Long questionId, Long userId, String content) {
+        ForumAnswer answer = new ForumAnswer(questionId, userId, content, LocalDateTime.now());
         forumAnswerRepository.save(answer);
         return answer.getId();
     }
@@ -46,7 +46,6 @@ public class ForumAnswerService {
         return new AnswerResponseDto(
                 answer.getId(),
                 answer.getContent(),
-                answer.getParentId(),
                 answer.getCreatedAt(),
                 userName,
                 answer.getUserId() // Добавьте userId

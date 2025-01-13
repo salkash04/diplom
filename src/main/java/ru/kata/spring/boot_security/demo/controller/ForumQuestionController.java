@@ -80,9 +80,8 @@ public class ForumQuestionController {
     public String createAnswer(
             @PathVariable Long id,
             @RequestParam String content,
-            @RequestParam Long userId,
-            @RequestParam(required = false) Long parentId) {  // parentId может быть не обязательно
-        forumAnswerService.createAnswer(id, userId, content, parentId);  // В сервис передаем parentId
+            @RequestParam Long userId) {  // parentId может быть не обязательно
+        forumAnswerService.createAnswer(id, userId, content);  // В сервис передаем parentId
         return "redirect:/questions/" + id; // Перенаправление на страницу вопроса с добавленным ответом
     }
 

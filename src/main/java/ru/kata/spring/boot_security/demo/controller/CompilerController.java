@@ -245,7 +245,7 @@ public class CompilerController {
     }
 
     private void saveTaskAttempt(Long userId, Long taskId, String code, String result) {
-        boolean isSuccess = result.contains("Тест пройден успешно");
+        boolean isSuccess = result.contains("Успешно");
         try {
             taskService.saveTaskAttempt(userId, taskId, code, result, isSuccess);
         } catch (Exception e) {
