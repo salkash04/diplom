@@ -14,6 +14,7 @@ public class ForumQuestion {
     private Long id;
 
     @Column(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private Long userId;
 
     @Column(name = "task_id", nullable = false)

@@ -31,39 +31,33 @@ public class UserService implements UserDetailsService {
     }
 
     public User registerUser(User user) {
-        // Проверка на существование пользователя с таким именем
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            throw new RuntimeException("Пользователь с таким именем уже существует");
+            throw new RuntimeException("User not found");
         }
 
-        // Проверка на существование пользователя с таким email
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new RuntimeException("Пользователь с таким email уже существует");
+            throw new RuntimeException("Email not found");
         }
 
-        // Установка роли "ROLE_USER"
         Role userRole = roleRepository.findByName("ROLE_USER");
         if (userRole == null) {
-            throw new RuntimeException("Роль ROLE_USER не найдена в базе данных");
+            throw new RuntimeException("ROLE_USER not found");
         }
 
-        // Устанавливаем роль для пользователя
-        user.setRole(userRole); // Устанавливаем единственную роль
+        user.setRole(userRole);
 
-        // Хэшируем пароль
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Сохраняем пользователя в базе данных
         return userRepository.save(user);
     }
 
     public User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Пользователь не найден с ID: " + id));
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll(); // Предполагается, что у вас есть метод findAll() в UserRepository
+        return userRepository.findAll();
     }
 
     public void changeUserRole(Long userId, Long roleId) {
@@ -87,11 +81,11 @@ public class UserService implements UserDetailsService {
     }
 
     public void saveUser(User user) {
-        userRepository.save(user); // Сохранение или обновление пользователя
+        userRepository.save(user);
     }
 
     public void deleteById(long id) {
-        userRepository.deleteById(id); // Удаление пользователя по ID
+        userRepository.deleteById(id);
     }
 
     public List<User> searchUsers(String keyword) {
@@ -99,19 +93,19 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean isAccountNonExpired() {
-        return true; // Измените на вашу логику
+        return true;
     }
 
     public boolean isAccountNonLocked() {
-        return true; // Измените на вашу логику
+        return true;
     }
 
     public boolean isCredentialsNonExpired() {
-        return true; // Измените на вашу логику
+        return true;
     }
 
     public boolean isEnabled() {
-        return true; // Измените на вашу логику
+        return true;
     }
 
     public User findByUsername(String username) {
@@ -126,7 +120,6 @@ public class UserService implements UserDetailsService {
 
     private Collection<? extends GrantedAuthority> getAuthorities(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        // Добавьте логику для получения ролей пользователя и добавления их в authorities
         authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
         return authorities;
     }

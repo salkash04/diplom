@@ -15,7 +15,7 @@ public class Task {
     private Module module; // Связь с модулем
 
     @Column(nullable = false)
-    private String description; // Описание задачи
+    private String description;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

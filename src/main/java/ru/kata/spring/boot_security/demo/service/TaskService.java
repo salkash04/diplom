@@ -11,6 +11,7 @@ import ru.kata.spring.boot_security.demo.repository.TaskAttemptRepository;
 import ru.kata.spring.boot_security.demo.repository.TaskRepository;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -45,10 +46,10 @@ public class TaskService {
     public TaskAttempt getLastAttemptForTask(Long userId, Long taskId) {
         List<TaskAttempt> attempts = taskAttemptRepository.findByUserId(userId);
         return attempts.stream()
-                .filter(attempt -> attempt.getTask().getId().equals(taskId))
-                .findFirst()
+                .filter(attempt -> attempt.getTask().getId().equals(taskId)).max(Comparator.comparing(TaskAttempt::getSubmittedAt)) // Берем первую (последнюю по времени) попытку
                 .orElse(null);
     }
+
 
 
     public List<TaskAttempt> getUserAttempts(Long userId) {

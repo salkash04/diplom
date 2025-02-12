@@ -11,10 +11,10 @@ public class Module {
     private Long id;
 
     @Column(nullable = false)
-    private String title; // Название модуля
+    private String title;
 
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Task> tasks; // Связь с задачами
+    private List<Task> tasks;
 
     public Module() {}
 

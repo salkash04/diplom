@@ -21,7 +21,6 @@ public class Course {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    // Новое поле для URL изображения
     @Column(name = "image_url")
     private String imageUrl;
 

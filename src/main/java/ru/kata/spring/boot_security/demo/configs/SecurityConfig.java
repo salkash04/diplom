@@ -29,33 +29,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/register", "/auth/login", "/css/**", "/js/**").permitAll()
-                .antMatchers("/dashboard", "/courses/**").permitAll() // Разрешить доступ к страницам регистрации и логина
-                .antMatchers("/admin/**").hasRole("ADMIN") // Доступ для администраторов
-                .antMatchers("/users/**").hasAnyRole("ADMIN", "USER") // Доступ для пользователей и администраторов
-                .anyRequest().authenticated() // Все остальные запросы требуют аутентификации
+                .antMatchers("/dashboard", "/courses/**").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/users/**").hasAnyRole("ADMIN", "USER")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/auth/login") // Страница логина
-                .loginProcessingUrl("/auth/login") // URL для обработки логина
-                .defaultSuccessUrl("/dashboard", true) // Перенаправление на /dashboard после успешного входа
-                .failureUrl("/auth/login?error=true") // Перенаправление на страницу логина с ошибкой
-                .permitAll() // Разрешить доступ к странице логина всем пользователям
+                .loginPage("/auth/login")
+                .loginProcessingUrl("/auth/login")
+                .defaultSuccessUrl("/dashboard", true)
+                .failureUrl("/auth/login?error=true")
+                .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/auth/logout") // URL для выхода
-                .logoutSuccessUrl("/dashboard") // Перенаправление на дашборд после выхода
-                .permitAll(); // Разрешить доступ к выходу всем пользователям
+                .logoutUrl("/auth/logout")
+                .logoutSuccessUrl("/dashboard")
+                .permitAll();
     }
 
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder()); // Настройка менеджера аутентификации
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Использование BCrypt для хэширования паролей
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

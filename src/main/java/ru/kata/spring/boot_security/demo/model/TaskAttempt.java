@@ -30,7 +30,7 @@ public class TaskAttempt {
     private LocalDateTime submittedAt;
 
     @Column(name = "execution_result", columnDefinition = "TEXT")
-    private String executionResult; // Полный результат выполнения
+    private String executionResult;
 
     public TaskAttempt() {
         this.submittedAt = LocalDateTime.now(); // Устанавливаем дату отправки по умолчанию

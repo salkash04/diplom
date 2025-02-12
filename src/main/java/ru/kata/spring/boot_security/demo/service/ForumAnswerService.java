@@ -23,14 +23,12 @@ public class ForumAnswerService {
         this.userRepository = userRepository;
     }
 
-    // Метод для создания нового ответа
     public Long createAnswer(Long questionId, Long userId, String content) {
         ForumAnswer answer = new ForumAnswer(questionId, userId, content, LocalDateTime.now());
         forumAnswerRepository.save(answer);
         return answer.getId();
     }
 
-    // Получение всех ответов для вопроса
     public List<AnswerResponseDto> getAnswersByQuestionId(Long questionId) {
         List<ForumAnswer> answers = forumAnswerRepository.findByQuestionId(questionId);
         return answers.stream()
