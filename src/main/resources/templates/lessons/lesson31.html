@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Число Фибоначчи</title>
+    <link rel="stylesheet" href="/css/lessons/lesson3.css">
+
+    <script>
+        async function loadTemplate(taskId, editorId) {
+            try {
+                const lastCodeResponse = await fetch(`/api/compiler/lastAttempt/${taskId}`);
+                if (!lastCodeResponse.ok) {
+                    // Если код не найден, загружаем шаблон по умолчанию
+                    document.getElementById(editorId).value = await loadDefaultTemplate();
+                    return; // Завершаем выполнение функции
+                }
+
+                const lastCode = await lastCodeResponse.text();
+                document.getElementById(editorId).value = lastCode.trim() || await loadDefaultTemplate();
+            } catch (error) {
+                console.error(error);
+                alert("Произошла ошибка: " + error.message);
+                document.getElementById(editorId).value = await loadDefaultTemplate(); // Загружаем шаблон в случае ошибки
+            }
+        }
+
+        async function loadDefaultTemplate() {
+            const templateResponse = await fetch('/api/compiler/template');
+            if (!templateResponse.ok) throw new Error("Ошибка при загрузке шаблона");
+            return await templateResponse.text();
+        }
+
+        window.onload = function() {
+            const taskId = 13;
+            loadTemplate(taskId, 'codeEditor');
+        };
+
+        async function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            const response = await fetch('/api/compiler/fibonacci', {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: code
+            });
+            const result = await response.text();
+            const outputElement = document.getElementById('output');
+            outputElement.innerText = result;
+            outputElement.classList.remove('success', 'error');
+
+            if (result.includes("Успешно")) {
+                outputElement.classList.add('success');
+                await checkTasksCompleted(); // Проверяем статус выполнения задач
+            } else {
+                outputElement.classList.add('error');
+                document.getElementById('certificateButton').style.display = 'none'; // Скрываем кнопку при ошибке
+            }
+        }
+
+
+        async function downloadCertificate() {
+            try {
+                const response = await fetch('/api/generateCertificate', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/pdf',
+                    }
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'certificate.pdf';  // Укажите имя файла, которое хотите
+                    link.click();
+                } else {
+                    alert('Ошибка при генерации сертификата');
+                }
+            } catch (error) {
+                alert('Ошибка при подключении к серверу');
+                console.error(error);
+            }
+        }
+
+        async function checkTasksCompleted() {
+            try {
+                const response = await fetch('/api/compiler/check-tasks-completed', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.completed) {
+                        document.getElementById('certificateButton').style.display = 'inline';
+                    } else {
+                        document.getElementById('certificateButton').style.display = 'none';
+                    }
+                } else {
+                    console.error("Ошибка при проверке статуса задач");
+                    document.getElementById('certificateButton').style.display = 'none'; // Скрываем кнопку при ошибке запроса
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('certificateButton').style.display = 'none'; // Скрываем кнопку при ошибке запроса
+            }
+        }
+
+    </script>
+
+    <style>
+        .success { border: 2px solid green; background-color: #e0ffe0; color: green; padding: 10px; margin-top: 10px; }
+        .error { border: 2px solid red; background-color: #ffe0e0; color: red; padding: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Урок: Число Фибоначчи</h1>
+    <nav>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a href="/profile/edit">Редактировать профиль</a>
+                <a href="/auth/logout">Выход</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <h2>Число Фибоначчи</h2>
+
+    <section class="task">
+        <h2>Задача</h2>
+        <p>Напишите программу, которая вычисляет n-е число Фибоначчи с использованием рекурсии или цикла.</p>
+        <h3>Объяснение кода:</h3>
+        <p>Программа принимает число n и вычисляет n-е число Фибоначчи.</p>
+        <strong>Основные шаги:</strong>
+        <ul>
+            <li>Считываем число n.</li>
+            <li>Используем рекурсию или цикл для вычисления числа Фибоначчи.</li>
+            <li>Выводим результат.</li>
+        </ul>
+        <strong>Пример ввода:</strong>
+        <pre>7</pre>
+        <strong>Пример вывода:</strong>
+        <pre>13</pre>
+    </section>
+
+    <section class="compiler">
+        <h2>Онлайн-компилятор</h2>
+        <textarea id="codeEditor" rows="15" cols="70"></textarea>
+        <button onclick="runCode()">Выполнить</button>
+        <pre id="output"></pre>
+    </section>
+
+    <div class="navigation-buttons">
+        <button onclick="location.href='/module4/lesson/1'">Предыдущий модуль</button>
+        <button id="certificateButton" onclick="downloadCertificate()" style="display:none;">Получить сертификат</button>
+    </div>
+
+</main>
+
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 /* lesson3.css */
-/* Общие стили */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -8,7 +8,7 @@ body {
     background-color: #f4f4f9;
     color: #333;
 }
-/* Шапка */
+/* пїЅпїЅпїЅпїЅпїЅ */
 header {
     background-color: #1e90ff;
     color: #fff;
@@ -63,7 +63,7 @@ header nav .dropdown-content {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     z-index: 1;
-    right: 0; /* Выравнивание меню по правому краю */
+    right: 0; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 }
 
 header nav .dropdown-content a {
@@ -116,13 +116,13 @@ main {
 }
 
 .lesson-content ul li::before {
-    content: "**"; /* Знак перед элементом списка */
-    color: #1e90ff; /* Цвет маркера */
+    content: "**"; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+    color: #1e90ff; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
     position: absolute;
     left: 0;
 }
 
-/* Стили для редактора кода */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 textarea#codeEditor {
     width: 100%;
     border: 1px solid #ddd;
@@ -131,7 +131,7 @@ textarea#codeEditor {
     font-size: 16px;
 }
 
-/* Кнопка выполнения кода */
+/* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 button {
     display:inline-block;
     background-color:#007bff;
@@ -147,7 +147,7 @@ button:hover {
     background-color:#0056b3;
 }
 
-/* Стили для вывода результата */
+/* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 pre#output {
     background:#f9f9f9;
     border :1px solid #ddd;
@@ -161,12 +161,38 @@ pre#output {
     color :#333;
 }
 
-/* Подвал */
+/* пїЅпїЅпїЅпїЅпїЅпїЅ */
 footer {
     text-align:center;
     padding :1rem;
     background-color:#1e90ff;
     color:#fff;
+}
+
+.navigation-buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.navigation-buttons button {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+}
+
+.navigation-buttons button:hover {
+    background-color: #0056b3;
+}
+
+#certificateButton {
+/* РЎРїРµС†РёС„РёС‡РЅС‹Рµ СЃС‚РёР»Рё РґР»СЏ РєРЅРѕРїРєРё СЃРµСЂС‚РёС„РёРєР°С‚Р°, РµСЃР»Рё РЅСѓР¶РЅС‹ */
 }
 
 

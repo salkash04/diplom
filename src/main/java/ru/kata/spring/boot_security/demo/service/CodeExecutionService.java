@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.stereotype.Service;
+import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.util.JavaRunner;
 
 @Service
@@ -17,6 +18,72 @@ public class CodeExecutionService {
     public String getTemplateCode() {
         return TEMPLATE_CODE;
     }
+
+    public String executeMaxElement(String code) {
+        try {
+            String output = JavaRunner.run(code).trim();
+
+            // Проверяем, есть ли числа в выводе
+            String[] lines = output.split("\\s+");
+            int maxElement = Integer.MIN_VALUE;
+            boolean foundNumber = false;
+
+            for (String line : lines) {
+                try {
+                    int num = Integer.parseInt(line);
+                    if (num > maxElement) {
+                        maxElement = num;
+                    }
+                    foundNumber = true;
+                } catch (NumberFormatException ignored) {}
+            }
+
+            if (!foundNumber) {
+                return "Ошибка: Программа должна создать массив и вывести его максимальный элемент";
+            }
+
+            return "Успешно: Максимальный элемент найден - " + maxElement;
+        } catch (Exception e) {
+            return "Ошибка выполнения: " + e.getMessage();
+        }
+    }
+
+    public String executeFibonacci(String code) {
+        try {
+            String output = JavaRunner.run(code).trim();
+
+            // Проверка, что вывод является числом
+            try {
+                int n = Integer.parseInt(output);
+                if (n < 0) {
+                    return "Ошибка: n должно быть неотрицательным";
+                }
+
+                // Расчёт числа Фибоначчи
+                int fibonacciResult = fibonacci(n);
+                return "Успешно: Число Фибоначчи для n=" + n + " равно " + fibonacciResult;
+            } catch (NumberFormatException e) {
+                return "Ошибка: Программа должна вывести число n, для которого вычисляется число Фибоначчи";
+            }
+        } catch (Exception e) {
+            return "Ошибка выполнения: " + e.getMessage();
+        }
+    }
+
+    private int fibonacci(int n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+
+        int a = 0, b = 1;
+        for (int i = 2; i <= n; i++) {
+            int next = a + b;
+            a = b;
+            b = next;
+        }
+        return b;
+    }
+
+
 
     public String executeCode(String code) {
         try {
@@ -268,6 +335,7 @@ public class CodeExecutionService {
             return "Ошибка выполнения: " + e.getMessage();
         }
     }
+
 
 }
 

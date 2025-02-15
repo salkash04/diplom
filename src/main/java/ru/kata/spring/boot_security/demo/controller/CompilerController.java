@@ -1,22 +1,33 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.TaskAttempt;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.CertificateService;
 import ru.kata.spring.boot_security.demo.service.CodeExecutionService;
+import ru.kata.spring.boot_security.demo.service.TaskCompletionService;
 import ru.kata.spring.boot_security.demo.service.TaskService;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/compiler")
 public class CompilerController {
     private final CodeExecutionService codeExecutionService;
     private final TaskService taskService;
+    private final TaskCompletionService taskCompletionService;
+    private final CertificateService certificateService;
 
-    public CompilerController(CodeExecutionService codeExecutionService, TaskService taskService) {
+    public CompilerController(CodeExecutionService codeExecutionService, TaskService taskService, TaskCompletionService taskCompletionService, CertificateService certificateService) {
         this.codeExecutionService = codeExecutionService;
         this.taskService = taskService;
+        this.taskCompletionService = taskCompletionService;
+        this.certificateService = certificateService;
     }
 
     @GetMapping("/lastAttempt/{taskId}")
@@ -242,6 +253,58 @@ public class CompilerController {
             saveTaskAttempt(user.getId(), 17L, code, result); // Используем 1L как ID для задачи обработки исключений
         } catch (Exception e) {}
         return result;
+    }
+
+    @PostMapping("/max-element")
+    public String executeMaxElement(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+
+        String result = codeExecutionService.executeMaxElement(code);
+
+
+        try {
+            saveTaskAttempt(user.getId(), 12L, code, result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+    @PostMapping("/fibonacci")
+    public String executeFibonacci(@RequestBody String code, @AuthenticationPrincipal User user) {
+        if (user == null) {
+            return "Error: User is not authenticated";
+        }
+
+        String result = codeExecutionService.executeFibonacci(code);
+
+
+        try {
+            saveTaskAttempt(user.getId(), 13L, code, result);  // Предполагаем, что taskId = 13 для этого задания
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @GetMapping("/check-tasks-completed")
+    public ResponseEntity<Map<String, Boolean>> checkTasksCompleted(@AuthenticationPrincipal User user) {
+
+        if (user == null) return ResponseEntity.badRequest().build();
+
+        boolean completedMaxElement = taskCompletionService.isTaskCompleted(user.getId(), 12L);
+        boolean completedFibonacci = taskCompletionService.isTaskCompleted(user.getId(), 13L);
+
+        Map<String, Boolean> result = new HashMap<>();
+
+        result.put("completed", completedMaxElement && completedFibonacci);
+
+        return ResponseEntity.ok(result);
     }
 
     private void saveTaskAttempt(Long userId, Long taskId, String code, String result) {

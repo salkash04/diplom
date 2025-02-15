@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Итоговый курс</title>
+    <link rel="stylesheet" href="/css/springBoot.css">
+</head>
+<body>
+<header>
+    <h1>Итоговый курс</h1>
+    <nav>
+        <a th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" href="/admin/users">Управление пользователями</a>
+        <a href="/dashboard">Главная</a>
+        <a href="/questions">Вопросы</a>
+        <a href="/courses/2">Уроки</a>
+        <a href="/user/solutions">Мои решения</a>
+        <div class="dropdown">
+            <button class="dropbtn">Профиль</button>
+            <div class="dropdown-content">
+                <a th:if="${isAuthenticated}" href="/profile/edit">Редактировать профиль</a> <!-- Отображается только для авторизованных пользователей -->
+                <a th:if="${isAuthenticated}" href="/auth/logout">Выход</a> <!-- Отображается только для авторизованных пользователей -->
+                <a th:if="${!isAuthenticated}" href="/auth/login">Войти</a> <!-- Отображается только для неавторизованных пользователей -->
+            </div>
+        </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section class="module-header">
+        <h2>Итоговый Курс</h2>
+        <p>Задача курса - выдать сертефикат</p>
+    </section>
+
+    <section class="course-plan">
+        <h2>Итоговый план курса</h2>
+
+        <div class="course-module">
+            <h3>Модуль 1. Поиск максимального элемента</h3>
+            <ul>
+                <li><a href="/module4/lesson/1">Напишите программу, которая находит максимальный элемент в массиве.</a></li>
+            </ul>
+        </div>
+
+        <div class="course-module">
+            <h3>Модуль 2. Число Фибоначчи</h3>
+            <ul>
+                <li><a href="/module4/lesson/2">Напишите программу, которая вычисляет n-е число Фибоначчи с использованием рекурсии или цикла.</a></li>
+            </ul>
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>
+

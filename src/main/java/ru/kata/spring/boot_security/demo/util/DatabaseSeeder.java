@@ -45,6 +45,12 @@ public class DatabaseSeeder {
             statement.setString(3, "/css/images/Java pre-project_16_54_34.jpg");
             statement.setString(4, "Подготовка к собеседованиям");
             statement.executeUpdate();
+
+            statement.setObject(1, LocalDateTime.now());
+            statement.setString(2, "Решите последние задачи что бы получить сертификат");
+            statement.setString(3, "/css/images/1_2.png");
+            statement.setString(4, "Итоговый курс - получение сертификата");
+            statement.executeUpdate();
         }
     }
 
@@ -84,6 +90,12 @@ public class DatabaseSeeder {
             statement.executeUpdate();
 
             statement.setString(1, "Модуль 5. Безопасность и тестирование приложений");
+            statement.executeUpdate();
+
+            statement.setString(1, "Модуль 1. Поиск максимального элемента");
+            statement.executeUpdate();
+
+            statement.setString(1, "Модуль 2. Число Фибоначчи");
             statement.executeUpdate();
         }
     }
@@ -178,6 +190,16 @@ public class DatabaseSeeder {
             statement.setObject(1, LocalDateTime.now());
             statement.setString(2, "Обработка исключений");
             statement.setInt(3, 8); // ID модуля 8
+            statement.executeUpdate();
+
+            statement.setObject(1, LocalDateTime.now());
+            statement.setString(2, "Поиск максимального элемента");
+            statement.setInt(3, 12); // ID модуля 8
+            statement.executeUpdate();
+
+            statement.setObject(1, LocalDateTime.now());
+            statement.setString(2, "Число Фибоначчи");
+            statement.setInt(3, 13); // ID модуля 8
             statement.executeUpdate();
         }
     }

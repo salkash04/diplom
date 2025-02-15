@@ -231,6 +231,29 @@ public class LessonController {
         }
     }
 
+    @GetMapping("/module4/lesson/{lessonId}")
+    public String getLessonModule4(@PathVariable Long lessonId, Model model, @AuthenticationPrincipal User user) {
+        Long userId = user.getId();
+        List<TaskAttempt> attempts = taskService.getUserAttempts(userId);
+        model.addAttribute("attempts", attempts);
+
+        TaskAttempt lastAttempt = taskService.getLastAttemptForTask(userId, lessonId);
+        model.addAttribute("lastCode", lastAttempt != null ? lastAttempt.getCode() : "");
+
+        switch (lessonId.intValue()) {
+            case 1:
+                model.addAttribute("lessonTitle", "Что такое Spring Boot?");
+                model.addAttribute("lessonContent", "В этом модуле мы будем изучать многопоточность языка Java...");
+                return "lessons/lesson30";
+            case 2:
+                model.addAttribute("lessonTitle", "Основные преимущества использования Spring Boot.");
+                model.addAttribute("lessonContent", "В этом модуле мы будем изучать многопоточность языка Java...");
+                return "lessons/lesson31";
+            default:
+                throw new RuntimeException("Урок не найден с ID: " + lessonId);
+        }
+    }
+
     private boolean determineSuccess(String output) {
         return output.contains("Успешно: Вывод соответствует ожидаемому результату");
     }

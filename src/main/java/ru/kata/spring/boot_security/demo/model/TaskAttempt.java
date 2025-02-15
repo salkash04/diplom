@@ -19,7 +19,7 @@ public class TaskAttempt {
     @JoinColumn(name = "task_id", nullable = false)
     private Task task; // Связь с задачей
 
-    @Column(nullable = false)
+    @Column(length = 1000, nullable = false)
     private String code; // Код решения
 
     @Enumerated(EnumType.STRING)

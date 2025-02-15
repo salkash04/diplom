@@ -33,6 +33,8 @@ public class CourseController {
                 return "spring-boot"; // Редирект на страницу Spring Boot
             case 3:
                 return "interviews"; // Редирект на страницу Interviews
+            case 4:
+                return "certificate"; // Редирект на страницу Interviews
             default:
                 throw new RuntimeException("Курс не найден с ID: " + id); // Обработка случая, когда курс не найден
         }
