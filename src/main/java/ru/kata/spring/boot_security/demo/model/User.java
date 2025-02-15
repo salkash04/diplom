@@ -26,16 +26,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "photo_path")
-    private String photoPath;
-
-    public String getPhotoPath() {
-        return photoPath;
-    }
-
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
-    }
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
