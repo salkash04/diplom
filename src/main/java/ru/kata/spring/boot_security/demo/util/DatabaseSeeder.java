@@ -30,7 +30,7 @@ public class DatabaseSeeder {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setObject(1, LocalDateTime.now());
             statement.setString(2, "Изучите java с нуля");
-            statement.setString(3, "/css/images/Java_Сore_16_54_00.jpg");
+            statement.setString(3, "/css/images/Java Сore_16_54_00.jpg");
             statement.setString(4, "Java Basic");
             statement.executeUpdate();
 
@@ -42,7 +42,7 @@ public class DatabaseSeeder {
 
             statement.setObject(1, LocalDateTime.now());
             statement.setString(2, "Изучите основные вопросы для успешного прохождения собеседований");
-            statement.setString(3, "/css/images/Java_pre-project_16_54_34.jpg");
+            statement.setString(3, "/css/images/Java pre-project_16_54_34.jpg");
             statement.setString(4, "Подготовка к собеседованиям");
             statement.executeUpdate();
         }

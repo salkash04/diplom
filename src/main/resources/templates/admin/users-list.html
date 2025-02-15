@@ -17,7 +17,9 @@
 </header>
 <div class="container mt-5">
     <h1>Список пользователей</h1>
-
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+        <span th:text="${errorMessage}"></span>
+    </div>
     <!-- Форма поиска -->
     <form th:action="@{/admin/users/search}" method="get" class="mb-4">
         <div class="input-group">
@@ -31,7 +33,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Имя пользователя</th>
             <th>Email</th>
             <th>Роль</th>
@@ -40,13 +41,13 @@
         </thead>
         <tbody>
         <tr th:each="user : ${users}">
-            <td th:text="${user.id}"></td>
             <td th:text="${user.username}"></td>
             <td th:text="${user.email}"></td>
             <td th:text="${user.role.name}"></td>
             <td>
                 <form th:action="@{/admin/users/{id}/role(id=${user.id})}" method="post" style="display: inline;">
-                    <select name="roleId" onchange="this.form.submit()">
+                    <select name="roleId" onchange="this.form.submit()"
+                            th:disabled="${currentUser.id == user.id}">
                         <option th:each="role : ${roles}"
                                 th:value="${role.id}"
                                 th:text="${role.name}"
@@ -54,8 +55,10 @@
                         </option>
                     </select>
                 </form>
+
                 <form th:action="@{/admin/users/{id}/delete(id=${user.id})}" method="post" style="display: inline;">
                     <button type="submit" class="btn btn-sm btn-danger"
+                            th:disabled="${currentUser.id == user.id}"
                             onclick="return confirm('Вы уверены, что хотите удалить этого пользователя?')">
                         Удалить
                     </button>
