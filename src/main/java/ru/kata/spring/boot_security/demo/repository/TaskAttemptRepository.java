@@ -20,5 +20,9 @@ public interface TaskAttemptRepository extends JpaRepository<TaskAttempt, Long> 
 
     // Изменяем запрос, чтобы использовать поле result, а не success
     boolean existsByUserIdAndTaskIdAndResult(Long userId, Long taskId, ResultStatus result);
+
+    @Query("SELECT ta FROM TaskAttempt ta WHERE ta.userId = :userId AND ta.task.id = :taskId ORDER BY ta.submittedAt DESC")
+    Optional<TaskAttempt> findTopByUserIdAndTaskIdOrderBySubmittedAtDesc(@Param("userId") Long userId, @Param("taskId") Long taskId);
+
 }
 

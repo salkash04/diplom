@@ -63,6 +63,9 @@ public class LessonController {
         TaskAttempt lastAttempt = taskService.getLastAttemptForTask(userId, lessonId);
         model.addAttribute("lastCode", lastAttempt != null ? lastAttempt.getCode() : "");
 
+        boolean taskCompleted = taskService.isTaskCompleted(userId, lessonId);
+        model.addAttribute("nextLessonAvailable", taskCompleted);  // если задача решена, доступен следующий урок
+
         switch (lessonId.intValue()) {
             case 1:
                 model.addAttribute("lessonTitle", "Что такое Java? Основы языка");

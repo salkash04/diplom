@@ -61,4 +61,13 @@ public class TaskService {
         return taskAttemptRepository.findById(attemptId)
                 .orElseThrow(() -> new IllegalArgumentException("Попытка с ID " + attemptId + " не найдена"));
     }
+
+    public boolean isTaskCompleted(Long userId, Long lessonId) {
+        TaskAttempt lastAttempt = taskAttemptRepository.findTopByUserIdAndTaskIdOrderBySubmittedAtDesc(userId, lessonId)
+                .orElse(null);
+        return lastAttempt != null && lastAttempt.getResult() == ResultStatus.SUCCESS;
+    }
+
+
+
 }
