@@ -1,4 +1,4 @@
-/* Общие стили для всех страниц */
+/* РћР±С‰РёР№ СЃС‚РёР»СЊ РґР»СЏ СЃС‚СЂР°РЅРёС†С‹ */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -67,7 +67,7 @@ header nav .dropdown-content {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     z-index: 1;
-    right: 0; /* Выравнивание меню по правому краю */
+    right: 0;
 }
 
 header nav .dropdown-content a {
@@ -86,7 +86,7 @@ header nav .dropdown:hover .dropdown-content {
     display: block;
 }
 
-/* Стили для контейнера */
+/* РЎС‚РёР»СЊ РґР»СЏ РєРѕРЅС‚РµР№РЅРµСЂР° */
 .container {
     max-width: 800px;
     margin: 2rem auto;
@@ -95,40 +95,12 @@ header nav .dropdown:hover .dropdown-content {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-h1{
-    color: white;
-}
 
 h2, h3, h5 {
     color: #1e90ff;
 }
 
-/* Стили для списка вопросов */
-.list-group-item {
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 0.5rem;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.list-group-item:hover {
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Карточки ответов */
-.card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.card-body {
-    padding: 1rem;
-}
-
-/* Стили для кнопок */
+/* РЎС‚РёР»СЊ РґР»СЏ РєРЅРѕРїРѕРє */
 button, .btn {
     background-color: #1e90ff;
     color: white;
@@ -148,7 +120,7 @@ button:active, .btn:active {
     transform: translateY(0);
 }
 
-/* Поля формы */
+/* Р¤РѕСЂРјР° РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ */
 .form-group label {
     font-weight: bold;
     margin-bottom: 0.5rem;
@@ -171,7 +143,16 @@ textarea:focus, input:focus {
     box-shadow: 0 0 4px rgba(30, 144, 255, 0.4);
 }
 
-/* Стили для страницы редактирования профиля */
+/* Р¤РѕСЂРјР° РґР»СЏ С„РѕС‚Рѕ */
+.form-group img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+/* РњР°Р»С‹Рµ С‚РµРєСЃС‚РѕРІС‹Рµ СЌР»РµРјРµРЅС‚С‹ */
 small {
     color: #666;
 }
@@ -181,6 +162,17 @@ small {
     color: #6c757d;
 }
 
+/* РќР°СЃС‚СЂРѕРёРј СЃС‚РёР»Рё РґР»СЏ РїРѕР»СЏ Р·Р°РіСЂСѓР·РєРё С„РѕС‚Рѕ */
+input[type="file"] {
+    display: inline-block;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-top: 1rem;
+}
+
+/* РЎС‚РёР»СЊ РґР»СЏ РєРЅРѕРїРєРё СЃРѕС…СЂР°РЅРµРЅРёСЏ РёР·РјРµРЅРµРЅРёР№ */
 .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
@@ -191,6 +183,7 @@ small {
     border-color: #0056b3;
 }
 
+/* Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ СЃС‚РёР»СЊ РґР»СЏ focus */
 .form-control:focus {
     border-color: #007bff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);

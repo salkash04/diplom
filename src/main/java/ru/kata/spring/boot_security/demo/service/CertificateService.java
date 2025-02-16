@@ -2,20 +2,20 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class CertificateService {
@@ -23,28 +23,25 @@ public class CertificateService {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    public String generateCertificate(String userName, String courseName, String date) {
+    public String generateCertificate(String userName, String courseName) {
         try {
             PDDocument document = new PDDocument();
             PDPage page = new PDPage(PDRectangle.A4);
             document.addPage(page);
 
-            PDType0Font boldFont = PDType0Font.load(document, new File("src/main/resources/fonts/Roboto-Italic-VariableFont_wdth,wght.ttf"));
-            PDType0Font regularFont = PDType0Font.load(document, new File("src/main/resources/fonts/Roboto-Italic-VariableFont_wdth,wght.ttf"));
+            PDType0Font boldFont = PDType0Font.load(document, new File("src/main/resources/fonts/Roboto-Bold.ttf"));
+            PDType0Font regularFont = PDType0Font.load(document, new File("src/main/resources/fonts/Roboto-Regular.ttf"));
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
             // Рисуем стильную рамку
             drawStylishBorder(contentStream, page);
 
+            // Получаем текущую дату
+            String date = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+
             // Добавляем содержимое сертификата
             addCertificateContent(contentStream, page, boldFont, regularFont, userName, courseName, date);
-
-            // Добавляем логотип
-            addLogo(contentStream, page, document);
-
-            // Добавляем водяной знак
-            addWatermark(contentStream, page, document);
 
             contentStream.close();
 
@@ -61,89 +58,88 @@ public class CertificateService {
         }
     }
 
-
     private void drawStylishBorder(PDPageContentStream contentStream, PDPage page) throws IOException {
-        float margin = 30;
+        float margin = 50;
         float width = page.getMediaBox().getWidth() - 2 * margin;
         float height = page.getMediaBox().getHeight() - 2 * margin;
 
-        contentStream.setStrokingColor(new Color(30, 144, 255)); // Золотой цвет
-        contentStream.setLineWidth(2);
+        contentStream.setStrokingColor(new Color(0, 51, 153)); // Темно-синий
+        contentStream.setLineWidth(3);
 
         // Внешняя рамка
         contentStream.addRect(margin, margin, width, height);
-
-        // Внутренняя рамка
-        float innerMargin = margin + 10;
-        contentStream.addRect(innerMargin, innerMargin, width - 20, height - 20);
-
         contentStream.stroke();
     }
 
     private void addCertificateContent(PDPageContentStream contentStream, PDPage page, PDType0Font boldFont, PDType0Font regularFont, String userName, String courseName, String date) throws IOException {
         float centerX = page.getMediaBox().getWidth() / 2;
+        float centerY = page.getMediaBox().getHeight() / 2;
 
+        // Заголовок
+        String title = "СЕРТИФИКАТ";
+        float titleWidth = boldFont.getStringWidth(title) / 1000 * 36; // Получаем ширину текста в пунктах
         contentStream.beginText();
         contentStream.setFont(boldFont, 36);
-        contentStream.setNonStrokingColor(new Color(25, 25, 112)); // Темно-синий цвет
-        contentStream.newLineAtOffset(centerX - 150, 700);
-        contentStream.showText("СЕРТИФИКАТ");
+        contentStream.setNonStrokingColor(new Color(0, 51, 153)); // Темно-синий
+        contentStream.newLineAtOffset(centerX - titleWidth / 2, centerY + 160);
+        contentStream.showText(title);
         contentStream.endText();
 
+        // Подзаголовок
+        String subtitle = "Настоящий сертификат подтверждает, что";
+        float subtitleWidth = regularFont.getStringWidth(subtitle) / 1000 * 18;
         contentStream.beginText();
         contentStream.setFont(regularFont, 18);
         contentStream.setNonStrokingColor(Color.BLACK);
-        contentStream.newLineAtOffset(centerX - 200, 650);
-        contentStream.showText("Настоящим удостоверяется, что");
+        contentStream.newLineAtOffset(centerX - subtitleWidth / 2, centerY + 120);
+        contentStream.showText(subtitle);
         contentStream.endText();
 
+        // Имя участника
+        float userNameWidth = boldFont.getStringWidth(userName) / 1000 * 28;
         contentStream.beginText();
-        contentStream.setFont(boldFont, 24);
-        contentStream.setNonStrokingColor(new Color(139, 69, 19)); // Коричневый цвет
-        contentStream.newLineAtOffset(centerX - 100, 600);
+        contentStream.setFont(boldFont, 28);
+        contentStream.setNonStrokingColor(new Color(0, 102, 204));
+        contentStream.newLineAtOffset(centerX - userNameWidth / 2, centerY + 80);
         contentStream.showText(userName);
         contentStream.endText();
 
+        // Текст перед курсом
+        String courseText = "успешно завершил(а) курс";
+        float courseTextWidth = regularFont.getStringWidth(courseText) / 1000 * 18;
         contentStream.beginText();
         contentStream.setFont(regularFont, 18);
         contentStream.setNonStrokingColor(Color.BLACK);
-        contentStream.newLineAtOffset(centerX - 150, 550);
-        contentStream.showText("успешно завершил(а) курс");
+        contentStream.newLineAtOffset(centerX - courseTextWidth / 2, centerY + 40);
+        contentStream.showText(courseText);
         contentStream.endText();
 
+        // Название курса
+        float courseNameWidth = boldFont.getStringWidth("Java Elevate") / 1000 * 24;
         contentStream.beginText();
-        contentStream.setFont(boldFont, 22);
-        contentStream.setNonStrokingColor(new Color(30, 144, 255)); // Темно-зеленый цвет
-        contentStream.newLineAtOffset(centerX - 100, 500);
+        contentStream.setFont(boldFont, 24);
+        contentStream.setNonStrokingColor(new Color(0, 102, 204));
+        contentStream.newLineAtOffset(centerX - courseNameWidth / 2, centerY);
         contentStream.showText("Java Elevate");
         contentStream.endText();
 
+        // Разделительная линия
+        float lineWidth = 240;
+        contentStream.setStrokingColor(Color.BLACK);
+        contentStream.setLineWidth(1);
+        contentStream.moveTo(centerX - lineWidth / 2, centerY - 30);
+        contentStream.lineTo(centerX + lineWidth / 2, centerY - 30);
+        contentStream.stroke();
+
+        // Дата
+        String dateText = "Дата: " + date;
+        float dateTextWidth = regularFont.getStringWidth(dateText) / 1000 * 16;
         contentStream.beginText();
         contentStream.setFont(regularFont, 16);
         contentStream.setNonStrokingColor(Color.BLACK);
-        contentStream.newLineAtOffset(centerX - 75, 450);
-        contentStream.showText("Дата выдачи: " + date);
+        contentStream.newLineAtOffset(centerX - dateTextWidth / 2, centerY - 60);
+        contentStream.showText(dateText);
         contentStream.endText();
-    }
 
-    private void addLogo(PDPageContentStream contentStream, PDPage page, PDDocument document) throws IOException {
-        Resource resource = resourceLoader.getResource("classpath:/static/css/images/cghbyu_15_11_17.png");
-        try (InputStream inputStream = resource.getInputStream()) {
-            PDImageXObject logo = PDImageXObject.createFromByteArray(document, inputStream.readAllBytes(), "logo");
-            contentStream.drawImage(logo, page.getMediaBox().getWidth() - 150, page.getMediaBox().getHeight() - 150, 100, 100);
-        }
-    }
-
-    private void addWatermark(PDPageContentStream contentStream, PDPage page, PDDocument document) throws IOException {
-        PDType0Font font = PDType0Font.load(document, new File("src/main/resources/fonts/Roboto-Italic-VariableFont_wdth,wght.ttf"));
-        contentStream.setFont(font, 60);
-        contentStream.setNonStrokingColor(new Color(220, 220, 220)); // Светло-серый цвет
-
-        contentStream.beginText();
-        contentStream.setTextMatrix(Math.cos(Math.toRadians(45)), Math.sin(Math.toRadians(45)), -Math.sin(Math.toRadians(45)), Math.cos(Math.toRadians(45)), 100, 200);
-        contentStream.showText("Java Elevate");
-        contentStream.endText();
     }
 }
-
-

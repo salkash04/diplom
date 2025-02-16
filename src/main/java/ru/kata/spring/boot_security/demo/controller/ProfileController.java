@@ -6,10 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 
+import java.io.IOException;
 import java.security.Principal;
 
 @Controller
@@ -25,6 +27,14 @@ public class ProfileController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @GetMapping("")
+    public String showProfile(Model model, Principal principal) {
+        String username = principal.getName(); // Получаем имя пользователя из контекста
+        User user = userService.findByUsername(username); // Получаем пользователя по имени
+        model.addAttribute("user", user); // Добавляем пользователя в модель
+        return "profile/view"; // Отправляем на страницу профиля
+    }
+
     @GetMapping("/edit")
     public String showEditForm(Model model, Principal principal) {
         String username = principal.getName();
@@ -37,10 +47,12 @@ public class ProfileController {
     public String updateProfile(@ModelAttribute("user") User updatedUser,
                                 @RequestParam(required = false) String newPassword,
                                 @RequestParam(required = false) String confirmPassword,
+                                @RequestParam(required = false) MultipartFile photoFile,
                                 Principal principal) {
         String username = principal.getName();
         User currentUser = userService.findByUsername(username);
 
+        // Обновление имени и email
         currentUser.setUsername(updatedUser.getUsername());
         currentUser.setEmail(updatedUser.getEmail());
 
@@ -49,11 +61,12 @@ public class ProfileController {
             if (newPassword.equals(confirmPassword)) {
                 currentUser.setPassword(passwordEncoder.encode(newPassword));
             } else {
-                // Обработка ошибки несовпадения паролей
+                // Ошибка при несовпадении паролей
                 return "redirect:/profile/edit?error=passwordMismatch";
             }
         }
 
+        // Сохранение обновленных данных пользователя
         userService.updateUser(currentUser);
         return "redirect:/dashboard";
     }

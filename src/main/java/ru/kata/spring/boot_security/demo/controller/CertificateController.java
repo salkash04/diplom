@@ -33,7 +33,7 @@ public class CertificateController {
         }
 
         // Генерация сертификата
-        String certificatePath = certificateService.generateCertificate(user.getUsername(), "Java Course", LocalDate.now().toString());
+        String certificatePath = certificateService.generateCertificate(user.getUsername(), "Java Course");
 
         // Если сертификат не сгенерирован, вернем ошибку
         if (certificatePath == null) {
