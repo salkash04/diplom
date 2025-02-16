@@ -48,7 +48,7 @@
             <tbody>
             <tr th:each="question : ${questions}">
                 <td th:text="${question.id}"></td>
-                <td><a th:href="@{/admin/forum/questions/{id}(id=${question.id})}" th:text="${question.title}"></a></td>
+                <td><a th:href="@{/questions/{id}(id=${question.id})}" th:text="${question.title}"></a></td>
                 <td th:text="${question.userName}"></td>
                 <td th:text="${#temporals.format(question.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
                 <td th:text="${question.status}"></td>

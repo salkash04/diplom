@@ -72,11 +72,19 @@ public class AdminUserController {
 
 
     @GetMapping("/search")
-    public String searchUsers(@RequestParam String keyword, Model model) {
-        model.addAttribute("users", userService.searchUsers(keyword));
+    public String searchUsers(@RequestParam String keyword, Model model, @AuthenticationPrincipal User currentUser) {
+        List<User> users = userService.searchUsers(keyword);
+
+        if (users.isEmpty()) {
+            model.addAttribute("errorMessage", "Пользователи не найдены.");
+        }
+
+        model.addAttribute("users", users);
         model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("currentUser", currentUser);  // Добавляем текущего пользователя
         return "admin/users-list";
     }
+
 }
 
 
